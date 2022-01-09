@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package dao;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author lenovo_thinkpad
  */
-public class DomManagerDAO implements IBaseService{
+public class DomDAO implements IBaseService{
 
     @Override
     public ArrayList<Object> getAll() {

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package dao;
 
 /**
  *
  * @author lenovo_thinkpad
  */
-public enum ManagerRegency {
-    Accountant,Management_Staff,Guardian;
+public enum Jobs {
+    Student,Teacher;
 }

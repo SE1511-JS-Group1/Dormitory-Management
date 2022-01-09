@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package dao;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author lenovo_thinkpad
  */
-class AccountDAO implements IBaseService {
+public class DomManagerDAO implements IBaseService{
 
     @Override
     public ArrayList<Object> getAll() {
@@ -37,5 +37,5 @@ class AccountDAO implements IBaseService {
     public void update(Object object, Object key) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }
