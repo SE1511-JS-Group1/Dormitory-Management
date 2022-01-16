@@ -12,8 +12,13 @@ and open the template in the editor.
 }
 
 .btn-field-col{
-    width: 50px;
+    margin-left: 5px;
+    width: 300px;
     padding: 20px;
     color: #394786;
+}
+.pushin{
+    background-color: #00ccff;
+    border: 2px solid #00ffff;
 }
 

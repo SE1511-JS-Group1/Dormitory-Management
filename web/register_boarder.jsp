@@ -26,15 +26,15 @@
                         <div class="card rounded-3 text-black">
                             <div class="row g-0">
                                 <div class="col-lg-4 d-flex align-items-center gradient-custom-2">
-                                    <form>
-                                        <a type="button" class="row-md-6 btn btn-outline-info btn-field-col" href="register_boarder.jsp">Boarder</a>
-                                    </form>
-                                    <form>
-                                        <a type="button" class="row-md-6 btn btn-outline-info btn-field-col" href="register_boarder.jsp">Boarder</a>
-                                    </form>
+                                    <div>
+                                        <a type="button" class="btn btn-outline-info btn-field-col pushin" href="register_boarder.jsp"><h2>Boarder</h2></a>
+                                        <div style="height: 80px;">
+
+                                        </div>
+                                        <a type="button" class="btn btn-outline-info btn-field-col" href="register_staff.jsp"><h2>Staff</h2></a>
+                                    </div>
                                 </div>
                                 <div class="col-lg-1">
-
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="card-body p-md-5 mx-md-4">
@@ -42,12 +42,12 @@
                                             <img src="images/logo.png" style="width: 185px;" alt="logo">
                                         </div>
                                         <form action="login" method="post">
-                                            <p>Please login to your account</p>
+                                            <p>Please register your account</p>
                                             <div class="form-outline mb-4">
-                                                <input type="text" id="form2Example11" class="form-control" placeholder="Username"/>
+                                                <input type="text" id="form2Example11" class="form-control" placeholder="Your name"/>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input type="password" id="form2Example22" class="form-control" placeholder="Password"/>
+                                                <input type="email" id="form2Example22" class="form-control" placeholder="Your email"/>
                                             </div>
 
                                             <div class="text-center pt-1 mb-5 pb-1">
@@ -57,7 +57,7 @@
 
                                             <div class="d-flex align-items-center justify-content-center pb-4">
                                                 <p class="mb-0 me-2">Don't have an account?</p>
-                                                <a type="button" class="btn btn-outline-danger" href="register.jsp">Register</a>
+                                                <a type="button" class="btn btn-outline-danger" href="register">Register</a>
                                             </div>
 
                                         </form>
