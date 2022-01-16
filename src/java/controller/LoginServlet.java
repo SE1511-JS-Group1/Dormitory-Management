@@ -8,6 +8,7 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
@@ -56,7 +57,28 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            String username = "";
+            String password = "";
+            for (Cookie c : cookies) {
+                if (c.getName().equals("username")) {
+                    username = c.getValue();
+                }
+            }
+            for (Cookie c : cookies) {
+                if (c.getName().equals("password")) {
+                    password = c.getValue();
+                }
+            }
+            if (!username.isEmpty() && !password.isEmpty()) {
+                request.getRequestDispatcher("home/username=" + username + "&password=" + password).forward(request, response);
+            } else {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+        }
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+
     }
 
     /**
