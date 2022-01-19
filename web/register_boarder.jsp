@@ -44,17 +44,36 @@
                                         <form action="login" method="post">
                                             <p>Please register your account</p>
                                             <div class="form-outline mb-4">
-                                                <input type="text" id="form2Example11" class="form-control" placeholder="Your name"/>
+                                                <input name="fullname" type="text" id="fullname" class="form-control" required placeholder="Your name"/>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input type="email" id="form2Example22" class="form-control" placeholder="Your email"/>
+                                                <input name="username" type="text" id="form2Example12" class="form-control" required placeholder="User name"/>
                                             </div>
-
+                                            <div class="form-outline mb-4">
+                                                <input name="password" type="password" id="form2Example13" class="form-control" required placeholder="Password"/>
+                                            </div>
+                                            <div class="form-outline mb-4">
+                                                <input name="confirmpassword" type="password" id="form2Example14" class="form-control" required  placeholder="Confirm Password"/>
+                                            </div>
+                                            <div class="form-outline mb-4">
+                                                <input name="email" type="email" id="form2Example15" class="form-control" required placeholder="Your email"/>
+                                            </div>
+                                            <div class="form-outline mb-4">
+                                                <input name="phone" type="text" id="form2Example16" class="form-control" required placeholder="Your phone"/>
+                                            </div>
+                                            <div class="form-outline mb-4">
+                                                <input name="gender" type="radio" id="form2Example17" class="left" value="male"/> <p class="left">Male</p>
+                                                <input name="gender" type="radio" id="form2Example17" class="left" value="female"/> <p class="left">Female</p>
+                                                <p class="right">Student</p> <input name="job" type="radio" id="form2Example18" class="right" value="student"/>
+                                                <p class="right">Teacher</p> <input name="job" type="radio" id="form2Example18" class="right" value="teacher"/>
+                                            </div>
+                                            <div>                                                
+                                                <input name="dateofbirth" type="date" id="form2Example18" required/>
+                                            </div>
                                             <div class="text-center pt-1 mb-5 pb-1">
                                                 <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" style="width: 100%">Log in</button>
                                                 <a class="text-muted" href="#!">Forgot password?</a>
                                             </div>
-
                                             <div class="d-flex align-items-center justify-content-center pb-4">
                                                 <p class="mb-0 me-2">Don't have an account?</p>
                                                 <a type="button" class="btn btn-outline-danger" href="register">Register</a>

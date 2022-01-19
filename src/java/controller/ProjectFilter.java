@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -96,26 +97,36 @@ public class ProjectFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
+        HttpServletRequest url = ((HttpServletRequest) request);
+        if (url.getServletPath().indexOf("images") > 0) {
+            System.out.println(url.getServletPath().indexOf("images") > 0);
+            chain.doFilter(request, response);
+        }
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpServletRequest url = ((HttpServletRequest) request);
-            if (url.getServletPath().endsWith(".jsp")) {
+            String servletPath = url.getServletPath();
+            System.out.println("imageRealPath = " + servletPath + url.getServletPath().indexOf("images"));
+            // List common page
+            String jspPages = "/index.jsp/login.jsp/register_boarder.jsp/register_staff.jsp";
+            if (url.getServletPath().endsWith(".jsp") && !jspPages.contains(url.getServletPath())) {
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");
                 out.println("<title>Servlet HomeServlet</title>");
                 out.println("</head>");
                 out.println("<body>");
-                out.println("<h1>Deny request</h1>");
+                out.println("<h1>Deny request to " + url.getServletPath() + "</h1>");
                 out.println("</body>");
                 out.println("</html>");
             } else {
                 request.getRequestDispatcher(url.getServletPath()).forward((HttpServletRequest) request, (HttpServletResponse) response);
             }
         }
+        /*
         if (debug) {
             log("ProjectFilter:doFilter()");
         }
@@ -145,7 +156,7 @@ public class ProjectFilter implements Filter {
                 throw (IOException) problem;
             }
             sendProcessingError(problem, response);
-        }
+        }*/
     }
 
     /**

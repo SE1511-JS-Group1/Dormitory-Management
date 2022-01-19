@@ -22,7 +22,7 @@ and open the template in the editor.
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">
                         <div class="logo" style="width: 70px;">                            
-                            <img src="images/logo.png" class="img-thumbnail" alt="logo">
+                            <img src="images\logo.png" class="img-thumbnail" alt="logo">
                         </div>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

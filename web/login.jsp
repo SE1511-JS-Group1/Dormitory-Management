@@ -55,7 +55,7 @@
 
                                             <div class="d-flex align-items-center justify-content-center pb-4">
                                                 <p class="mb-0 me-2">Don't have an account?</p>
-                                                <a type="button" class="btn btn-outline-danger" href="register.jsp">Register</a>
+                                                <a type="button" class="btn btn-outline-danger" href="register_boarder.jsp">Register</a>
                                             </div>
 
                                         </form>
