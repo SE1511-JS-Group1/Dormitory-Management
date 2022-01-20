@@ -29,7 +29,6 @@
                                     <div>
                                         <a type="button" class="btn btn-outline-info btn-field-col pushin" href="register_boarder.jsp"><h2>Boarder</h2></a>
                                         <div style="height: 80px;">
-
                                         </div>
                                         <a type="button" class="btn btn-outline-info btn-field-col" href="register_staff.jsp"><h2>Staff</h2></a>
                                     </div>
@@ -41,7 +40,7 @@
                                         <div class="text-center">
                                             <img src="images/logo.png" style="width: 185px;" alt="logo">
                                         </div>
-                                        <form action="login" method="post">
+                                        <form action="login" method="post" onsubmit="return CheckRegister()">
                                             <p>Please register your account</p>
                                             <div class="form-outline mb-4">
                                                 <input name="fullname" type="text" id="fullname" class="form-control" required placeholder="Your name"/>
@@ -62,21 +61,21 @@
                                                 <input name="phone" type="text" id="form2Example16" class="form-control" required placeholder="Your phone"/>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="gender" type="radio" id="form2Example17" class="left" value="male"/> <p class="left">Male</p>
-                                                <input name="gender" type="radio" id="form2Example17" class="left" value="female"/> <p class="left">Female</p>
-                                                <p class="right">Student</p> <input name="job" type="radio" id="form2Example18" class="right" value="student"/>
-                                                <p class="right">Teacher</p> <input name="job" type="radio" id="form2Example18" class="right" value="teacher"/>
+                                                <input name="gender" type="radio" id="form2Example17" class="left" checked value="male"/> <p class="left">&nbsp;Male&nbsp;</p>
+                                                <input name="gender" type="radio" id="form2Example17" class="left" value="female"/> <p class="left">&nbsp;Female&nbsp;</p>
+                                                <h6><input class="right" name="dateofbirth" type="date" id="form2Example18" required/></h6>
                                             </div>
-                                            <div>                                                
-                                                <input name="dateofbirth" type="date" id="form2Example18" required/>
+                                            <div class="form-outline mb-4" style="clear: both;"> 
+                                                <input name="job" type="radio" id="form2Example18" class="left" value="teacher"/><p class="left">&nbsp;Teacher&nbsp;</p>
+                                                <p class="right">&nbsp;Student&nbsp;</p> <input name="job" type="radio" id="form2Example18" class="right" checked value="student"/>
                                             </div>
                                             <div class="text-center pt-1 mb-5 pb-1">
-                                                <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" style="width: 100%">Log in</button>
+                                                <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" style="width: 100%">Register</button>
                                                 <a class="text-muted" href="#!">Forgot password?</a>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-center pb-4">
                                                 <p class="mb-0 me-2">Don't have an account?</p>
-                                                <a type="button" class="btn btn-outline-danger" href="register">Register</a>
+                                                <a type="button" class="btn btn-outline-danger" href="register">Login</a>
                                             </div>
 
                                         </form>
