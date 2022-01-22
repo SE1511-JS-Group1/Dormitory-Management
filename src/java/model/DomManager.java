@@ -17,6 +17,7 @@ class DomManager {
     private String name;
     private boolean gender;
     private Date dateOfBirth;
+    private String email;
     private String phoneNumber;
     private ManagerRegency regency;
     private Account account;
@@ -24,14 +25,23 @@ class DomManager {
     public DomManager() {
     }
 
-    public DomManager(int managerID, String name, boolean gender, Date dateOfBirth, String phoneNumber, ManagerRegency regency, Dom dom, Account account) {
+    public DomManager(int managerID, String name, boolean gender, Date dateOfBirth, String email, String phoneNumber, ManagerRegency regency, Account account) {
         this.managerID = managerID;
         this.name = name;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
+        this.email = email;
         this.phoneNumber = phoneNumber;
         this.regency = regency;
         this.account = account;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getManagerID() {

@@ -11,25 +11,45 @@ package model;
  */
 public class Room {
 
-    private String roomID;
+    private int roomID;
+    private Dom dom;
+    private String roomName;
     private int floor;
-    private int categoryID;
+    private RoomCategory category;
 
     public Room() {
     }
 
-    public Room(String roomID, int floor, int categoryID) {
+    public Room(int roomID, Dom dom, String roomName, int floor, RoomCategory category) {
         this.roomID = roomID;
+        this.dom = dom;
+        this.roomName = roomName;
         this.floor = floor;
-        this.categoryID = categoryID;
+        this.category = category;
     }
 
-    public String getRoomID() {
+    public int getRoomID() {
         return roomID;
     }
 
-    public void setRoomID(String roomID) {
+    public void setRoomID(int roomID) {
         this.roomID = roomID;
+    }
+
+    public Dom getDom() {
+        return dom;
+    }
+
+    public void setDom(Dom dom) {
+        this.dom = dom;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public int getFloor() {
@@ -40,12 +60,12 @@ public class Room {
         this.floor = floor;
     }
 
-    public int getCategoryID() {
-        return categoryID;
+    public RoomCategory getCategory() {
+        return category;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
+    public void setCategory(RoomCategory category) {
+        this.category = category;
     }
 
 }

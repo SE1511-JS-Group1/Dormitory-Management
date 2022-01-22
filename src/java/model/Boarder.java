@@ -13,7 +13,7 @@ import java.sql.Date;
  */
 public class Boarder {
 
-    private String rollNumber;
+    private int boarderID;
     private String boarderName;
     private Date dateOfBirth;
     private boolean gender;
@@ -52,8 +52,8 @@ public class Boarder {
      * @param account <code>Account</code> object. The account of each
      * <code>Boarder</code>
      */
-    public Boarder(String rollNumber, String boarderName, Date dateOfBirth, boolean gender, String email, String phoneNumber, Jobs job, Account account) {
-        this.rollNumber = rollNumber;
+    public Boarder(int rollNumber, String boarderName, Date dateOfBirth, boolean gender, String email, String phoneNumber, Jobs job, Account account) {
+        this.boarderID = rollNumber;
         this.boarderName = boarderName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
@@ -65,23 +65,23 @@ public class Boarder {
 
     /**
      * Alow user to get the Boarder's ID of this <code>Boarder</code>.<br> The
-     * result contain a <code>String</code> object. Boarder's ID provided by the
+     * result contain a <code>int</code> object. Boarder's ID provided by the
      * school.
      *
      * @return a <code>java.lang.String</code> object.
      */
-    public String getRollNumber() {
-        return rollNumber;
+    public int getBoarderID() {
+        return boarderID;
     }
 
     /**
      * Alow user to set up the Boarder's ID of this <code>Boarder</code>.
      *
-     * @param rollNumber <code>int</code> object. Boarder ID provided by the
+     * @param boarderID <code>int</code> object. Boarder ID provided by the
      * school.
      */
-    public void setRollNumber(String rollNumber) {
-        this.rollNumber = rollNumber;
+    public void setBoarderID(int boarderID) {
+        this.boarderID = boarderID;
     }
 
     /**

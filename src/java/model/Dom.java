@@ -11,31 +11,31 @@ package model;
  */
 public class Dom {
 
-    private String name;
-    private String position;
+    private String domID;
+    private String domName;
 
     public Dom() {
     }
 
     public Dom(String name, String position) {
-        this.name = name;
-        this.position = position;
+        this.domID = name;
+        this.domName = position;
     }
 
-    public String getName() {
-        return name;
+    public String getDomID() {
+        return domID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDomID(String domID) {
+        this.domID = domID;
     }
 
-    public String getPosition() {
-        return position;
+    public String getDomName() {
+        return domName;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setDomName(String domName) {
+        this.domName = domName;
     }
 
 }

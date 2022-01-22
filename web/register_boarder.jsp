@@ -65,21 +65,23 @@
                                                 <input name="gender" type="radio" id="form2Example17" class="left" value="female"/> <p class="left">&nbsp;Female&nbsp;</p>
                                                 <h6><input class="right" name="dateofbirth" type="date" id="form2Example18" required/></h6>
                                             </div>
-                                            <div class="form-outline mb-4" style="clear: both;"> 
-                                                <input name="job" type="radio" id="form2Example18" class="left" value="teacher"/><p class="left">&nbsp;Teacher&nbsp;</p>
-                                                <p class="right">&nbsp;Student&nbsp;</p> <input name="job" type="radio" id="form2Example18" class="right" checked value="student"/>
+                                            <div class="form-outline mb-4 row" style="clear: both;"> 
+                                                <div class="col-md-5">
+                                                    <p class="right ecol-center">&nbsp;Teacher&nbsp;</p><input  name="job" type="radio" id="form2Example18" class="right ecol-center" value="teacher"/>
+                                                </div>
+                                                <div class="col-md-2"></div>
+                                                <div class="col-md-5">
+                                                    <input name="job" type="radio" id="form2Example18" class="left ecol-center" checked value="student"/><p class="left ecol-center">&nbsp;Student&nbsp;</p> 
+                                                </div>
                                             </div>
                                             <div class="text-center pt-1 mb-5 pb-1">
                                                 <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" style="width: 100%">Register</button>
-                                                <a class="text-muted" href="#!">Forgot password?</a>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-center pb-4">
-                                                <p class="mb-0 me-2">Don't have an account?</p>
-                                                <a type="button" class="btn btn-outline-danger" href="register">Login</a>
+                                                <p class="mb-0 me-2">Have an account?</p>
+                                                <a type="button" class="btn btn-outline-danger" href="login">Login</a>
                                             </div>
-
                                         </form>
-
                                     </div>
                                 </div>                                
                             </div>

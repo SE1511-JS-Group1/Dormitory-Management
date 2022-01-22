@@ -13,12 +13,12 @@ public class Account {
 
     private String userName;//
     private String passWord;//
-    private double role;//
+    private int role;//
 
     public Account() {
     }
 
-    public Account(String userName, String passWord, double role) {
+    public Account(String userName, String passWord, int role) {
         this.userName = userName;
         this.passWord = passWord;
         this.role = role;
@@ -40,11 +40,11 @@ public class Account {
         this.passWord = passWord;
     }
 
-    public double getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(double role) {
+    public void setRole(int role) {
         this.role = role;
     }
 

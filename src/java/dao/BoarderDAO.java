@@ -33,7 +33,7 @@ public class BoarderDAO implements IBaseService {
             AccountDAO accountDB = new AccountDAO();
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (Result.next()) {
-                Boarder boarder = new Boarder(Result.getString(1), // tạo mợi object của mình và bắt add vào list
+                Boarder boarder = new Boarder(Result.getInt(1), // tạo mợi object của mình và bắt add vào list
                         Result.getString(2),
                         Result.getDate(3),
                         Result.getBoolean(4),
@@ -71,20 +71,20 @@ public class BoarderDAO implements IBaseService {
     public void insert(Object object) {
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
-        String sql = "INSERT INTO BOARDER(BoarderId,BoarderName,DOB,Gender,PhoneNumber,Job,Email,UserName) VALUES(?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO BOARDER(BoarderName,DOB,Gender,PhoneNumber,Job,Email,UserName) VALUES(?,?,?,?,?,?,?)";
         try {
 
             Boarder boarder = (Boarder) object;
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            Statement.setString(1, boarder.getRollNumber());
-            Statement.setString(2, boarder.getBoarderName());
-            Statement.setDate(3, boarder.getDateOfBirth());
-            Statement.setBoolean(4, boarder.isGender());
-            Statement.setString(5, boarder.getPhoneNumber());
-            Statement.setString(6, boarder.getJob().toString());
-            Statement.setString(7, boarder.getEmail());
-            Statement.setString(8, boarder.getAccount().getUserName());
+//            Statement.setInt(1, boarder.getBoarderID());
+            Statement.setString(1, boarder.getBoarderName());
+            Statement.setDate(2, boarder.getDateOfBirth());
+            Statement.setBoolean(3, boarder.isGender());
+            Statement.setString(4, boarder.getPhoneNumber());
+            Statement.setString(5, boarder.getJob().toString());
+            Statement.setString(6, boarder.getEmail());
+            Statement.setString(7, boarder.getAccount().getUserName());
             Statement.executeQuery(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw new UnsupportedOperationException("Wrong Object to use this method!");
@@ -103,7 +103,7 @@ public class BoarderDAO implements IBaseService {
             Boarder boarder = (Boarder) object;
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            Statement.setString(1, boarder.getRollNumber());
+            Statement.setInt(1, boarder.getBoarderID());
             Statement.executeQuery(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw new UnsupportedOperationException("Wrong Object to use this method!");

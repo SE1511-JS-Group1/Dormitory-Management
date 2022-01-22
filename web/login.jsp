@@ -39,27 +39,26 @@
                                             <img src="images/logo.png" style="width: 185px;" alt="logo">
                                         </div>
 
-                                        <form action="login" method="post">
+                                        <form name="login" action="login" method="post">
                                             <p>Please login to your account</p>
                                             <div class="form-outline mb-4">
-                                                <input type="text" id="form2Example11" class="form-control" placeholder="Username"/>
+                                                <input type="text" name="username" id="form2Example11" class="form-control" value="${username}" placeholder="Username"/>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input type="password" id="form2Example22" class="form-control" placeholder="Password"/>
+                                                <input type="password" name="password" id="form2Example22" class="form-control" value="${password}" placeholder="Password"/>
                                             </div>
-
+                                            <div class="form-outline mb-4 text-center" style="color: red;" id="message_login">
+                                                ${message_login}
+                                            </div>
                                             <div class="text-center pt-1 mb-5 pb-1">
-                                                <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" style="width: 100%">Log in</button>
+                                                <button  class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" id="button_login" style="width: 100%">Log in</button>
                                                 <a class="text-muted" href="#!">Forgot password?</a>
                                             </div>
-
                                             <div class="d-flex align-items-center justify-content-center pb-4">
                                                 <p class="mb-0 me-2">Don't have an account?</p>
                                                 <a type="button" class="btn btn-outline-danger" href="register_boarder.jsp">Register</a>
                                             </div>
-
                                         </form>
-
                                     </div>
                                 </div>                                
                             </div>
@@ -68,5 +67,6 @@
                 </div>
             </div>
         </section>
+        <script src="js/checkJS.js"></script>
     </body>
 </html>

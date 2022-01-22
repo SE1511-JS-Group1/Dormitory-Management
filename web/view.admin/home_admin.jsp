@@ -19,6 +19,6 @@
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Hello ${sessionScope.account.getUserName()}!</h1>
     </body>
 </html>

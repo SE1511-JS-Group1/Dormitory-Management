@@ -5,7 +5,11 @@
  */
 package dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import model.Dom;
 
 /**
  *
@@ -15,12 +19,37 @@ public class DomDAO implements IBaseService{
 
     @Override
     public ArrayList<Object> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Object> doms = new ArrayList<>();
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "SELECT * FROM Dom";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (Result.next()) {
+                Dom dom = new Dom(Result.getString(1), // tạo mợi object của mình và bắt add vào list
+                        Result.getString(2));
+                doms.add(dom); // add vào list
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
+        return doms;
     }
 
     @Override
     public Object getOne(Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Object object : getAll()) {
+            if(((Dom) object).getDomID().equals((String)key)) return object;
+        }
+        return null;
     }
 
     @Override

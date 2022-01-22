@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
- 
-    <filter>
+    <!-- <filter>
         <filter-name>ProjectFilter</filter-name>
         <filter-class>controller.ProjectFilter</filter-class>
-    </filter>    
-<!--    <filter>
+    </filter>
+       <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>controller.admin.AdminFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
         <url-pattern>/admin</url-pattern>
-    </filter-mapping>    -->
+    </filter-mapping>   
+    <filter>
+        <filter-name>BoarderFilter</filter-name>
+        <filter-class>controller.boarder.BoarderFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>BoarderFilter</filter-name>
+        <url-pattern></url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>ProjectFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
+    </filter-mapping> -->
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
@@ -34,6 +40,10 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BoarderRoomServlet</servlet-name>
+        <servlet-class>controller.boarder.BoarderRoomServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -49,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BoarderRoomServlet</servlet-name>
+        <url-pattern>/boarder/boarderroom</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
