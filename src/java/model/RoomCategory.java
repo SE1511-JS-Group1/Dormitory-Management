@@ -15,15 +15,25 @@ public class RoomCategory {
     private String categoryName;
     private boolean roomGender;
     private double roomFee;
+    private int bedNumber;
 
     public RoomCategory() {
     }
 
-    public RoomCategory(int categoryID, String categoryName, boolean roomGender, double roomFee) {
+    public RoomCategory(int categoryID, String categoryName, boolean roomGender, double roomFee, int bedNumber) {
         this.categoryID = categoryID;
         this.categoryName = categoryName;
         this.roomGender = roomGender;
         this.roomFee = roomFee;
+        this.bedNumber = bedNumber;
+    }
+
+    public int getBedNumber() {
+        return bedNumber;
+    }
+
+    public void setBedNumber(int bedNumber) {
+        this.bedNumber = bedNumber;
     }
 
     public int getCategoryID() {

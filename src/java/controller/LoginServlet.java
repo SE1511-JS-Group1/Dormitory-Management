@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.AccountDAO;
+import dao.DomDAO;
 import model.Account;
 
 /**
@@ -79,13 +80,13 @@ public class LoginServlet extends HttpServlet {
             request.getSession().setAttribute("account", account);
             switch (account.getRole()) {
                 case 1:
-                    request.getRequestDispatcher("view.admin/home_admin.jsp").forward(request, response);
+                    request.getRequestDispatcher("/admin/home").forward(request, response);
                     break;
                 case 2:
-                    request.getRequestDispatcher("view.staff/home_staff.jsp").forward(request, response);
+                    request.getRequestDispatcher("/staff/home_staff.jsp").forward(request, response);
                     break;
                 case 3:
-                    request.getRequestDispatcher("view.boarder/home_boarder.jsp").forward(request, response);
+                    request.getRequestDispatcher("/boarder/home_boarder.jsp").forward(request, response);
                     break;
                 default:
                     break;

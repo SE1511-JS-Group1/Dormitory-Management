@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.Objects;
+
 /**
  *
  * @author lenovo_thinkpad
@@ -66,6 +68,33 @@ public class Room {
 
     public void setCategory(RoomCategory category) {
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return getDom().getDomID() + getRoomName();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Room) {
+            Room another = (Room) obj;
+            if (this.roomID == another.getRoomID()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.roomID;
+        hash = 97 * hash + Objects.hashCode(this.dom);
+        hash = 97 * hash + Objects.hashCode(this.roomName);
+        hash = 97 * hash + this.floor;
+        hash = 97 * hash + Objects.hashCode(this.category);
+        return hash;
     }
 
 }

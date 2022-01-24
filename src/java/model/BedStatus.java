@@ -9,16 +9,18 @@ package model;
  *
  * @author lenovo_thinkpad
  */
-public class RoomStatus {
+public class BedStatus {
 
     private Room room;
-    private int status;
+    private int bedNo;
+    private boolean status;
 
-    public RoomStatus() {
+    public BedStatus() {
     }
 
-    public RoomStatus(Room room, int status) {
+    public BedStatus(Room room, int bedNo, boolean status) {
         this.room = room;
+        this.bedNo = bedNo;
         this.status = status;
     }
 
@@ -30,11 +32,19 @@ public class RoomStatus {
         this.room = room;
     }
 
-    public int getStatus() {
+    public int getBedNo() {
+        return bedNo;
+    }
+
+    public void setBedNo(int bedNo) {
+        this.bedNo = bedNo;
+    }
+
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

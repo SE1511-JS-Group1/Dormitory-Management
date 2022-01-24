@@ -16,7 +16,7 @@ import model.RoomCategory;
  * @author lenovo_thinkpad
  */
 public class RoomCategoryDAO implements IBaseService {
-
+    
     @Override
     public ArrayList<Object> getAll() {
         ArrayList<Object> Categories = new ArrayList<>();
@@ -33,7 +33,8 @@ public class RoomCategoryDAO implements IBaseService {
                 RoomCategory roomCategory = new RoomCategory(Result.getInt(1), // tạo mợi object của mình và bắt add vào list
                         Result.getString(2),
                         Result.getBoolean(3),
-                        Result.getDouble(4));
+                        Result.getDouble(4),
+                        Result.getInt(5));
                 Categories.add(roomCategory); // add vào list
             }
         } catch (SQLException e) {
@@ -45,7 +46,7 @@ public class RoomCategoryDAO implements IBaseService {
         }
         return Categories;
     }
-
+    
     @Override
     public Object getOne(Object key) {
         for (Object object : getAll()) {
@@ -55,20 +56,20 @@ public class RoomCategoryDAO implements IBaseService {
         }
         return null;
     }
-
+    
     @Override
     public void insert(Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public void delete(Object object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public void update(Object object, Object key) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }

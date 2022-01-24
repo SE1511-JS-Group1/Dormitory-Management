@@ -27,7 +27,7 @@ public class Connection {
             System.err.println("Where is your MSSQL JDBC Driver?");
             return connection;
         }
-        System.out.println("MSSQL JDBC Driver Registered!");
+//        System.out.println("MSSQL JDBC Driver Registered!");
         try {
             connection = DriverManager.getConnection(connectionUrl, ISQLContext.USERNAME, ISQLContext.PASSWORD); // mở một kết nối đến driver
         } catch (SQLException ex) {

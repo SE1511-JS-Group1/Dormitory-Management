@@ -1,9 +1,11 @@
+<%-- 
+    Document   : home
+    Created on : 16-Jan-2022, 16:39:49
+    Author     : lenovo_thinkpad
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Dormitory Management System</title>
@@ -20,9 +22,9 @@ and open the template in the editor.
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="viewdom">
+                    <a class="navbar-brand" href="../viewdom">
                         <div class="logo" style="width: 70px;">                            
-                            <img src="images/logo.png" class="img-thumbnail" alt="logo">
+                            <img src="../images/logo.png" class="img-thumbnail" alt="logo">
                         </div>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,10 +37,10 @@ and open the template in the editor.
                             </li>
                         </ul>
                         <form action="login" method="get">
-                            <button class="btn btn-outline-success" type="submit" style="margin-right: 10px;width: 100px;">Login</button>
+                            <p class="text-center align-items-center fs-4" style="margin: auto 5px;">${sessionScope.account.getUserName()}</p>
                         </form>
                         <form action="register" method="get">
-                            <button class="btn btn-outline-danger" type="submit" style="width: 100px;">Register</button>
+                            <button class="btn btn-outline-danger" type="submit" style="width: 80px;">Logout</button>
                         </form>
                     </div>
                 </div>

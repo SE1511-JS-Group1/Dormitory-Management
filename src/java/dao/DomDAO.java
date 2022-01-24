@@ -15,7 +15,7 @@ import model.Dom;
  *
  * @author lenovo_thinkpad
  */
-public class DomDAO implements IBaseService{
+public class DomDAO implements IBaseService {
 
     @Override
     public ArrayList<Object> getAll() {
@@ -46,10 +46,29 @@ public class DomDAO implements IBaseService{
 
     @Override
     public Object getOne(Object key) {
-        for (Object object : getAll()) {
-            if(((Dom) object).getDomID().equals((String)key)) return object;
+        Object dom = new Dom();
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "SELECT * FROM Dom Where DomID =?";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setString(1, (String) key);
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (Result.next()) {
+                dom = new Dom(Result.getString(1), // tạo mợi object của mình và bắt add vào list
+                        Result.getString(2));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
         }
-        return null;
+        return dom;
     }
 
     @Override
@@ -66,5 +85,5 @@ public class DomDAO implements IBaseService{
     public void update(Object object, Object key) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

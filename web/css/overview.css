@@ -17,6 +17,15 @@ and open the template in the editor.
     padding: 20px;
     color: #394786;
 }
+.btn-map-field-col{
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+    margin-left: 7%;
+    margin-top: 20px;
+    width: 120%;
+    padding: 10px;
+    color: #394786;
+}
 .pushin{
     background-color: #00ccff;
     border: 2px solid #00ffff;
@@ -29,5 +38,45 @@ and open the template in the editor.
 }
 .ecol-center{
     margin-top: 15px;
+}
+.img-logo{
+}
+.map table,tr{
+    border: 2px solid black;
+}
+.field-map table,tr{
+    border: 0px solid black;
+}
+.map td{
+    width: 100px;
+    height: 100px;
+}
+.btn-block{
+    display: inline;
+}
+.map-0{
+    background-color: #FFFFFF;
+}
+.map-1{
+    background-color: #80FFFF;
+}
+.map-2{
+    background-color: #00FFFF;
+}
+.map-3{
+    color: #FFFFFF;
+    background-color: #00C8FF;
+}
+.map-4{
+    background-color: #0080FF;
+}
+.map-5{
+    background-color: #0000FF;
+}
+.map-6{
+    background-color: #000080;
+}
+.map-7{
+    background-color: #000000;
 }
 
