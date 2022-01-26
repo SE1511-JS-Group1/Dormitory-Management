@@ -100,31 +100,37 @@ public class ProjectFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
+
         HttpServletRequest url = ((HttpServletRequest) request);
-        if (url.getServletPath().indexOf("images") > 0) {
-            System.out.println(url.getServletPath().indexOf("images") > 0);
-            chain.doFilter(request, response);
+//        if (url.getServletPath().indexOf("images") > 0) {
+//            chain.doFilter(request, response);
+//        }
+        System.out.println(url.getServletPath());
+        if (url.getSession().getAttribute("account") != null) {
+            request.getRequestDispatcher("home").forward((HttpServletRequest) request, (HttpServletResponse) response);
+        }else{
+            request.getRequestDispatcher(url.getServletPath()).forward((HttpServletRequest) request, (HttpServletResponse) response);
         }
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String servletPath = url.getServletPath();
-            System.out.println("imageRealPath = " + servletPath + url.getServletPath().indexOf("images"));
-            // List common page
-            String jspPages = "/index.jsp/login.jsp/register_boarder.jsp/register_staff.jsp";
-            if (url.getServletPath().endsWith(".jsp") && !jspPages.contains(url.getServletPath())) {
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet HomeServlet</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>Deny request to " + url.getServletPath() + "</h1>");
-                out.println("</body>");
-                out.println("</html>");
-            } else {
-                request.getRequestDispatcher(url.getServletPath()).forward((HttpServletRequest) request, (HttpServletResponse) response);
-            }
-        }
+//        try (PrintWriter out = response.getWriter()) {
+//            /* TODO output your page here. You may use following sample code. */
+//            String servletPath = url.getServletPath();
+//            System.out.println("imageRealPath = " + servletPath + url.getServletPath().indexOf("images"));
+//            // List common page
+//            String jspPages = "/index.jsp/login.jsp/register_boarder.jsp/register_staff.jsp";
+//            if (url.getServletPath().endsWith(".jsp") && !jspPages.contains(url.getServletPath())) {
+//                out.println("<!DOCTYPE html>");
+//                out.println("<html>");
+//                out.println("<head>");
+//                out.println("<title>Servlet HomeServlet</title>");
+//                out.println("</head>");
+//                out.println("<body>");
+//                out.println("<h1>Deny request to " + url.getServletPath() + "</h1>");
+//                out.println("</body>");
+//                out.println("</html>");
+//            } else 
+//                request.getRequestDispatcher(url.getServletPath()).forward((HttpServletRequest) request, (HttpServletResponse) response);
+//            
+//        }
         /*
         if (debug) {
             log("ProjectFilter:doFilter()");

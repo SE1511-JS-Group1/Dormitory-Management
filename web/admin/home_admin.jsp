@@ -15,16 +15,16 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-        <link rel='icon' href='images/logo.png'>   
+        <link rel='icon' href='https://i.pinimg.com/564x/86/dd/6c/86dd6c79b993513d2ee757e7d155d4db.jpg'>   
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="../viewdom">
+                    <a class="navbar-brand" href="admin/viewdom">
                         <div class="logo" style="width: 70px;">                            
-                            <img src="../images/logo.png" class="img-thumbnail" alt="logo">
+                            <img src="https://i.pinimg.com/564x/86/dd/6c/86dd6c79b993513d2ee757e7d155d4db.jpg" class="img-thumbnail" alt="logo">
                         </div>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,12 +36,10 @@
                                 <a class="nav-link active" aria-current="page" href="#"></a>
                             </li>
                         </ul>
-                        <form action="login" method="get">
-                            <p class="text-center align-items-center fs-4" style="margin: auto 5px;">${sessionScope.account.getUserName()}</p>
-                        </form>
-                        <form action="register" method="get">
-                            <button class="btn btn-outline-danger" type="submit" style="width: 80px;">Logout</button>
-                        </form>
+                        <p class="text-center align-items-center fs-4" style="margin: auto 5px;">${sessionScope.account.getUserName()}</p>
+
+                        <a class="btn btn-outline-danger" type="button" style="width: 80px;" href="logout">Logout</a>
+
                     </div>
                 </div>
             </nav>

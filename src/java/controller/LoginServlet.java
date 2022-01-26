@@ -34,9 +34,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("message_login", request.getParameter("message") == null ? "" : request.getParameter("message"));
-        request.setAttribute("username", request.getParameter("username") == null ? "" : request.getParameter("username"));
-        request.setAttribute("password", request.getParameter("password") == null ? "" : request.getParameter("password"));
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             String username = "";
@@ -52,13 +49,41 @@ public class LoginServlet extends HttpServlet {
                 }
             }
             if (!username.isEmpty() && !password.isEmpty()) {
-                request.getRequestDispatcher("home/username=" + username + "&password=" + password).forward(request, response);
-            } else {
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                AccountDAO accountDAO = new AccountDAO();
+                Account account = (Account) accountDAO.getOne(username);
+                request.getSession().setAttribute("account", account);
+                switch (account.getRole()) {
+                    case 1:
+                        request.getRequestDispatcher("/admin/home").forward(request, response);
+                        break;
+                    case 2:
+                        request.getRequestDispatcher("/staff/home_staff.jsp").forward(request, response);
+                        break;
+                    case 3:
+                        request.getRequestDispatcher("/boarder/home_boarder.jsp").forward(request, response);
+                        break;
+                    default:
+                        break;
+                }
             }
-        } else {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
+        if (request.getSession().getAttribute("account") != null) {
+            Account account = (Account) request.getSession().getAttribute("account");
+            switch (account.getRole()) {
+                case 1:
+                    request.getRequestDispatcher("/admin/home").forward(request, response);
+                    break;
+                case 2:
+                    request.getRequestDispatcher("/staff/home_staff.jsp").forward(request, response);
+                    break;
+                case 3:
+                    request.getRequestDispatcher("/boarder/home_boarder.jsp").forward(request, response);
+                    break;
+                default:
+                    break;
+            }
+        }
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     /**
@@ -78,19 +103,7 @@ public class LoginServlet extends HttpServlet {
         Account account = (Account) accountDAO.getOne(username);
         if (account != null && account.getPassWord().equals(password)) {
             request.getSession().setAttribute("account", account);
-            switch (account.getRole()) {
-                case 1:
-                    request.getRequestDispatcher("/admin/home").forward(request, response);
-                    break;
-                case 2:
-                    request.getRequestDispatcher("/staff/home_staff.jsp").forward(request, response);
-                    break;
-                case 3:
-                    request.getRequestDispatcher("/boarder/home_boarder.jsp").forward(request, response);
-                    break;
-                default:
-                    break;
-            }
+            request.getRequestDispatcher("/home").forward(request, response);
         } else {
             request.setAttribute("message_login", "Sai tên đăng nhập hoặc mật khẩu!");
             request.setAttribute("username", username);

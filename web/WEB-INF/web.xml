@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <!-- <filter>
+    <filter>
         <filter-name>ProjectFilter</filter-name>
         <filter-class>controller.ProjectFilter</filter-class>
     </filter>
-       <filter>
+    <!--     <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>controller.admin.AdminFilter</filter-class>
     </filter>
@@ -19,11 +19,11 @@
     <filter-mapping>
         <filter-name>BoarderFilter</filter-name>
         <url-pattern></url-pattern>
-    </filter-mapping>
+    </filter-mapping> -->
     <filter-mapping>
         <filter-name>ProjectFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping> -->
+    </filter-mapping>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
@@ -60,6 +60,10 @@
         <servlet-name>ViewDomServlet</servlet-name>
         <servlet-class>controller.ViewDomServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewDomAdminServlet</servlet-name>
+        <servlet-class>controller.admin.ViewDomAdminServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -95,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>ViewDomServlet</servlet-name>
         <url-pattern>/viewdom</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewDomAdminServlet</servlet-name>
+        <url-pattern>/admin/viewdom</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

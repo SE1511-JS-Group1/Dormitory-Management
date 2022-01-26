@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
 
 /**
  *
@@ -30,17 +31,24 @@ public class HomeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        if (request.getSession().getAttribute("account") != null) {
+            Account account = (Account) request.getSession().getAttribute("account");
+            switch (account.getRole()) {
+                case 1:
+                    request.getRequestDispatcher("/admin/home").forward(request, response);
+                    break;
+                case 2:
+                    request.getRequestDispatcher("/staff/home").forward(request, response);
+                    break;
+                case 3:
+                    request.getRequestDispatcher("/boarder/home").forward(request, response);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            System.out.println("zo");
         }
     }
 

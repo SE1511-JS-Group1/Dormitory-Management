@@ -12,14 +12,24 @@ package model;
 public class RoomStatus {
 
     private Room room;
+    private int bedAvailable;
     private int status;
 
     public RoomStatus() {
     }
 
-    public RoomStatus(Room room, int status) {
+    public RoomStatus(Room room, int bedAvailable, int status) {
         this.room = room;
+        this.bedAvailable = bedAvailable;
         this.status = status;
+    }
+
+    public int getBedAvailable() {
+        return bedAvailable;
+    }
+
+    public void setBedAvailable(int bedAvailable) {
+        this.bedAvailable = bedAvailable;
     }
 
     public Room getRoom() {

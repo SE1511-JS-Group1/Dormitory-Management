@@ -24,7 +24,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="viewdom">
+                    <a class="navbar-brand" href="#">
                         <div class="logo" style="width: 70px;">                            
                             <img src="images/logo.png" class="img-thumbnail" alt="logo">
                         </div>
@@ -41,7 +41,7 @@
                         <form action="login" method="get">
                             <p class="text-center align-items-center fs-4" style="margin: auto 5px;">${sessionScope.account.getUserName()}</p>
                         </form>
-                        <form action="register" method="get">
+                        <form action="logout" method="post">
                             <button class="btn btn-outline-danger" type="submit" style="width: 80px;">Logout</button>
                         </form>
                     </div>
@@ -82,7 +82,7 @@
                                     <div class="card-body p-md-9 mx-md-4">
                                         <div class="container map">
                                             <table style="margin: 50px auto;border: 2px solid black;" >
-                                                <tr>
+                                                <tr style="border: 2px solid black;">
                                                     <%!int i = 0;%>
                                                     <c:forEach var="roomStatus" items="${sessionScope.mapdom}">
                                                         <!--sessionScope.mapdom.get(room)*10-->
@@ -100,7 +100,7 @@
                                                             </td>
                                                         </c:if>
                                                         <c:if test="<%= i % 16 == 0%>">
-                                                        </tr><tr>
+                                                        </tr><tr style="border: 2px solid black;">
                                                         </c:if>
                                                     </c:forEach>
                                                 </tr>
