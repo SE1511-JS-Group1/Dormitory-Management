@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,6 +19,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
 
 /**
  *
@@ -39,27 +42,6 @@ public class ProjectFilter implements Filter {
         if (debug) {
             log("ProjectFilter:DoBeforeProcessing");
         }
-
-        // Write code here to process the request and/or response before
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log items on the request object,
-        // such as the parameters.
-        /*
-	for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    String values[] = request.getParameterValues(name);
-	    int n = values.length;
-	    StringBuffer buf = new StringBuffer();
-	    buf.append(name);
-	    buf.append("=");
-	    for(int i=0; i < n; i++) {
-	        buf.append(values[i]);
-	        if (i < n-1)
-	            buf.append(",");
-	    }
-	    log(buf.toString());
-	}
-         */
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
@@ -67,24 +49,6 @@ public class ProjectFilter implements Filter {
         if (debug) {
             log("ProjectFilter:DoAfterProcessing");
         }
-
-        // Write code here to process the request and/or response after
-        // the rest of the filter chain is invoked.
-        // For example, a logging filter might log the attributes on the
-        // request object after the request has been processed. 
-        /*
-	for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    Object value = request.getAttribute(name);
-	    log("attribute: " + name + "=" + value.toString());
-
-	}
-         */
-        // For example, a filter might append something to the response.
-        /*
-	PrintWriter respOut = new PrintWriter(response.getWriter());
-	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
-         */
     }
 
     /**
@@ -100,68 +64,57 @@ public class ProjectFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-
-        HttpServletRequest url = ((HttpServletRequest) request);
-//        if (url.getServletPath().indexOf("images") > 0) {
-//            chain.doFilter(request, response);
-//        }
-        System.out.println(url.getServletPath());
-        if (url.getSession().getAttribute("account") != null) {
-            request.getRequestDispatcher("home").forward((HttpServletRequest) request, (HttpServletResponse) response);
-        }else{
-            request.getRequestDispatcher(url.getServletPath()).forward((HttpServletRequest) request, (HttpServletResponse) response);
-        }
-//        try (PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//            String servletPath = url.getServletPath();
-//            System.out.println("imageRealPath = " + servletPath + url.getServletPath().indexOf("images"));
-//            // List common page
-//            String jspPages = "/index.jsp/login.jsp/register_boarder.jsp/register_staff.jsp";
-//            if (url.getServletPath().endsWith(".jsp") && !jspPages.contains(url.getServletPath())) {
-//                out.println("<!DOCTYPE html>");
-//                out.println("<html>");
-//                out.println("<head>");
-//                out.println("<title>Servlet HomeServlet</title>");
-//                out.println("</head>");
-//                out.println("<body>");
-//                out.println("<h1>Deny request to " + url.getServletPath() + "</h1>");
-//                out.println("</body>");
-//                out.println("</html>");
-//            } else 
-//                request.getRequestDispatcher(url.getServletPath()).forward((HttpServletRequest) request, (HttpServletResponse) response);
-//            
-//        }
-        /*
-        if (debug) {
-            log("ProjectFilter:doFilter()");
-        }
-
-        doBeforeProcessing(request, response);
-
-        Throwable problem = null;
+        Throwable t = new Throwable("");
+        HttpServletRequest req = ((HttpServletRequest) request);
+        HttpServletResponse res = ((HttpServletResponse) response);
+        Account account = (Account) req.getSession().getAttribute("account");
         try {
-            chain.doFilter(request, response);
-        } catch (Throwable t) {
-            // If an exception is thrown somewhere down the filter chain,
-            // we still want to execute our after processing, and then
-            // rethrow the problem after that.
-            problem = t;
-            t.printStackTrace();
+            System.out.println(req.getServletPath());
+            if (req.getServletPath().contains(".js") || req.getServletPath().contains(".css") || req.getServletPath().contains(".images") || req.getServletPath().equals("/logout")) {
+                System.out.println("Common Page/Support");
+                chain.doFilter(request, response);
+            } else if (account == null) {
+                System.out.println("Account null");
+                String[] commonpages = {"/index.jsp", "/viewdom", "/home", "/login", "/register_boarder.jsp", "/register_staff.jsp"};
+                ArrayList<String> commonpage = new ArrayList<>();
+                Collections.addAll(commonpage, commonpages);
+                if (commonpage.contains(req.getServletPath())) {
+                    System.out.println("Account null accept");
+                    chain.doFilter(request, response);
+                } else {
+                    System.out.println("Account null denied");
+                    sendProcessingError(t, response);
+                }
+            } else if (account.getRole() == 1) {
+                if (req.getServletPath().isEmpty()) {
+                    req.getRequestDispatcher("/admin/home").forward(req, res);
+                } else if (req.getServletPath().contains("/admin")) {
+                    chain.doFilter(request, response);
+                } else {
+                    sendProcessingError(t, response);
+                }
+            } else if (account.getRole() == 2) {
+                if (req.getServletPath().isEmpty()) {
+                    req.getRequestDispatcher("/staff/home").forward(req, res);
+                } else if (req.getServletPath().contains("/staff")) {
+                    chain.doFilter(request, response);
+                } else {
+                    sendProcessingError(t, response);
+                }
+            } else if (account.getRole() == 3) {
+                if (req.getServletPath().isEmpty()) {
+                    req.getRequestDispatcher("/boarder/home").forward(req, res);
+                } else if (req.getServletPath().contains("/boarder")) {
+                    chain.doFilter(request, response);
+                } else {
+                    sendProcessingError(t, response);
+                }
+            }
+        } catch (ServletException se) {
+//            log(se.getMessage());
+            sendProcessingError(t, response);
         }
 
-        doAfterProcessing(request, response);
-
-        // If there was a problem, we want to rethrow it if it is
-        // a known type, otherwise log it.
-        if (problem != null) {
-            if (problem instanceof ServletException) {
-                throw (ServletException) problem;
-            }
-            if (problem instanceof IOException) {
-                throw (IOException) problem;
-            }
-            sendProcessingError(problem, response);
-        }*/
     }
 
     /**
@@ -220,12 +173,35 @@ public class ProjectFilter implements Filter {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
                 PrintWriter pw = new PrintWriter(ps);
-                pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
-
-                // PENDING! Localize this for next official release
-                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");
-                pw.print(stackTrace);
-                pw.print("</pre></body>\n</html>"); //NOI18N
+                pw.print("<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + "    <head>\n"
+                        + "        <title>Dormitory Management System</title>\n"
+                        + "        <meta charset=\"UTF-8\">\n"
+                        + "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+                        + "        <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3\" crossorigin=\"anonymous\">\n"
+                        + "        <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p\" crossorigin=\"anonymous\"></script>\n"
+                        + "        <script src=\"https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js\" integrity=\"sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB\" crossorigin=\"anonymous\"></script>\n"
+                        + "        <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js\" integrity=\"sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13\" crossorigin=\"anonymous\"></script>\n"
+                        + "        <link rel='icon' href='https://by.com.vn/xQTXSg'>   \n"
+                        + "        <link href=\"css/overview.css\" rel=\"stylesheet\">\n"
+                        + "    </head>\n"
+                        + "    <body>\n"
+                        + "        <section class=\"h-100 gradient-form\" style=\"background-color: #eee;\">\n"
+                        + "            <div class=\"container py-5 h-90\">\n"
+                        + "                <div class=\"row d-flex justify-content-center align-items-center h-90\">\n"
+                        + "                    <div class=\"col-xl-8\">\n"
+                        + "                        <div class=\"card rounded-3 text-black\">\n"
+                        + "                            <img style=\"z-index: 3;\" src=\"https://goeco.link/GtBgy\">\n"
+                        + "                            <button style=\"z-index: 9; position: fixed;margin-left: 25%; margin-top: 30%;\" class=\"btn btn-outline-info\" onclick=\"history.back();\"> << Back </button>\n"
+                        + "                        </div>\n"
+                        + "                    </div>\n"
+                        + "                </div>\n"
+                        + "            </div>\n"
+                        + "        </section>\n"
+                        + "    </body>\n"
+                        + "</html>\n"
+                        + ""); //NOI18N
                 pw.close();
                 ps.close();
                 response.getOutputStream().close();

@@ -28,6 +28,7 @@ public class HomeAdminServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("asdkhaskdhasdkj");
         request.getRequestDispatcher("/admin/home_admin.jsp").forward(request, response);
     }
 

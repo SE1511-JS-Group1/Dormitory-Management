@@ -35,13 +35,13 @@ public class HomeServlet extends HttpServlet {
             Account account = (Account) request.getSession().getAttribute("account");
             switch (account.getRole()) {
                 case 1:
-                    request.getRequestDispatcher("/admin/home").forward(request, response);
+                   response.sendRedirect("admin/home");
                     break;
                 case 2:
-                    request.getRequestDispatcher("/staff/home").forward(request, response);
+                    response.sendRedirect("staff/home");
                     break;
                 case 3:
-                    request.getRequestDispatcher("/boarder/home").forward(request, response);
+                    response.sendRedirect("boarder/home");
                     break;
                 default:
                     break;

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : home
-    Created on : 16-Jan-2022, 16:39:49
+    Document   : ErrorPage
+    Created on : 27-Jan-2022, 17:38:56
     Author     : lenovo_thinkpad
 --%>
 
@@ -20,8 +20,17 @@
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 999999999;">
-            <c:import url="admin_header.jsp"></c:import>
-        </div>
+        <section class="h-100 gradient-form" style="background-color: #eee;">
+            <div class="container py-5 h-90">
+                <div class="row d-flex justify-content-center align-items-center h-90">
+                    <div class="col-xl-8">
+                        <div class="card rounded-3 text-black">
+                            <img style="z-index: 3;" src="https://goeco.link/GtBgy">
+                            <button style="z-index: 9; position: fixed;margin-left: 25%; margin-top: 30%;" class="btn btn-outline-info" onclick="history.back();"> <%= "<< Back"%> </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </body>
 </html>

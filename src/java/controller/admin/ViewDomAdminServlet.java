@@ -5,12 +5,18 @@
  */
 package controller.admin;
 
+import dao.DomDAO;
+import dao.RoomStatusDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
+import model.Dom;
+import model.RoomStatus;
 
 /**
  *
@@ -29,7 +35,16 @@ public class ViewDomAdminServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("admin/view_dom_admin.jsp").forward(request, response);
+        RoomStatusDAO roomStatusDAO = new RoomStatusDAO();
+        DomDAO domDAO = new DomDAO();
+        request.getSession().setAttribute("doms", domDAO.getAll());
+        String domID = request.getParameter("dom") == null ? "A" : request.getParameter("dom");
+        Object dom = domDAO.getOne(domID);
+        ArrayList<RoomStatus> map = roomStatusDAO.getDomStatus((Dom) dom);
+        request.getSession().setAttribute("dom", dom);
+        request.getSession().setAttribute("mapdom", map);
+        Account account = (Account) request.getSession().getAttribute("account");
+        request.getRequestDispatcher("view_dom_admin.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

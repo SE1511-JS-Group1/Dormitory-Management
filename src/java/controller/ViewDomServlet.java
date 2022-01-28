@@ -47,23 +47,7 @@ public class ViewDomServlet extends HttpServlet {
         request.getSession().setAttribute("dom", dom);
         request.getSession().setAttribute("mapdom", map);
         Account account = (Account) request.getSession().getAttribute("account");
-        if (account == null) {
-            request.getRequestDispatcher("view_dom.jsp").forward(request, response);
-        } else {
-            switch (account.getRole()) {
-                case 1:
-                    request.getRequestDispatcher("/admin/view_dom_admin.jsp").forward(request, response);
-                    break;
-                case 2:
-                    request.getRequestDispatcher("/staff/view_dom_staff.jsp").forward(request, response);
-                    break;
-                case 3:
-                    request.getRequestDispatcher("/boarder/view_dom_boarder.jsp").forward(request, response);
-                    break;
-                default:
-                    break;
-            }
-        }
+        request.getRequestDispatcher("view_dom.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

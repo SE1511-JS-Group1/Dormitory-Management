@@ -4,7 +4,7 @@
         <filter-name>ProjectFilter</filter-name>
         <filter-class>controller.ProjectFilter</filter-class>
     </filter>
-    <!--     <filter>
+    <!--        <filter>
         <filter-name>AdminFilter</filter-name>
         <filter-class>controller.admin.AdminFilter</filter-class>
     </filter>
@@ -19,11 +19,11 @@
     <filter-mapping>
         <filter-name>BoarderFilter</filter-name>
         <url-pattern></url-pattern>
-    </filter-mapping> -->
+    </filter-mapping>-->
     <filter-mapping>
         <filter-name>ProjectFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping> 
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>

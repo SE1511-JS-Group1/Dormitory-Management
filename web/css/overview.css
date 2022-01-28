@@ -10,7 +10,10 @@ and open the template in the editor.
 .gradient-custom-2 {
     background: linear-gradient(to right, #394786, #00ffff, #268FC9, #00ccff);
 }
-
+.page-field{
+    border: 1px dotted black;
+    border-radius: 5px;
+}
 .btn-field-col{
     margin-left: 7%;
     width: 180%;

@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
+        if (cookies.length > 2) {
             String username = "";
             String password = "";
             for (Cookie c : cookies) {
@@ -54,36 +54,32 @@ public class LoginServlet extends HttpServlet {
                 request.getSession().setAttribute("account", account);
                 switch (account.getRole()) {
                     case 1:
-                        request.getRequestDispatcher("/admin/home").forward(request, response);
+                        response.sendRedirect("admin/home");
                         break;
                     case 2:
-                        request.getRequestDispatcher("/staff/home_staff.jsp").forward(request, response);
+                        response.sendRedirect("staff/home");
                         break;
                     case 3:
-                        request.getRequestDispatcher("/boarder/home_boarder.jsp").forward(request, response);
-                        break;
-                    default:
+                        response.sendRedirect("boarder/home");
                         break;
                 }
             }
-        }
-        if (request.getSession().getAttribute("account") != null) {
+        } else if (request.getSession().getAttribute("account") != null) {
             Account account = (Account) request.getSession().getAttribute("account");
             switch (account.getRole()) {
                 case 1:
-                    request.getRequestDispatcher("/admin/home").forward(request, response);
+                    request.getRequestDispatcher("admin/home").forward(request, response);
                     break;
                 case 2:
-                    request.getRequestDispatcher("/staff/home_staff.jsp").forward(request, response);
+                    response.sendRedirect("staff/home");
                     break;
                 case 3:
-                    request.getRequestDispatcher("/boarder/home_boarder.jsp").forward(request, response);
-                    break;
-                default:
+                    response.sendRedirect("boarder/home");
                     break;
             }
+        } else {
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     /**
