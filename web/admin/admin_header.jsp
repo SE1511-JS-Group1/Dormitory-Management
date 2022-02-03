@@ -18,8 +18,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item ">
+                        <a class=" page-field nav-link active" aria-current="page" href="user">User</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active page-field" aria-current="page" href="#">Dom</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active page-field" aria-current="page" href="#">Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active page-field" aria-current="page" href="#">FeedBack</a>
                     </li>
                 </ul>
                 <p class="text-center align-items-center fs-4" style="margin: auto 5px;">${sessionScope.account.getUserName()}</p>

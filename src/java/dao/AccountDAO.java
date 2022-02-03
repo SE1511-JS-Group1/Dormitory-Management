@@ -24,6 +24,7 @@ public class AccountDAO implements IBaseService {
         PreparedStatement Statement = null;
         ResultSet Result = null;
         String sql = "SELECT * FROM Account";
+        System.out.println(Connection.getConnection());
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên

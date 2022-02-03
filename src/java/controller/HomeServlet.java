@@ -35,7 +35,7 @@ public class HomeServlet extends HttpServlet {
             Account account = (Account) request.getSession().getAttribute("account");
             switch (account.getRole()) {
                 case 1:
-                   response.sendRedirect("admin/home");
+                   response.sendRedirect("admin/user");
                     break;
                 case 2:
                     response.sendRedirect("staff/home");
@@ -48,7 +48,7 @@ public class HomeServlet extends HttpServlet {
             }
         } else {
             request.getRequestDispatcher("index.jsp").forward(request, response);
-            System.out.println("zo");
+//            System.out.println("zo");
         }
     }
 

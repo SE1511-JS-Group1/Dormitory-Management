@@ -11,12 +11,15 @@ and open the template in the editor.
     background: linear-gradient(to right, #394786, #00ffff, #268FC9, #00ccff);
 }
 .page-field{
+    text-align: center;
+    width: 85px;
+    margin: 10px;
     border: 1px dotted black;
     border-radius: 5px;
 }
 .btn-field-col{
     margin-left: 7%;
-    width: 180%;
+    width: 100%;
     padding: 20px;
     color: #394786;
 }
