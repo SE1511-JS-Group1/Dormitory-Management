@@ -98,7 +98,7 @@ public class BoarderDAO implements IBaseService {
     public void delete(Object object) {
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
-        String sql = "DELETE BOARDER WHERE BOARDERID=?";
+        String sql = "DELETE BOARDER WHERE BOARDERID = ?";
         try {
             Boarder boarder = (Boarder) object;
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình

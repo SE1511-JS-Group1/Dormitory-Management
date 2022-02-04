@@ -11,7 +11,7 @@ import java.sql.Date;
  *
  * @author lenovo_thinkpad
  */
-class DomManager {
+public class DomManager {
 
     private int managerID;
     private String name;
