@@ -86,4 +86,31 @@ public class DomDAO implements IBaseService {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public int getTotalBoarder(Dom dom) {
+        int total = 0;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "select d.DomID, sum(CONVERT(int,rs.[Status])) as 'TotalBoarder'\n"
+                + "from Dom d, Room r, RoomStatus rs\n"
+                + "where d.DomID=r.DomID and r.RoomID = rs.RoomID and d.DomID = ?\n"
+                + "group by d.DomID";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setString(1, dom.getDomID());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (Result.next()) {
+                total = Result.getInt(2);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
+        return total;
+    }
 }
