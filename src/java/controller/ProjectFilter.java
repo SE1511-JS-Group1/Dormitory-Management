@@ -39,16 +39,10 @@ public class ProjectFilter implements Filter {
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
-        if (debug) {
-            log("ProjectFilter:DoBeforeProcessing");
-        }
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
-        if (debug) {
-            log("ProjectFilter:DoAfterProcessing");
-        }
     }
 
     /**
@@ -173,7 +167,7 @@ public class ProjectFilter implements Filter {
                 response.setContentType("text/html");
                 PrintStream ps = new PrintStream(response.getOutputStream());
                 PrintWriter pw = new PrintWriter(ps);
-                pw.print("<!DOCTYPE html>\n"
+               /* pw.print("<!DOCTYPE html>\n"
                         + "<html>\n"
                         + "    <head>\n"
                         + "        <title>Dormitory Management System</title>\n"
@@ -202,6 +196,7 @@ public class ProjectFilter implements Filter {
                         + "    </body>\n"
                         + "</html>\n"
                         + ""); //NOI18N
+*/
                 pw.close();
                 ps.close();
                 response.getOutputStream().close();

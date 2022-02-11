@@ -1,16 +1,24 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Model
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-15      1.2                 DucHT           Update properties
  */
+
 package model;
 
 import java.sql.Date;
 
-/**
- *
- * @author lenovo_thinkpad
- */
+/**				
+ * The class define <code>Boader</code> object: Person who join in dormitory system.			
+ * Its properties base on Boader entity properties in database.				
+ *				
+ * @author DucHT				
+ */				
+
 public class Boarder {
 
     private int boarderID;
