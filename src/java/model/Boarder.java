@@ -5,11 +5,11 @@
  */
 package model;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  *
- * @author lenovo_thinkpad
+ * @author ngoc duy
  */
 public class Boarder {
 

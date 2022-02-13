@@ -11,10 +11,10 @@ package dao;
  */
 public interface ISQLContext {
 
-    public static final String HOSTNAME = "DESKTOP-E2A6I0M";
+    public static final String HOSTNAME = "localhost";
     public static final String PORT = "1433";
     public static final String DATABASENAME = "Dormitory_Management_System";
     public static final String INTEGRATEDSECURITY = "false";
     public static final String USERNAME = "sa";
-    public static final String PASSWORD = "Thanhteo134";
+    public static final String PASSWORD = "1";
 }

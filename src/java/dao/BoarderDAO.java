@@ -5,13 +5,19 @@
  */
 package dao;
 
+
+import java.util.Date;
 import model.Jobs;
 import model.Boarder;
 import model.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,7 +31,7 @@ public class BoarderDAO implements IBaseService {
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
         ResultSet Result = null;
-        String sql = "SELECT * FROM BoarderDAO";
+        String sql = "SELECT * FROM Boarder";
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -33,18 +39,21 @@ public class BoarderDAO implements IBaseService {
             AccountDAO accountDB = new AccountDAO();
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (Result.next()) {
+                Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(Result.getString("DOB"));
                 Boarder boarder = new Boarder(Result.getInt(1), // tạo mợi object của mình và bắt add vào list
-                        Result.getString(2),
-                        Result.getDate(3),
-                        Result.getBoolean(4),
-                        Result.getString(5),
-                        Result.getString(6),
+                        Result.getString("BoarderName"),
+                        date,
+                        Result.getBoolean("Gender"),
+                        Result.getString("Email"),
+                        Result.getString("PhoneNumber"),
                         Result.getString(7).equalsIgnoreCase("Student") ? Jobs.Student : Jobs.Teacher,
                         (Account) accountDB.getOne(Result.getString(8)));
                 boarders.add(boarder); // add vào list
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } catch (ParseException ex) {
+            Logger.getLogger(BoarderDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             Connection.closeResultSet(Result);
             Connection.closePreparedStatement(Statement);
@@ -66,7 +75,42 @@ public class BoarderDAO implements IBaseService {
         }
         return null;
     }
-
+    
+    public Boarder getBoarderById(int id) {
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "select * from Boarder where BoarderID = ?";
+        
+        try {          
+            Connect = Connection.getConnection();
+            Statement = Connect.prepareStatement(sql);
+            Statement.setInt(1, id);
+            Result = Statement.executeQuery();
+            while(Result.next()) {
+                int ID = Result.getInt(1); //lấy ID của boarder
+                String name = Result.getString("BoarderName"); //lấy boarder name
+                Date dob = Result.getDate("DOB"); //lấy boarder date of birth
+                boolean gender = Result.getBoolean("Gender"); //lấy boarder gender
+                String email = Result.getString("Email"); //lấy boarder gender
+                String phonenumber = Result.getString("PhoneNumber"); //lấy boarder phonenumber
+                Jobs job = Jobs.valueOf(Result.getString("Job")); //lấy boarder job ép kiểu về enum :3
+                AccountDAO accDAO = new AccountDAO();
+                Account a = (Account) accDAO.getOne(Result.getString("UserName")); //gọi phương thức getone lấy account của boarder bằng username
+                Boarder boarder = new Boarder(ID, name, dob, gender, email, phonenumber, job, a);
+                return boarder;
+            }
+            
+        } catch(SQLException e) {
+            throw new UnsupportedOperationException("Wrong Object to use this method!");
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
+        return null;
+    }
+    
     @Override
     public void insert(Object object) {
         java.sql.Connection Connect = null;
@@ -79,7 +123,7 @@ public class BoarderDAO implements IBaseService {
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
 //            Statement.setInt(1, boarder.getBoarderID());
             Statement.setString(1, boarder.getBoarderName());
-            Statement.setDate(2, boarder.getDateOfBirth());
+            Statement.setString(2, boarder.getDateOfBirth().toString());
             Statement.setBoolean(3, boarder.isGender());
             Statement.setString(4, boarder.getPhoneNumber());
             Statement.setString(5, boarder.getJob().toString());
@@ -104,7 +148,7 @@ public class BoarderDAO implements IBaseService {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
             Statement.setInt(1, boarder.getBoarderID());
-            Statement.executeQuery(); // Chạy và thực thi câu SQL
+            Statement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw new UnsupportedOperationException("Wrong Object to use this method!");
         } finally {

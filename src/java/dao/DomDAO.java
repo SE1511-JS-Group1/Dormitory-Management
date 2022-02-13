@@ -58,7 +58,7 @@ public class DomDAO implements IBaseService {
             Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (Result.next()) {
-                dom = new Dom(Result.getString(1), // tạo mợi object của mình và bắt add vào list
+                dom = new Dom(Result.getString(1), //get được object dom thông qua id của dom
                         Result.getString(2));
             }
         } catch (SQLException e) {
@@ -73,17 +73,68 @@ public class DomDAO implements IBaseService {
 
     @Override
     public void insert(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Dom inserted = (Dom) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Insert into [Dom](DomID, DomName) values (?, ?)";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setString(1, inserted.getDomID());
+            Statement.setString(2, inserted.getDomName());           
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
     @Override
     public void delete(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Dom deleted = (Dom) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Delete Dom where DomID = ?";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setString(1, deleted.getDomID());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
     @Override
     public void update(Object object, Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Dom updated = (Dom) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Update Dom set DomName = ?  where DomID = ? ";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setString(1, updated.getDomName());
+            Statement.setString(2, updated.getDomID());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
+        
     }
 
 }

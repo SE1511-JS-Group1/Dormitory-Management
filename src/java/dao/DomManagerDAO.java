@@ -54,8 +54,8 @@ public class DomManagerDAO implements IBaseService {
     }
 
     @Override
-    public Object getOne(Object key) {
-        DomManager domManager = new DomManager();
+    public Object getOne(Object key) { //get về 1 object dom manager thông qua dommanager id
+        Object domManager = new DomManager();
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
         ResultSet Result = null;
@@ -63,7 +63,7 @@ public class DomManagerDAO implements IBaseService {
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            Statement.setString(1, (String) key);
+            Statement.setInt(1, (int) key);
             Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             AccountDAO accountDAO = new AccountDAO();
@@ -89,17 +89,89 @@ public class DomManagerDAO implements IBaseService {
 
     @Override
     public void insert(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DomManager inserted = (DomManager) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Insert into DomManager(ManagerID, PhoneNumber, ManagerName, Email, Gender, DOB, Regency, UserName)\n" +
+                     "values(?,?,?,?,?,?,?,?)";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setInt(1, inserted.getManagerID());
+            Statement.setString(2, inserted.getPhoneNumber());
+            Statement.setString(3, inserted.getName());
+            Statement.setString(4, inserted.getEmail());
+            Statement.setBoolean(5, inserted.isGender());
+            Statement.setDate(6, inserted.getDateOfBirth());
+            Statement.setString(7, inserted.getRegency().toString());
+            Statement.setString(8, inserted.getName());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
     @Override
     public void delete(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DomManager deleted = (DomManager) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Delete DomManager where ManagerID = ?";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setInt(1, deleted.getManagerID());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
     @Override
     public void update(Object object, Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DomManager updated = (DomManager) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Update DomManager set \n" +
+                    "PhoneNumber=?, \n" +
+                    "ManagerName=?, \n" +
+                    "Email=?,\n" +
+                    "Gender=?,\n" +
+                    "DOB=?,\n" +
+                    "Regency=?,\n" +
+                    "UserName=?\n" +
+                    "where ManagerID = ?";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            
+            Statement.setString(1, updated.getPhoneNumber());
+            Statement.setString(2, updated.getName());
+            Statement.setString(3, updated.getEmail());
+            Statement.setBoolean(4, updated.isGender());
+            Statement.setString(5, updated.getDateOfBirth().toString());
+            Statement.setString(6, updated.getRegency().toString());
+            Statement.setString(7, updated.getName());
+            Statement.setInt(8, updated.getManagerID());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
 }

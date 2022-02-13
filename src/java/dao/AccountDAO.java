@@ -63,6 +63,7 @@ public class AccountDAO implements IBaseService {
         PreparedStatement Statement = null;
         ResultSet Result = null;
         String sql = "Insert into Account(UserName,PassWord,RoleId) values (?,?,?)";
+        System.out.println(Connection.getConnection());
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -102,17 +103,16 @@ public class AccountDAO implements IBaseService {
 
     @Override
     public void update(Object object, Object key) {
-        Account updated = (Account) object;
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
         ResultSet Result = null;
-        String sql = "Update Account set PassWord = ?  where UserName = ? ";
+        String sql = "Update Account set PassWord = ? where UserName like ? ";
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            Statement.setString(1, updated.getPassWord());
+            Statement.setString(1, (String)object);
             Statement.setString(2, (String)key);
-            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+            Statement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {

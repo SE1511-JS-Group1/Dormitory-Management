@@ -8,14 +8,15 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
 import model.Boarder;
 import model.BoardingInformation;
 import model.Room;
 
 /**
  *
- * @author lenovo_thinkpad
+ * @author ngoc duy
+ * 
  */
 public class BoardingInformationDAO implements IBaseService {
 
@@ -106,7 +107,28 @@ public class BoardingInformationDAO implements IBaseService {
 
     @Override
     public void update(Object object, Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        BoardingInformation updated = (BoardingInformation) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Update BoardingInformation set RoomID = ?, StartDate = ?, EndDate = ?, BedNo = ? "
+                + "where BoarderID = ?";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setInt(1, updated.getRoom().getRoomID());
+            Statement.setString(2, updated.getStartDate().toString());
+            Statement.setString(3, updated.getEndDate().toString());
+            Statement.setInt(5, updated.getBedNo());
+            Statement.setInt(6, (int) key);
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
 }
