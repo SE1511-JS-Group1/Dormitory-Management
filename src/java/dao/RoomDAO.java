@@ -87,17 +87,73 @@ public class RoomDAO implements IBaseService {
 
     @Override
     public void insert(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Room inserted = (Room) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Insert into Room(RoomID,RoomName,Floor,DomID,CategoryID) values (?,?,?,?,?)";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setInt(1, inserted.getRoomID());
+            Statement.setString(2, inserted.getRoomName());
+            Statement.setInt(3, inserted.getFloor());
+            Statement.setString(4, inserted.getDom().getDomID());
+            Statement.setInt(5, inserted.getCategory().getCategoryID());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
     @Override
     public void delete(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Room deleted = (Room) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Delete Room where RoomID = ?";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setInt(1, deleted.getRoomID());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
     @Override
     public void update(Object object, Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Room updated = (Room) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Update Room set RoomName = ?, Floor = ?, DomID = ?, CategoryID = ?   where RoomID = ? ";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setString(1, updated.getRoomName());
+            Statement.setInt(2, updated.getFloor());
+            Statement.setString(3, updated.getDom().getDomID());
+            Statement.setInt(4, updated.getCategory().getCategoryID());
+            Statement.setInt(5, (int)key);
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
 
     public HashMap<Integer, Integer> getStatus() {

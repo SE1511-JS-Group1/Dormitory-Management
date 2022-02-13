@@ -59,17 +59,73 @@ public class RoomCategoryDAO implements IBaseService {
     
     @Override
     public void insert(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RoomCategory inserted = (RoomCategory) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Insert into RoomCategory(CategoryID,CategoryName,Gender,RoomFee,BedNumber) values (?,?,?,?,?)";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setInt(1, inserted.getCategoryID());
+            Statement.setString(2, inserted.getCategoryName());
+            Statement.setBoolean(3, inserted.isRoomGender());
+            Statement.setDouble(4, inserted.getRoomFee());
+            Statement.setInt(5, inserted.getBedNumber());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
     
     @Override
     public void delete(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RoomCategory deleted = (RoomCategory) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Delete RoomCategory where CategoryID = ?";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setInt(1, deleted.getCategoryID());
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
     
     @Override
     public void update(Object object, Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        RoomCategory updated = (RoomCategory) object;
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Update RoomCategory set CategoryName = ?, Gender = ?, RoomFee = ?, BedNumber = ?  where CategoryID = ? ";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Statement.setString(1, updated.getCategoryName());
+            Statement.setBoolean(2, updated.isRoomGender());
+            Statement.setDouble(3, updated.getRoomFee());
+            Statement.setInt(4, updated.getBedNumber());
+            Statement.setInt(5, (int)key);
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
     }
     
 }
