@@ -5,6 +5,7 @@
  */
 package dao;
 
+<<<<<<< HEAD
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,12 +18,15 @@ import model.Dom;
 import model.Room;
 import model.Jobs;
 
+=======
+>>>>>>> a3f39e5a81ae320dd2b5b520baa8c2760a385a51
 /**
  *
  * @author lenovo_thinkpad
  */
 public class Main {
 
+<<<<<<< HEAD
     public static void main(String[] args) throws ParseException {
         BoardingInformationDAO dao = new BoardingInformationDAO();
         ArrayList<Object> list = dao.getAll();
@@ -82,4 +86,10 @@ public class Main {
 //            System.out.println(r+"--"+domStatus.get(r));
 //        }
             }
+=======
+    public static void main(String[] args) {
+        BoarderDAO boarderDAO = new BoarderDAO();
+        System.out.println(boarderDAO.getAll().size());
+    }
+>>>>>>> a3f39e5a81ae320dd2b5b520baa8c2760a385a51
 }

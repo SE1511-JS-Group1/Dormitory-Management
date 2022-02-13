@@ -6,6 +6,8 @@
 package controller.admin;
 
 import dao.AccountDAO;
+import dao.BoarderDAO;
+import dao.DomManagerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -60,8 +62,12 @@ public class UserSevlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDAO accountDAO = new AccountDAO();
+        BoarderDAO boarderDAO = new BoarderDAO();
+        DomManagerDAO domManagerDAO = new DomManagerDAO();
         ArrayList<Object> accounts = accountDAO.getAll();
         request.getSession().setAttribute("accounts", accounts);
+        request.getSession().setAttribute("boarderDAO", boarderDAO);
+        request.getSession().setAttribute("domManagerDAO", domManagerDAO);
         request.getRequestDispatcher("user_view_admin.jsp").forward(request, response);
     }
 

@@ -5,7 +5,11 @@
  */
 package dao;
 
+<<<<<<< HEAD
 import java.sql.PreparedStatement;
+=======
+import java.util.ArrayList;import java.sql.PreparedStatement;
+>>>>>>> a3f39e5a81ae320dd2b5b520baa8c2760a385a51
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,17 +27,28 @@ public class FeedbackDAO implements IBaseService{
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
         ResultSet Result = null;
+<<<<<<< HEAD
         String sql = "select * from Feedback";
         System.out.println(Connection.getConnection());
         
+=======
+        String sql = "SELECT * FROM Feedback";
+        System.out.println(Connection.getConnection());
+>>>>>>> a3f39e5a81ae320dd2b5b520baa8c2760a385a51
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
             Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (Result.next()) {
+<<<<<<< HEAD
                 
                 Feedback feedback = new Feedback();
+=======
+                Feedback feedback = new Feedback(Result.getInt(1), // tạo mợi object của mình và bắt add vào list
+                        Result.getString(2),
+                        Result.getInt(3));
+>>>>>>> a3f39e5a81ae320dd2b5b520baa8c2760a385a51
                 feedbacks.add(feedback); // add vào list
             }
         } catch (SQLException e) {
@@ -43,7 +58,11 @@ public class FeedbackDAO implements IBaseService{
             Connection.closePreparedStatement(Statement);
             Connection.closeConnection(Connect);
         }
+<<<<<<< HEAD
         return null;
+=======
+        return feedbacks;
+>>>>>>> a3f39e5a81ae320dd2b5b520baa8c2760a385a51
     }
 
     @Override
