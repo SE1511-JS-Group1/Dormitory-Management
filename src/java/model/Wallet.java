@@ -1,20 +1,24 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Model
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-15      1.2                 DuyTN          Update properties
  */
 package model;
 
-/**
- *
- * @author lenovo_thinkpad
- */
 public class Wallet {
 
     private int walletId;
     private Account owner;
     private double balance;
 
+    /**
+     * Initializes a newly created <code>Wallet</code> object so that it
+     * represents an empty information <code>Wallet</code>.
+     */
     public Wallet() {
     }
 

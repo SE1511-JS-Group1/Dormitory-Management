@@ -1,16 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Model
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-15      1.2                 DinhLX           Update properties
  */
 package model;
 
 import java.sql.Date;
 
 /**
- *
- * @author lenovo_thinkpad
- */
+  * The class define <code>DomManager</code> object: manager of <code>Dom</code>
+  * Its properties base on DomManagerentity properties in database.
+  *
+  * @author DinhLX
+  */
 public class DomManager {
 
     private int managerID;
@@ -22,9 +28,36 @@ public class DomManager {
     private ManagerRegency regency;
     private Account account;
 
+    /**
+     * Initializes a newly created <code>DomManager</code> object so that it
+     * represents an empty information <code>DomManager</code>.
+     */
     public DomManager() {
     }
 
+    /**
+     * Initializes a newly created <code>DomManager</code> object with all
+     * information of each <code>DomManager</code>.
+     * <br> The <code>DomManager</code> information include 7 attributes: 
+     * managerID, name, gender, dateOfBirth , email, phone number, regency,account.
+     * 
+     * <br>
+     * @param managerID<code>int</code> object. manager ID provided by the school.
+     * @param name<code>java.lang.String</code> object.
+     * <code>manager </code>'s name
+     * @param dateOfBirth <code>java.sql.Date</code> object.
+     * <code>manager </code>'s date of birth
+     * @param gender <code>manager </code> object. manager gender. If
+     * <code>true</code>, it is Male else Female.
+     * @param email <code>java.lang.String</code> object. A string express the
+     * email manager.
+     * @param phoneNumber <code>java.lang.String</code> object. A string of
+     * numbers express the manager phone number.
+     * @param regency<code>java.lang.Enum</code> object. It includes: 
+     * Accountant, Management_Staff, Guardian;
+     * @param account <code>Account</code> object. The account of each
+     * <code>manager </code>
+     */
     public DomManager(int managerID, String name, boolean gender, Date dateOfBirth, String email, String phoneNumber, ManagerRegency regency, Account account) {
         this.managerID = managerID;
         this.name = name;

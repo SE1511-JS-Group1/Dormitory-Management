@@ -1,16 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Model
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-15      1.2                 AnhNNV           Update properties
  */
 package model;
 
 import java.sql.Date;
 
-/**
- *
- * @author lenovo_thinkpad
- */
 public class RoomFeeBill {
 
     private int billID;
@@ -19,6 +19,10 @@ public class RoomFeeBill {
     private Date deadline;
     private String status;
 
+    /**
+     * Initializes a newly created <code>RoomFeeBill</code> object so that it
+     * represents an empty information <code>RoomFeeBill</code>.
+     */
     public RoomFeeBill() {
     }
 

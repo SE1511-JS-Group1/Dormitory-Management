@@ -1,17 +1,24 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Model
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-15      1.2                 AnhNNV           Update properties
  */
 package model;
 
 import java.sql.Date;
 
 /**
+ * The class define <code>Notice</code> object: <code>Notice</code> of dormitory
+ * system. Its properties base on Account entity properties in database.
  *
- * @author lenovo_thinkpad
+ * @author AnhNNV
  */
 public class Notice {
+
     private int id;
     private Date timeSend;
     private String title;
@@ -19,18 +26,14 @@ public class Notice {
     private DomManager domManager;
     private boolean direction;
 
+    /**
+     * Initializes a newly created <code>Notice</code> object so that it
+     * represents an empty information <code>Notice</code>.
+     */
     public Notice() {
     }
 
-    /**
-     *
-     * @param id
-     * @param timeSend
-     * @param title
-     * @param boarder
-     * @param domManager
-     * @param direction
-     */
+    
     public Notice(int id, Date timeSend, String title, Boarder boarder, DomManager domManager, boolean direction) {
         this.id = id;
         this.timeSend = timeSend;
@@ -87,6 +90,5 @@ public class Notice {
     public void setDirection(boolean direction) {
         this.direction = direction;
     }
-    
-    
+
 }
