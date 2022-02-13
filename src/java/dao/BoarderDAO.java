@@ -25,7 +25,7 @@ public class BoarderDAO implements IBaseService {
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
         ResultSet Result = null;
-        String sql = "SELECT * FROM BoarderDAO";
+        String sql = "SELECT * FROM Boarder";
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên

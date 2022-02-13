@@ -20,7 +20,7 @@
         <link href="../css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 999999999;">
+        <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
             <c:import url="admin_header.jsp"></c:import>
             </div>
             <section class="h-100 gradient-form" style="background-color: #eee;">
@@ -52,6 +52,12 @@
                                                 <img src="https://by.com.vn/xQTXSg" style="width: 185px;" alt="logo">
                                             </div>
                                             <table style="margin: 50px auto;border: 2px solid black;" >
+                                                <colgroup>
+                                                    <col width="200" span="1">
+                                                    <col width="200" span="1">
+                                                    <col width="150" span="1">
+                                                    <col width="100" span="1">
+                                                </colgroup>
                                                 <tr>
                                                     <th>
                                                         User Name
@@ -75,7 +81,24 @@
                                                         ${user.getRole()==1?"admin":user.getRole()==2?"staff":"boarder"}
                                                     </td>
                                                     <td>
-                                                        
+                                                        <c:choose>
+                                                            <c:when test="${user.getRole()==1}">
+                                                                <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('Hoàng Trần Đức', 'Male', '19-05-2001', '@gmail.com', '0123456789');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
+                                                                    View
+                                                                </button>
+                                                            </c:when>
+                                                            <c:when test="${user.getRole()==2}">
+                                                                <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('${sessionScope.domManagerDAO.getOne(user.getUserName()).getName()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).isGender()?"Male":"Female"}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getDateOfBirth()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getEmail()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getPhoneNumber()}');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
+                                                                    View
+                                                                </button>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('${sessionScope.boarderDAO.getOne(user.getUserName()).getBoarderName()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).isGender()?"Male":"Female"}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getDateOfBirth()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getEmail()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getPhoneNumber()}');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
+                                                                    View
+                                                                </button>
+                                                            </c:otherwise>
+                                                        </c:choose>
+
                                                     </td>
                                                     <td>
                                                         Delete
@@ -83,6 +106,64 @@
                                                 </tr>
                                             </c:forEach>
                                         </table>
+                                        <div class="modal fade" id="accountInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content" style="z-index: 3;">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Account Information</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    Full Name:
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <input class="account_information" id="chosenFullName" type="text" value="" style="border: none;" disabled>                                                                        
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    Gender:
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <input class="account_information" id="chosenGender" type="text" value="" style="border: none;" disabled>                                                                        
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    Date of birth
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <input class="account_information" id="chosenDOB" type="text" value="" style="border: none;" disabled>                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    Email:
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <input class="account_information" id="chosenEmail" type="text" value="" style="border: none;" disabled>                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    Phone:
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <input class="account_information" id="chosenPhone" type="text" value="" style="border: none;" disabled>                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                                                        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>                                
                             </div>
@@ -91,5 +172,6 @@
                 </div>
             </div>
         </section>
+        <script src="../js/checkJS.js"></script>
     </body>
 </html>
