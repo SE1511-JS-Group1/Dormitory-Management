@@ -72,6 +72,10 @@
         <servlet-name>UserSevlet</servlet-name>
         <servlet-class>controller.admin.UserSevlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ForgotPasswordSevrvlet</servlet-name>
+        <servlet-class>controller.ForgotPasswordSevrvlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -115,6 +119,10 @@
     <servlet-mapping>
         <servlet-name>UserSevlet</servlet-name>
         <url-pattern>/admin/user</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForgotPasswordSevrvlet</servlet-name>
+        <url-pattern>/forgotpassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

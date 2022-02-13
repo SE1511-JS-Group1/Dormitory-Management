@@ -69,7 +69,7 @@ public class ProjectFilter implements Filter {
                 chain.doFilter(request, response);
             } else if (account == null) {
                 System.out.println("Account null");
-                String[] commonpages = {"/index.jsp", "/viewdom", "/home", "/login","/register", "/register_boarder.jsp", "/register_staff.jsp"};
+                String[] commonpages = {"/index.jsp", "/viewdom", "/home", "/login","/register", "/register_boarder.jsp", "/register_staff.jsp", "/forgotpassword","forgotpassword.jsp"};
                 ArrayList<String> commonpage = new ArrayList<>();
                 Collections.addAll(commonpage, commonpages);
                 if (commonpage.contains(req.getServletPath())) {
