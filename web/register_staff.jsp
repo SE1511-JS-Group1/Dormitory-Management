@@ -28,13 +28,13 @@
                                 <div class="col-md-4 d-flex align-items-center gradient-custom-2">
                                     <div class="container">
                                         <div class="row">
-                                            <div class="col-md-6" style="margin-left: 5%;">
+                                            <div class="col-md-10" style="margin-left: 5%;">
                                                 <a type="button" class="btn btn-outline-info btn-field-col" href="register_boarder.jsp"><h2>Boarder</h2></a>
                                             </div>
                                         </div>
                                         <div style="height: 30px;"></div>
                                         <div class="row">
-                                            <div class="col-md-6" style="margin-left: 5%;">                                                
+                                            <div class="col-md-10" style="margin-left: 5%;">                                                
                                                 <a type="button" class="btn btn-outline-info btn-field-col pushin" href="register_staff.jsp"><h2>Staff</h2></a>
                                             </div>
                                         </div>
