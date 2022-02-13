@@ -7,18 +7,16 @@
  * DATE            Version             AUTHOR           DESCRIPTION
  * 2022-01-15      1.2                 DucHT           Update properties
  */
-
 package model;
 
 import java.sql.Date;
 
-/**				
- * The class define <code>Boader</code> object: Person who join in dormitory system.			
- * Its properties base on Boader entity properties in database.				
- *				
- * @author DucHT				
- */				
-
+/**
+ * The class define <code>Boader</code> object: Person who join in dormitory
+ * system. Its properties base on Boarder entity properties in database.
+ *
+ * @author DucHT
+ */
 public class Boarder {
 
     private int boarderID;
@@ -40,7 +38,7 @@ public class Boarder {
     /**
      * Initializes a newly created <code>Boarder</code> object with all
      * information of each <code>Boarder</code>.
-     * <br> The <code>Boarder</code> information include 7 attributes: roll
+     * <br> The <code>Boarder</code> information include 8 attributes: roll
      * number, name, date of birth, gender, email, phone number and job.
      *
      * @param rollNumber <code>int</code> object. Boarder ID provided by the
@@ -72,10 +70,10 @@ public class Boarder {
     }
 
     /**
-     * Alow user to get the Boarder's ID of this <code>Boarder</code>.<br> The
+     * Allow user to get the Boarder's ID of this <code>Boarder</code>.<br> The
      * result contain a <code>int</code> object. Boarder's ID provided by the
      * school.
-     *
+     *<br>
      * @return a <code>java.lang.String</code> object.
      */
     public int getBoarderID() {
@@ -83,8 +81,9 @@ public class Boarder {
     }
 
     /**
-     * Alow user to set up the Boarder's ID of this <code>Boarder</code>.
-     *
+     * Allow user to set up the Boarder's ID of this <code>Boarder</code>
+     * object:.
+     *<br>
      * @param boarderID <code>int</code> object. Boarder ID provided by the
      * school.
      */
@@ -93,7 +92,7 @@ public class Boarder {
     }
 
     /**
-     * Alow user to get the Boarder's name of this <code>Boarder</code>.
+     * Allow user to get the Boarder's name of this <code>Boarder</code>.
      * <br> The result contain a <code>String</code> object.
      *
      * @return a <code>java.lang.String</code> object.
@@ -103,18 +102,16 @@ public class Boarder {
     }
 
     /**
-     * Alow user to set up the Boarder's name of this <code>Boarder</code>.
-     *
+     * Allow user to set up the Boarder's name of this <code>Boarder</code>.
      *
      * @param boarderName <code>java.lang.String</code> object.
      */
     public void setBoarderName(String boarderName) {
         this.boarderName = boarderName;
     }
-//
 
     /**
-     * Alow user to get Date of birth .....
+     * Allow user to get Date of birth .....
      *
      * @return <code>java.sql.Date</code> object.
      */

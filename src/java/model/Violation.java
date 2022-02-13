@@ -1,14 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Model
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-15      1.2                 DuyTN          Update properties
  */
 package model;
 
-/**
- *
- * @author lenovo_thinkpad
- */
 public class Violation {
 
     private int violationID;
@@ -17,6 +17,10 @@ public class Violation {
     private String discription;
     private String penalization;
 
+    /**
+     * Initializes a newly created <code>Violation</code> object so that it
+     * represents an empty information <code>Violation</code>.
+     */
     public Violation() {
     }
 
