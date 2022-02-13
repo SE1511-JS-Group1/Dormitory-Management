@@ -10,14 +10,8 @@
 
 package model;
 
-import java.util.Date;
+import java.sql.Date;
 
-<<<<<<< HEAD
-/**
- *
- * @author ngoc duy
- */
-=======
 /**				
  * The class define <code>Boader</code> object: Person who join in dormitory system.			
  * Its properties base on Boader entity properties in database.				
@@ -25,7 +19,6 @@ import java.util.Date;
  * @author DucHT				
  */				
 
->>>>>>> a3f39e5a81ae320dd2b5b520baa8c2760a385a51
 public class Boarder {
 
     private int boarderID;

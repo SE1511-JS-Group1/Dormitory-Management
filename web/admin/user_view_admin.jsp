@@ -98,7 +98,6 @@
                                                                 </button>
                                                             </c:otherwise>
                                                         </c:choose>
-
                                                     </td>
                                                     <td>
                                                         Delete
@@ -128,7 +127,7 @@
                                                                     Gender:
                                                                 </div>
                                                                 <div class="col-md-5">
-                                                                    <input class="account_information" id="chosenGender" type="text" value="" style="border: none;" disabled>                                                                        
+                                                                    <input class="account_information" id="chosenUGender" type="text" value="" style="border: none;" disabled>                                                                        
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -165,13 +164,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                
-                            </div>
+                                </div>
+                            </div>                                
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <script src="../js/checkJS.js"></script>
-    </body>
+        </div>
+    </section>
+    <script src="../js/checkJS.js"></script>
+</body>
 </html>

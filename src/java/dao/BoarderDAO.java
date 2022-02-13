@@ -6,18 +6,14 @@
 package dao;
 
 
-import java.util.Date;
+import java.sql.Date;
 import model.Jobs;
 import model.Boarder;
 import model.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -39,10 +35,9 @@ public class BoarderDAO implements IBaseService {
             AccountDAO accountDB = new AccountDAO();
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (Result.next()) {
-                Date date = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(Result.getString("DOB"));
                 Boarder boarder = new Boarder(Result.getInt(1), // tạo mợi object của mình và bắt add vào list
                         Result.getString("BoarderName"),
-                        date,
+                        Result.getDate("DOB"),
                         Result.getBoolean("Gender"),
                         Result.getString("Email"),
                         Result.getString("PhoneNumber"),
@@ -52,9 +47,7 @@ public class BoarderDAO implements IBaseService {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } catch (ParseException ex) {
-            Logger.getLogger(BoarderDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }finally {
             Connection.closeResultSet(Result);
             Connection.closePreparedStatement(Statement);
             Connection.closeConnection(Connect);

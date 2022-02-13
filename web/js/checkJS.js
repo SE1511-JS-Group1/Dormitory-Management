@@ -10,7 +10,7 @@ function CheckRegister() {
     return false;
 }
 
-function loadRoomInformation(name, floor, status, gender) {
+function loadRoomInformation(name,floor, status, gender) {
     document.getElementById('chosenName').value = name;
     document.getElementById('chosenFloor').value = floor;
     document.getElementById('chosenStatus').value = status + ' Bed';
@@ -18,9 +18,9 @@ function loadRoomInformation(name, floor, status, gender) {
 }
 function loadUserInformation(fullname, gender, dob, email, phone) {
     alert('hihi');
-    document.getElementById('chosenFullName').value = fullname;
-    document.getElementById('chosenGender').value = gender;
-    document.getElementById('chosenDOB').value = dob;
-    document.getElementById('chosenEmail').value = email;
-    document.getElementById('chosenPhone').value = phone;
+//    document.getElementById('chosenFullName').value = fullname;
+//    document.getElementById('chosenUGender').value = gender;
+//    document.getElementById('chosenDOB').value = dob;
+//    document.getElementById('chosenEmail').value = email;
+//    document.getElementById('chosenPhone').value = phone;
 }
