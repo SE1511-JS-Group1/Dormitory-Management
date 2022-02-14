@@ -1,11 +1,11 @@
+<%-- 
+    Document   : footer.jsp
+    Created on : Feb 14, 2022, 2:00:28 PM
+    Author     : DucHT
+--%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <title>Dormitory Management System</title>
@@ -19,11 +19,17 @@ and open the template in the editor.
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
-            <c:import url="header.jsp"></c:import>
-            </div>
-            <div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
-            <c:import url="footer.jsp"></c:import>
+        <div class="container">
+            <footer class="py-3 my-4">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li class="nav-item"><a href="home" class="nav-link px-2 text-muted">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Dom</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Room</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Contact</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+                </ul>
+                <p class="text-center text-muted">© 2021 Company, Inc</p>
+            </footer>
         </div>
     </body>
 </html>

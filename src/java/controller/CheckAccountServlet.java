@@ -9,22 +9,17 @@ import dao.AccountDAO;
 import dao.BoarderDAO;
 import dao.DomManagerDAO;
 import java.io.IOException;
-import java.sql.Date;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
-import model.Boarder;
-import model.DomManager;
-import model.Jobs;
-import model.ManagerRegency;
 
 /**
  *
- * @author lenovo_thinkpad
+ * @author Dell
  */
-public class RegisterServlet extends HttpServlet {
+public class CheckAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,7 +32,35 @@ public class RegisterServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        String type = request.getParameter("type");
+        String txt = request.getParameter("txt");
+        BoarderDAO boarderDAO = new BoarderDAO();
+        DomManagerDAO domManagerDAO = new DomManagerDAO();
+        AccountDAO accountDAO = new AccountDAO();
+        if ((type.contains("user") && accountDAO.getOne(txt) != null)
+                || (type.contains("email") && domManagerDAO.checkEmailDomManager(txt))
+                || (type.contains("phone") && domManagerDAO.checkPhoneDomManager(txt))
+                || (type.contains("email") && boarderDAO.checkEmailBoarder(txt))
+                || (type.contains("phone") && boarderDAO.checkPhoneBoarder(txt))) {
 
+            response.getWriter().print((type.contains("user") ? "Tài khoản" : type.contains("phone") ? "Số điện thoại" : "Email") + " đã được đăng ký");
+        } else if (type.contains("user")) {
+            if (txt.length() < 5 || txt.length() > 19) {
+                response.getWriter().print("Tên đăng nhập phải trong khoảng từ 5-19 ký tự");
+            } else {
+                response.getWriter().print("");
+            }
+        } else if (type.contains("phone")) {
+            if (!txt.matches("\\d+") || txt.length() != 10) {
+                response.getWriter().print("Số điện thoại chỉ nên gồm 10 chữ số!");
+            } else {
+                response.getWriter().print("");
+            }
+        } else {
+            response.getWriter().print("");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -52,7 +75,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -66,36 +89,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("utf-8");
-        String fullName = request.getParameter("fullname");
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        AccountDAO accountDAO = new AccountDAO();
-        BoarderDAO boarderDAO = new BoarderDAO();
-        DomManagerDAO domManagerDAO = new DomManagerDAO();
-        Account account;
-        boolean gender = request.getParameter("gender").equalsIgnoreCase("Male");
-        Date dateofbirth = Date.valueOf(request.getParameter("dateofbirth"));
-        String position = request.getParameter("position");
-        if (position.equalsIgnoreCase("teacher") || position.equalsIgnoreCase("student")) {
-
-            Jobs job = Jobs.valueOf(position);
-            account = new Account(userName, password, 3);
-            Boarder boarder = new Boarder(0, fullName, dateofbirth, gender, email, phone, job, account);
-            accountDAO.insert(account);
-            boarderDAO.insert(boarder);
-            System.out.println(fullName + "," + userName + "," + password + "," + email + "," + phone + "," + gender + "," + job + "," + dateofbirth);
-        } else {
-            ManagerRegency regency = ManagerRegency.valueOf(position);
-            account = new Account(userName, password, 2);
-            DomManager domManager = new DomManager(0, fullName, gender, dateofbirth, email, phone, regency, account);
-            accountDAO.insert(account);
-            domManagerDAO.insert(domManager);
-        }
-        request.getRequestDispatcher("login?username=" + userName + "&&password=" + password).forward(request, response);
+        processRequest(request, response);
     }
 
     /**

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author lenovo_thinkpad
  */
-public class RoomFeeBillDAO implements IBaseService{
+public class RoomFeeBillDAO implements IBaseDAO{
 
     @Override
     public ArrayList<Object> getAll() {

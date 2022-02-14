@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -17,32 +18,28 @@ and open the template in the editor.
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <div class="row">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="viewdom">
+        <header class="p-3 bg-dark text-white">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                         <div class="logo" style="width: 70px;">                            
                             <img src="https://by.com.vn/xQTXSg" class="img-thumbnail" alt="logo">
                         </div>
+                        <div style="width: 20px;"></div>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item page-field">
-                                <a class="nav-link active" aria-current="page" href="home">Home</a>
-                            </li>
-                        </ul>
-                        <form action="login" method="get">
-                            <button class="btn btn-outline-success" type="submit" style="margin-right: 10px;width: 100px;">Login</button>
-                        </form>
-                        <form action="register" method="get">
-                            <button class="btn btn-outline-danger" type="submit" style="width: 100px;">Register</button>
-                        </form>
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href="home" class="nav-link px-2 ${page eq 'home' ? 'text-white':'text-secondary'}">Home</a></li>
+                        <li><a href="#" class="nav-link px-2 ${page eq 'dom' ? 'text-white':'text-secondary'}">Dom</a></li>
+                        <li><a href="#" class="nav-link px-2 ${page eq 'room' ? 'text-white':'text-secondary'}">Room</a></li>
+                        <li><a href="#" class="nav-link px-2 ${page eq 'contact' ? 'text-white':'text-secondary'}">Contact</a></li>
+                        <li><a href="#" class="nav-link px-2 ${page eq 'about' ? 'text-white':'text-secondary'}">About</a></li>
+                    </ul>
+                    <div class="text-end">
+                        <a type="button" class="btn btn-outline-light me-2" href="login">Login</a>
+                        <a type="button" class="btn btn-warning" href="register">Sign-up</a>
                     </div>
                 </div>
-            </nav>
-        </div>
+            </div>
+        </header>
     </body>
 </html>

@@ -15,7 +15,7 @@ import model.RoomCategory;
  *
  * @author lenovo_thinkpad
  */
-public class RoomCategoryDAO implements IBaseService {
+public class RoomCategoryDAO implements IBaseDAO {
     
     @Override
     public ArrayList<Object> getAll() {

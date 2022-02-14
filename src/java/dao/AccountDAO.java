@@ -15,7 +15,7 @@ import model.Account;
  *
  * @author lenovo_thinkpad
  */
-public class AccountDAO implements IBaseService {
+public class AccountDAO extends Connection implements IBaseDAO {
 
     @Override
     public ArrayList<Object> getAll() {

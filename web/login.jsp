@@ -19,48 +19,53 @@
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <section class="h-100 gradient-form" style="background-color: #eee;">
+        <section class="vh-100" style="background-color: #00FFFF;">
             <div class="container py-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-xl-10">
-                        <div class="card rounded-3 text-black">
+                    <div class="col col-xl-10">
+                        <div class="card" style="border-radius: 1rem;">
                             <div class="row g-0">
-                                <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-                                    <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                                        <h4 class="mb-4">Hello</h4>
-                                        <p class="small mb-0">                                            
-                                        </p>
+                                <div class="col-md-6 col-lg-6 d-none d-md-block">
+                                    <img
+                                        src="https://goeco.link/CpXGa"
+                                        alt="login form"
+                                        class="img-fluid" style="border-radius: 1rem 0 0 1rem;height: 684px;"
+                                        />
+                                </div>
+                                <div class="col-md-6 col-lg-6 d-flex align-items-center">
+                                    <div class="card-body p-4 p-lg-5 text-black">
+
+                                        <form action="login" method="post">
+
+                                            <div class="d-flex align-items-center mb-3 pb-1">
+                                                <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                                                <span class="h1 fw-bold mb-0 text-center">
+                                                    <img src="https://by.com.vn/xQTXSg" style="width: 185px;" alt="logo">
+                                                </span>
+                                            </div>
+
+                                            <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+
+                                            <div class="form-outline mb-4">
+                                                <input type="text" id="form2Example17" name="username" onchange="document.getElementById('message_login').display = none;" placeholder="Your username" value="" class="form-control form-control-lg" />
+                                            </div>
+
+                                            <div class="form-outline mb-4">
+                                                <input type="password" id="form2Example27" name="password" onchange="document.getElementById('message_login').display = none;" placeholder="Your password" value="" class="form-control form-control-lg" />
+                                            </div>
+                                            <div class="form-outline mb-4 text-center" style="color: red;height: 25px;" id="message_login">
+                                                ${message_login}                                                
+                                            </div>
+                                            <div class="pt-1 mb-4">
+                                                <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                                            </div>
+
+                                            <a class="small text-muted" href="#!">Forgot password?</a>
+                                            <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="register" style="color: #393f81;">Register here</a></p>
+                                        </form>
+
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="card-body p-md-5 mx-md-4">
-
-                                        <div class="text-center">
-                                            <img src="https://by.com.vn/xQTXSg" style="width: 185px;" alt="logo">
-                                        </div>
-
-                                        <form name="login" action="login" method="post">
-                                            <p>Please login to your account</p>
-                                            <div class="form-outline mb-4">
-                                                <input type="text" name="username" id="form2Example11" class="form-control" value="${username}" placeholder="Username"/>
-                                            </div>
-                                            <div class="form-outline mb-4">
-                                                <input type="password" name="password" id="form2Example22" class="form-control" value="${password}" placeholder="Password"/>
-                                            </div>
-                                            <div class="form-outline mb-4 text-center" style="color: red;" id="message_login">
-                                                ${message_login}
-                                            </div>
-                                            <div class="text-center pt-1 mb-5 pb-1">
-                                                <button  class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" id="button_login" style="width: 100%">Log in</button>
-                                                <a class="text-muted" href="#!">Forgot password?</a>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-center pb-4">
-                                                <p class="mb-0 me-2">Don't have an account?</p>
-                                                <a type="button" class="btn btn-outline-danger" href="register_boarder.jsp">Register</a>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>                                
                             </div>
                         </div>
                     </div>

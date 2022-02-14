@@ -18,7 +18,7 @@ import model.Room;
  * @author ngoc duy
  * 
  */
-public class BoardingInformationDAO implements IBaseService {
+public class BoardingInformationDAO implements IBaseDAO {
 
     @Override
     public ArrayList<Object> getAll() {

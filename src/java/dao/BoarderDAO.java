@@ -5,7 +5,6 @@
  */
 package dao;
 
-
 import java.sql.Date;
 import model.Jobs;
 import model.Boarder;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  *
  * @author lenovo_thinkpad
  */
-public class BoarderDAO implements IBaseService {
+public class BoarderDAO extends Connection implements IBaseDAO {
 
     @Override
     public ArrayList<Object> getAll() {
@@ -47,7 +46,7 @@ public class BoarderDAO implements IBaseService {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }finally {
+        } finally {
             Connection.closeResultSet(Result);
             Connection.closePreparedStatement(Statement);
             Connection.closeConnection(Connect);
@@ -68,19 +67,19 @@ public class BoarderDAO implements IBaseService {
         }
         return null;
     }
-    
+
     public Boarder getBoarderById(int id) {
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
         ResultSet Result = null;
         String sql = "select * from Boarder where BoarderID = ?";
-        
-        try {          
+
+        try {
             Connect = Connection.getConnection();
             Statement = Connect.prepareStatement(sql);
             Statement.setInt(1, id);
             Result = Statement.executeQuery();
-            while(Result.next()) {
+            while (Result.next()) {
                 int ID = Result.getInt(1); //lấy ID của boarder
                 String name = Result.getString("BoarderName"); //lấy boarder name
                 Date dob = Result.getDate("DOB"); //lấy boarder date of birth
@@ -93,8 +92,8 @@ public class BoarderDAO implements IBaseService {
                 Boarder boarder = new Boarder(ID, name, dob, gender, email, phonenumber, job, a);
                 return boarder;
             }
-            
-        } catch(SQLException e) {
+
+        } catch (SQLException e) {
             throw new UnsupportedOperationException("Wrong Object to use this method!");
         } finally {
             Connection.closeResultSet(Result);
@@ -103,7 +102,55 @@ public class BoarderDAO implements IBaseService {
         }
         return null;
     }
-    
+
+    public boolean checkEmailBoarder(String email) {
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        int count = 0;
+        String sql = "select count(*) from Boarder where Email = ?";
+        try {
+            Connect = Connection.getConnection();
+            Statement = Connect.prepareStatement(sql);
+            Statement.setString(1, email);
+            Result = Statement.executeQuery();
+            while (Result.next()) {
+                count = Result.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
+        return count > 0;
+    }
+
+    public boolean checkPhoneBoarder(String phone) {
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        int count = 0;
+        String sql = "select count(*) from Boarder where PhoneNumber = ?";
+        try {
+            Connect = Connection.getConnection();
+            Statement = Connect.prepareStatement(sql);
+            Statement.setString(1, phone);
+            Result = Statement.executeQuery();
+            while (Result.next()) {
+                count = Result.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
+        return count > 0;
+    }
+
     @Override
     public void insert(Object object) {
         java.sql.Connection Connect = null;
@@ -124,7 +171,7 @@ public class BoarderDAO implements IBaseService {
             Statement.setString(7, boarder.getAccount().getUserName());
             Statement.executeQuery(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
-            throw new UnsupportedOperationException("Wrong Object to use this method!");
+
         } finally {
             Connection.closePreparedStatement(Statement);
             Connection.closeConnection(Connect);
@@ -161,7 +208,7 @@ public class BoarderDAO implements IBaseService {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
             //Statement.setString(1, updated.getPassWord());
-            Statement.setString(2, (String)key);
+            Statement.setString(2, (String) key);
             Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             System.out.println(e.getMessage());

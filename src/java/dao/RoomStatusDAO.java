@@ -18,7 +18,7 @@ import model.RoomStatus;
  *
  * @author lenovo_thinkpad
  */
-public class RoomStatusDAO implements IBaseService {
+public class RoomStatusDAO implements IBaseDAO {
 
     @Override
     public ArrayList<Object> getAll() {

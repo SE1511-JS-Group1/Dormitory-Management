@@ -81,23 +81,21 @@
                                                         ${user.getRole()==1?"admin":user.getRole()==2?"staff":"boarder"}
                                                     </td>
                                                     <td>
-                                                        <c:choose>
-                                                            <c:when test="${user.getRole()==1}">
-                                                                <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('Hoàng Trần Đức', 'Male', '19-05-2001', '@gmail.com', '0123456789');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
-                                                                    View
-                                                                </button>
-                                                            </c:when>
-                                                            <c:when test="${user.getRole()==2}">
-                                                                <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('${sessionScope.domManagerDAO.getOne(user.getUserName()).getName()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).isGender()?"Male":"Female"}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getDateOfBirth()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getEmail()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getPhoneNumber()}');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
-                                                                    View
-                                                                </button>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('${sessionScope.boarderDAO.getOne(user.getUserName()).getBoarderName()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).isGender()?"Male":"Female"}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getDateOfBirth()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getEmail()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getPhoneNumber()}');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
-                                                                    View
-                                                                </button>
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                        <c:if test="${user.getRole()==1}">
+                                                            <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('Hoàng Trần Đức', 'Male', '19-05-2001', 'hihi@gmail.com', '0123456789');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
+                                                                View
+                                                            </button>
+                                                        </c:if>
+                                                        <c:if test="${user.getRole()==2}">
+                                                            <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('${sessionScope.domManagerDAO.getOne(user.getUserName()).getName()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).isGender()?"Male":"Female"}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getDateOfBirth()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getEmail()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getPhoneNumber()}');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
+                                                                View
+                                                            </button>
+                                                        </c:if>
+                                                        <c:if test="${user.getRole()==3}">
+                                                            <button type="button" data-bs-toggle="modal" onclick="loadUserInformation('${sessionScope.boarderDAO.getOne(user.getUserName()).getBoarderName()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).isGender()?"Male":"Female"}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getDateOfBirth()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getEmail()}', '${sessionScope.domManagerDAO.getOne(user.getUserName()).getPhoneNumber()}');" data-bs-target="#accountInformation" class="btn btn-outline-info" style="margin: 5px 10px;">
+                                                                View
+                                                            </button>
+                                                        </c:if>
                                                     </td>
                                                     <td>
                                                         Delete

@@ -17,7 +17,7 @@ import model.Notice;
  *
  * @author lenovo_thinkpad
  */
-public class NoticeDAO implements IBaseService{
+public class NoticeDAO implements IBaseDAO{
 
     @Override
     public ArrayList<Object> getAll() {

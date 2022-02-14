@@ -17,7 +17,7 @@ import model.Management;
  *
  * @author lenovo_thinkpad
  */
-public class ManagementDAO implements IBaseService{
+public class ManagementDAO implements IBaseDAO{
 
     @Override
     public ArrayList<Object> getAll() {

@@ -16,5 +16,5 @@ public interface ISQLContext {
     public static final String DATABASENAME = "Dormitory_Management_System";
     public static final String INTEGRATEDSECURITY = "false";
     public static final String USERNAME = "sa";
-    public static final String PASSWORD = "01052001";
+    public static final String PASSWORD = "Thanhteo134";
 }

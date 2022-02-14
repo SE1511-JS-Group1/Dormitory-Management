@@ -15,7 +15,7 @@ import model.Dom;
  *
  * @author lenovo_thinkpad
  */
-public class DomDAO implements IBaseService {
+public class DomDAO implements IBaseDAO {
 
     @Override
     public ArrayList<Object> getAll() {

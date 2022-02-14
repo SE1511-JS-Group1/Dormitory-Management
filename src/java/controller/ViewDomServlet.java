@@ -9,16 +9,12 @@ import dao.DomDAO;
 import dao.RoomStatusDAO;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import model.Dom;
-import model.Room;
 import model.RoomStatus;
 
 /**
@@ -39,7 +35,7 @@ public class ViewDomServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RoomStatusDAO roomStatusDAO = new RoomStatusDAO();
-        DomDAO domDAO = new DomDAO();
+        DomDAO domDAO = new DomDAO();        
         request.getSession().setAttribute("doms", domDAO.getAll());
         String domID = request.getParameter("dom") == null ? "A" : request.getParameter("dom");
         Object dom = domDAO.getOne(domID);

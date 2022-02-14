@@ -16,7 +16,7 @@ import model.Feedback;
  *
  * @author lenovo_thinkpad
  */
-public class FeedbackDAO implements IBaseService{
+public class FeedbackDAO implements IBaseDAO{
 
     @Override
     public ArrayList<Object> getAll() {

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author lenovo_thinkpad
  */
-public interface IBaseService {
+public interface IBaseDAO {
 
     /**
      * Alow user get data about a <code>Object</code> from database. Result may
