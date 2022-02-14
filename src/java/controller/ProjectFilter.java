@@ -64,7 +64,7 @@ public class ProjectFilter implements Filter {
         Account account = (Account) req.getSession().getAttribute("account");
         try {
             System.out.println(req.getServletPath());
-            String[] commonpages = {"/index.jsp", "/viewdom", "/home", "/login", "/register", "/checkaccount"};
+            String[] commonpages = {"/index.jsp", "/viewdom", "/home", "/login", "/register", "/checkaccount","/forgotpassword"};
             ArrayList<String> commonpage = new ArrayList<>();
             Collections.addAll(commonpage, commonpages);
             if (req.getServletPath().contains(".js") || req.getServletPath().contains(".css") || req.getServletPath().contains(".images") || req.getServletPath().equals("/logout")) {
