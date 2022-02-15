@@ -9,7 +9,6 @@ import dao.AccountDAO;
 import dao.BoarderDAO;
 import dao.DomManagerDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +31,21 @@ public class CheckAccountServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         String type = request.getParameter("type");
@@ -39,12 +53,13 @@ public class CheckAccountServlet extends HttpServlet {
         BoarderDAO boarderDAO = new BoarderDAO();
         DomManagerDAO domManagerDAO = new DomManagerDAO();
         AccountDAO accountDAO = new AccountDAO();
+        System.out.println(type);
         if ((type.contains("user") && accountDAO.getOne(txt) != null)
                 || (type.contains("email") && domManagerDAO.checkEmailDomManager(txt))
                 || (type.contains("phone") && domManagerDAO.checkPhoneDomManager(txt))
                 || (type.contains("email") && boarderDAO.checkEmailBoarder(txt))
                 || (type.contains("phone") && boarderDAO.checkPhoneBoarder(txt))) {
-
+            System.out.println("zoo");
             response.getWriter().print((type.contains("user") ? "Tài khoản" : type.contains("phone") ? "Số điện thoại" : "Email") + " đã được đăng ký");
         } else if (type.contains("user")) {
             if (txt.length() < 5 || txt.length() > 19) {
@@ -63,21 +78,6 @@ public class CheckAccountServlet extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -89,7 +89,7 @@ public class CheckAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("hello post");
     }
 
     /**

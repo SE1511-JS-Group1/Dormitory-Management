@@ -20,7 +20,7 @@
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <section class="h-100" style="background-color: #00ccff;">
+        <section class="h-100" style="background-color: #00FFFF;">
             <div class="container py-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col">
@@ -43,7 +43,7 @@
                                                 <input name="fullname" type="text" id="fullname" class="form-control" required placeholder="Your name"/>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="username" type="text" id="form2Example12" oninput="CheckUser('message_username',this);"  class="form-control" required placeholder="User name"/>
+                                                <input name="username" type="text" id="form2Example12" oninput="CheckAccount('message_username',this);"  class="form-control" required placeholder="User name"/>
                                                 <div class="form-outline mb-4 text-center" style="color: red;display: none;" id="message_username">
                                                     ${message_username}                                                
                                                 </div>
@@ -61,13 +61,13 @@
                                                 </div>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="email" type="email" id="form2Example15" oninput="CheckUser('message_email',this);" class="form-control" required placeholder="Your email"/>
+                                                <input name="email" type="email" id="form2Example15" oninput="CheckAccount('message_email',this);" class="form-control" required placeholder="Your email"/>
                                                 <div class="form-outline mb-4 text-center" style="color: red;display: none;" id="message_email">
                                                     ${message_email}                                                
                                                 </div>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="phone" type="text" id="form2Example16" oninput="CheckUser('message_phone',this);"  class="form-control" required placeholder="Your phone"/>
+                                                <input name="phone" type="text" id="form2Example16" oninput="CheckAccount('message_phone',this);"  class="form-control" required placeholder="Your phone"/>
                                                 <div class="form-outline mb-4 text-center" style="color: red;display: none;" id="message_phone">
                                                     ${message_phone}                                                
                                                 </div>

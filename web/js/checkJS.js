@@ -48,14 +48,14 @@ function CheckPassword(param) {
         document.getElementById('message_password').innerHTML = '';
     }
 }
-function CheckUser(type, param) {
+function CheckAccount(type, param) {
     document.getElementById('message_username').style.display = 'none';
     document.getElementById('message_password').style.display = 'none';
     document.getElementById('message_confirmpassword').style.display = 'none';
     document.getElementById('message_email').style.display = 'none';
     document.getElementById('message_phone').style.display = 'none';
-    var txt = param.value;
-    param.value = txt.trim();
+    var txt = param.value.trim();
+    param.value = txt;
     $.ajax({
         url: "/Dormitory/checkaccount",
         type: "get", //send it through get method

@@ -75,6 +75,8 @@
     <servlet>
         <servlet-name>CheckAccountServlet</servlet-name>
         <servlet-class>controller.CheckAccountServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ForgotPasswordSevrvlet</servlet-name>
         <servlet-class>controller.ForgotPasswordSevrvlet</servlet-class>
     </servlet>
@@ -125,6 +127,8 @@
     <servlet-mapping>
         <servlet-name>CheckAccountServlet</servlet-name>
         <url-pattern>/checkaccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ForgotPasswordSevrvlet</servlet-name>
         <url-pattern>/forgotpassword</url-pattern>
     </servlet-mapping>
