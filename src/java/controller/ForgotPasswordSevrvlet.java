@@ -34,7 +34,7 @@ import model.DomManager;
  * @author Admin
  */
 public class ForgotPasswordSevrvlet extends HttpServlet {
-
+    
     public String generateRandomPassword() {
         // ASCII range – alphanumeric (0-9, a-z, A-Z)
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_-";
@@ -47,7 +47,7 @@ public class ForgotPasswordSevrvlet extends HttpServlet {
             int randomIndex = random.nextInt(chars.length());
             sb.append(chars.charAt(randomIndex));
         }
-
+        
         return sb.toString();
     }
 
@@ -81,7 +81,7 @@ public class ForgotPasswordSevrvlet extends HttpServlet {
         String userName = request.getParameter("username");
         AccountDAO accountDAO = new AccountDAO();
         if (accountDAO.getOne(userName) == null) {
-
+            
             request.setAttribute("message_forgotpassword", "Tài khoản không tồn tại");
             request.setAttribute("username", userName);
             request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
@@ -116,6 +116,7 @@ public class ForgotPasswordSevrvlet extends HttpServlet {
                 message.setText("New Password: " + newpass);
 //            message.setReplyTo(message.getFrom());
                 Transport.send(message);
+                accountDAO.update(newpass, userName);
                 out.print("<html>\n"
                         + "    <head>\n"
                         + "        <title>Dormitory Management System</title>\n"
@@ -187,12 +188,12 @@ public class ForgotPasswordSevrvlet extends HttpServlet {
                         + "        </div>\n"
                         + "    </body>\n"
                         + "</html>");
-
+                
             } catch (Exception e) {
                 Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, e);
             }
         }
-
+        
     }
 
     /**
