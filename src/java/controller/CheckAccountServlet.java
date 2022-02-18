@@ -54,6 +54,7 @@ public class CheckAccountServlet extends HttpServlet {
         DomManagerDAO domManagerDAO = new DomManagerDAO();
         AccountDAO accountDAO = new AccountDAO();
         System.out.println(type);
+        System.out.println(type + ":" + txt);
         if ((type.contains("user") && accountDAO.getOne(txt) != null)
                 || (type.contains("email") && domManagerDAO.checkEmailDomManager(txt))
                 || (type.contains("phone") && domManagerDAO.checkPhoneDomManager(txt))

@@ -57,7 +57,7 @@ function CheckAccount(type, param) {
     var txt = param.value.trim();
     param.value = txt;
     $.ajax({
-        url: "/Dormitory/checkaccount",
+        url: "/Dormitoryswp.com.vn/checkaccount",
         type: "get", //send it through get method
         data: {
             type: type,
