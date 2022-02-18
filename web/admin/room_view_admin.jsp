@@ -25,41 +25,52 @@
             <c:import url="admin_header.jsp"></c:import>
             </div>
             <section class="h-100 gradient-form" style="background-color: #eee;">
+                <div style="height: 50px;"></div>
                 <div class="container py-5 h-90">
                     <div class="row d-flex justify-content-center align-items-center h-90">
-                        <div class="col-xl-10">
+                        <div class="col-xl-12">
                             <div class="card rounded-3 text-black">
                                 <div class="row g-0">
-                                    <div class="col-lg-1 d-flex align-items-center gradient-custom-2">
+                                    <div class="col-lg-2 d-flex align-items-center" style="background-color: #c9d8c9;">
                                         <div class="container">
                                             <div class="row">
-                                            <c:forEach var="dom" items="${sessionScope.doms}">
-                                                <c:choose>
-                                                    <c:when test="${dom.getDomID() eq sessionScope.dom.getDomID()}">
-                                                        <form action="viewdom" method="get">
-                                                            <input type="hidden" name="dom" value="${dom.getDomID()}"/>
-                                                            <button type="submit" class="btn btn-outline-info btn-map-field-col pushin" href="#"><h6>${dom.getDomName()}</h6></button>    
-                                                        </form>
-                                                    </c:when>
-                                                    <c:otherwise>                                                        
-                                                        <form action="viewdom" method="get">
-                                                            <input type="hidden" name="dom" value="${dom.getDomID()}"/>
-                                                            <button type="submit" class="btn btn-outline-info btn-map-field-col" href="#"><h6>${dom.getDomName()}</h6></button>   
-                                                        </form>
-                                                    </c:otherwise>
-                                                </c:choose>
+                                                <style>
+                                                    .pushin{
+                                                        margin-left: 7%;
+                                                        margin-top: 20px;
+                                                        width: 85%;
+                                                        padding: 10px;
+                                                        background-color: #879091;
+                                                        border: none;
+                                                    }
+                                                    .btn-map-field-col{
+                                                        margin-left: 7%;
+                                                        margin-top: 20px;
+                                                        width: 85%;
+                                                        padding: 10px;
+                                                        background-color: #FFFFFF;
+                                                        border: none;
+                                                    }
+                                                </style>
+                                            <c:forEach var="d" items="${doms}">
+                                                <form action="room" method="get">
+                                                    <input type="hidden" name="dom" value="${d.getDomID()}"/>
+                                                    <button type="submit" class="btn btn-outline-info ${d.getDomID() eq dom.getDomID()?'pushin':'btn-map-field-col'}"><h6>${d.getDomName()}</h6></button>    
+                                                </form>
                                             </c:forEach>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-11">
+                                <div class="col-lg-10">
                                     <div class="card-body p-md-9 mx-md-4">
                                         <div class="container map">
                                             <table style="margin: 50px auto;border: 2px solid black;" >
                                                 <tr style="border: 2px solid black;">
                                                     <%!int i = 0;%>
-                                                    <c:forEach var="roomStatus" items="${sessionScope.mapdom}">
-                                                        <!--sessionScope.mapdom.get(room)*10-->
+                                                    <td>
+                                                        <h6>&ensp;Floor 5</h6>
+                                                    </td> 
+                                                    <c:forEach var="roomStatus" items="${mapdom}">
                                                         <c:if test="<%=i % 2 == 0%>">
                                                             <td>
                                                             </c:if>
@@ -75,13 +86,18 @@
                                                         </c:if>
                                                         <c:if test="<%= i % 16 == 0%>">
                                                         </tr><tr style="border: 2px solid black;">
+                                                            <c:if test="<%= i % 80 != 0%>">
+                                                                <td>
+                                                                    <h6>&ensp;Floor ${roomStatus.getRoom().getFloor()-1}</h6>
+                                                                </td> 
+                                                            </c:if>
                                                         </c:if>
                                                     </c:forEach>
                                                 </tr>
                                             </table>
                                             <!-- Modal -->
                                             <div class="modal fade" id="domInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
+                                                <div class="modal-dialog" style="margin-top: 15%;">
                                                     <div class="modal-content" style="z-index: 3;">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">Room Information</h5>
@@ -139,6 +155,9 @@
                 </div>
             </div>
         </section>
+        <div style="left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
+            <c:import url="admin_footer.jsp"></c:import>
+        </div>
         <script src="../js/checkJS.js"></script>
     </body>
 </html>

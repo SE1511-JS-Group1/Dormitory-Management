@@ -9,6 +9,7 @@ import dao.AccountDAO;
 import dao.BoarderDAO;
 import dao.DomManagerDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,20 +26,6 @@ import model.ManagerRegency;
  * @author lenovo_thinkpad
  */
 public class RegisterServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -81,21 +68,23 @@ public class RegisterServlet extends HttpServlet {
         Date dateofbirth = Date.valueOf(request.getParameter("dateofbirth"));
         String position = request.getParameter("position");
         if (position.equalsIgnoreCase("teacher") || position.equalsIgnoreCase("student")) {
-
+            System.out.println("boarder");
             Jobs job = Jobs.valueOf(position);
             account = new Account(userName, password, 3);
             Boarder boarder = new Boarder(0, fullName, dateofbirth, gender, email, phone, job, account);
             accountDAO.insert(account);
             boarderDAO.insert(boarder);
             System.out.println(fullName + "," + userName + "," + password + "," + email + "," + phone + "," + gender + "," + job + "," + dateofbirth);
+            request.getRequestDispatcher("login?username=" + userName + "&&password=" + password).forward(request, response);
         } else {
+            System.out.println("staff");
             ManagerRegency regency = ManagerRegency.valueOf(position);
             account = new Account(userName, password, 2);
             DomManager domManager = new DomManager(0, fullName, gender, dateofbirth, email, phone, regency, account);
             accountDAO.insert(account);
             domManagerDAO.insert(domManager);
+            request.getRequestDispatcher("waiting.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("login?username=" + userName + "&&password=" + password).forward(request, response);
     }
 
     /**

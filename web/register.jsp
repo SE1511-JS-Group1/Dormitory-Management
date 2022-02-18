@@ -20,7 +20,7 @@
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <section class="h-100" style="background-color: #00FFFF;">
+        <section class="h-100" style="background-color: #eee;">
             <div class="container py-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col">

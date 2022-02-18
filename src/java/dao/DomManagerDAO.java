@@ -54,7 +54,7 @@ public class DomManagerDAO implements IBaseDAO {
     }
 
     @Override
-    public Object getOne(Object key) { //get về 1 object dom manager thông qua dommanager id
+    public Object getOne(Object key) { //get về 1 object dom manager thông qua dommanager username
         Object domManager = new DomManager();
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
@@ -117,16 +117,16 @@ public class DomManagerDAO implements IBaseDAO {
     }
 
     @Override
-    public void delete(Object object) {
-        DomManager deleted = (DomManager) object;
+    public void delete(Object key) {
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
         ResultSet Result = null;
-        String sql = "Delete DomManager where ManagerID = ?";
+        DomManager domManager = (DomManager) getOne(key);
+        String sql = "Delete DomManager where UserName = ?";
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            Statement.setInt(1, deleted.getManagerID());
+            Statement.setString(1, (String) key);
             Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -224,4 +224,58 @@ public class DomManagerDAO implements IBaseDAO {
         return count > 0;
     }
 
+    public ArrayList<DomManager> getNotAuthorizedStaff() {
+        ArrayList<DomManager> notAuthorized = new ArrayList<>();
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "SELECT * FROM DomManager where Authorize = 0";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            AccountDAO accountDAO = new AccountDAO();
+            while (Result.next()) {
+                DomManager domManager = new DomManager(Result.getInt("ManagerID"), // tạo mợi object của mình và bắt add vào list
+                        Result.getString("ManagerName"),
+                        Result.getBoolean("Gender"),
+                        Result.getDate("DOB"),
+                        Result.getString("Email"),
+                        Result.getString("PhoneNumber"),
+                        ManagerRegency.valueOf(Result.getString("Regency")),
+                        (Account) accountDAO.getOne(Result.getString("UserName")));
+                notAuthorized.add(domManager); // add vào list
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
+        return notAuthorized;
+    }
+
+    public void makeAuthorize(String username) {
+        java.sql.Connection Connect = null;
+        PreparedStatement Statement = null;
+        ResultSet Result = null;
+        String sql = "Update DomManager set \n"
+                + "Authorize=1 \n"
+                + "where UserName = ?";
+        try {
+            Connect = Connection.getConnection(); // Open 1 connect với Database của mình
+            Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
+
+            Statement.setString(1, username);
+            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            Connection.closeResultSet(Result);
+            Connection.closePreparedStatement(Statement);
+            Connection.closeConnection(Connect);
+        }
+    }
 }

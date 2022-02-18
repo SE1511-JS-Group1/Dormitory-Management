@@ -56,7 +56,7 @@ public class AccountDAO extends Connection implements IBaseDAO {
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            Statement.setString(1, (String)key);
+            Statement.setString(1, (String) key);
             Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (Result.next()) {
@@ -105,11 +105,33 @@ public class AccountDAO extends Connection implements IBaseDAO {
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
         ResultSet Result = null;
-        String sql = "Delete Account where UserName = ?";
+        String sql = "Delete [Transaction] where WalletID = (select WalletID from [Wallet] where UserName = ?) "
+                + "Delete [Wallet] where UserName = ? "
+                + "Delete [Notices] where ManagerID = (select ManagerID from [DomManager] where UserName = ?) "
+                + "Delete [Manager] where ManagerID = (select ManagerID from [DomManager] where UserName = ?) "
+                + "Delete [Violation] where ManagerID = (select ManagerID from [DomManager] where UserName = ?)"
+                + "Delete [DomManager] where UserName = ? "
+                + "Delete [RoomFeeBill] where BoarderID = (select BoarderID from [Boarder] where UserName = ?) "
+                + "Delete [Feedback] where BoarderID = (select BoarderID from [Boarder] where UserName = ?) "
+                + "Delete [BoardingInformation] where BoarderID = (select BoarderID from [Boarder] where UserName = ?) "
+                + "Delete [Notices] where BoarderID = (select BoarderID from [Boarder] where UserName = ?) "
+                + "Delete [Boarder] where UserName = ? "
+                + "Delete [Account] where UserName = ? ";
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
             Statement.setString(1, deleted.getUserName());
+            Statement.setString(2, deleted.getUserName());
+            Statement.setString(3, deleted.getUserName());
+            Statement.setString(4, deleted.getUserName());
+            Statement.setString(5, deleted.getUserName());
+            Statement.setString(6, deleted.getUserName());
+            Statement.setString(7, deleted.getUserName());
+            Statement.setString(8, deleted.getUserName());
+            Statement.setString(9, deleted.getUserName());
+            Statement.setString(10, deleted.getUserName());
+            Statement.setString(11, deleted.getUserName());
+            Statement.setString(12, deleted.getUserName());
             Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -129,8 +151,8 @@ public class AccountDAO extends Connection implements IBaseDAO {
         try {
             Connect = Connection.getConnection(); // Open 1 connect với Database của mình
             Statement = Connect.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            Statement.setString(1, (String)object);
-            Statement.setString(2, (String)key);
+            Statement.setString(1, (String) object);
+            Statement.setString(2, (String) key);
             Statement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -140,6 +162,5 @@ public class AccountDAO extends Connection implements IBaseDAO {
             Connection.closeConnection(Connect);
         }
     }
-    
 
 }

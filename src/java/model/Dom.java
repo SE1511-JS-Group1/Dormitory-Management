@@ -40,9 +40,9 @@ public class Dom {
      * @param domName<code>java.lang.String</code> object. <code>Dom</code>'s
      * name
      */
-    public Dom(String name, String position) {
-        this.domID = name;
-        this.domName = position;
+    public Dom(String domID, String domName) {
+        this.domID = domID;
+        this.domName = domName;
     }
 
     public String getDomID() {

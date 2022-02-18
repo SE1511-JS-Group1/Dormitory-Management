@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : lenovo_thinkpad
 */
 .gradient-custom-2 {
-    background: linear-gradient(to right, #394786, #00ffff, #268FC9, #00ccff);
+    background-color: #ccccff;
 }
 .page-field{
     text-align: center;
@@ -22,19 +22,6 @@ and open the template in the editor.
     width: 100%;
     padding: 20px;
     color: #394786;
-}
-.btn-map-field-col{
-    border-bottom-right-radius: 50px;
-    border-top-right-radius: 50px;
-    margin-left: 7%;
-    margin-top: 20px;
-    width: 120%;
-    padding: 10px;
-    color: #394786;
-}
-.pushin{
-    background-color: #00ccff;
-    border: 2px solid #00ffff;
 }
 .left{
     float: left;
@@ -84,5 +71,8 @@ and open the template in the editor.
 }
 .map-7{
     background-color: #000000;
+}
+.menu-left{
+    background-color: #ccccff;
 }
 
