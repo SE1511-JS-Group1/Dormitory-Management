@@ -9,7 +9,6 @@ import dao.AccountDAO;
 import dao.BoarderDAO;
 import dao.DomManagerDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

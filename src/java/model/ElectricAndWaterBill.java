@@ -52,7 +52,7 @@ public class ElectricAndWaterBill {
      * <code>ElectricAndWaterBill</code>'s
      * @param waterAmount<code>int</code> object. the number of countries
      * <code>Boarder</code> used in the last month
-     * @param eletricAmount <code>int/code> object. the number that
+     * @param eletricAmount <code>int</code> object. the number that
      * <code>Boarder</code> used in the last month
      * @param status<code>int</code> object. if
      * <code>true</code> then <code>ElectricAndWaterBill</code> has been paid

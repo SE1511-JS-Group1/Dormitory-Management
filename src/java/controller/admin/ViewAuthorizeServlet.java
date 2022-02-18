@@ -11,7 +11,6 @@ import dao.DomDAO;
 import dao.DomManagerDAO;
 import dao.ManagementDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -55,6 +54,7 @@ public class ViewAuthorizeServlet extends HttpServlet {
         DomDAO domDAO = new DomDAO();
         ArrayList<DomManager> notAuthorized = domManagerDAO.getNotAuthorizedStaff();
         request.setAttribute("doms", domDAO.getAll());
+        request.setAttribute("page", "user");
         request.setAttribute("notAuthorized", notAuthorized);
         request.setAttribute("domManagerDAO", domManagerDAO);
         request.getRequestDispatcher("authorize_view_admin.jsp").forward(request, response);

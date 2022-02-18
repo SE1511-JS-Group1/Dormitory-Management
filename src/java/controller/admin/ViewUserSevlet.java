@@ -10,7 +10,6 @@ import dao.AccountDAO;
 import dao.BoarderDAO;
 import dao.DomManagerDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -29,9 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import model.Boarder;
-import model.Dom;
 import model.DomManager;
-import model.Management;
 
 /**
  *
@@ -55,6 +52,7 @@ public class ViewUserSevlet extends HttpServlet {
         BoarderDAO boarderDAO = new BoarderDAO();
         DomManagerDAO domManagerDAO = new DomManagerDAO();
         ArrayList<Object> accounts = accountDAO.getAll();
+        request.setAttribute("page", "user");
         request.setAttribute("accounts", accounts);
         request.setAttribute("boarderDAO", boarderDAO);
         request.setAttribute("domManagerDAO", domManagerDAO);

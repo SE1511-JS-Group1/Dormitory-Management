@@ -36,12 +36,12 @@ public class Account {
      * PassWorld, Role.
      * <br>
      *
-     * @param UserName <code>java.lang.String</code> object
+     * @param userName <code>java.lang.String</code> object
      * <code>userName</code>in Account of Boarder is used to identify a boarder
      * in the dormitory system.
-     * @param PassWorld<code>java.lang.String</code> password of.
+     * @param passWord<code>java.lang.String</code> password of.
      * <code>Account</code>
-     * @param Role<code>int</code> when creating and logging in
+     * @param role<code>int</code> when creating and logging in
      * <code>Account</code> will be authorized to use the respective rights and
      * functions.
      */
