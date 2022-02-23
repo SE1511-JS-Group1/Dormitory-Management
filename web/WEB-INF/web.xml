@@ -61,10 +61,6 @@
         <servlet-class>controller.staff.HomeStaffServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewDomServlet</servlet-name>
-        <servlet-class>controller.ViewDomServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ViewDomAdminServlet</servlet-name>
         <servlet-class>controller.admin.ViewRoomServlet</servlet-class>
     </servlet>
@@ -83,6 +79,10 @@
     <servlet>
         <servlet-name>ViewAuthorizeServlet</servlet-name>
         <servlet-class>controller.admin.ViewAuthorizeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewDomServlet</servlet-name>
+        <servlet-class>controller.admin.ViewDomServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -117,10 +117,6 @@
         <url-pattern>/staff/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewDomServlet</servlet-name>
-        <url-pattern>/viewdom</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ViewDomAdminServlet</servlet-name>
         <url-pattern>/admin/room</url-pattern>
     </servlet-mapping>
@@ -139,6 +135,10 @@
     <servlet-mapping>
         <servlet-name>ViewAuthorizeServlet</servlet-name>
         <url-pattern>/admin/authorize</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewDomServlet</servlet-name>
+        <url-pattern>/admin/dom</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

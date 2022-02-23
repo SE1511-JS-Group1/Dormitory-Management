@@ -1,15 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Controller Admin
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-23      2.0                 DucHT           Update code
  */
 package controller.admin;
 
 import controller.ForgotPasswordSevrvlet;
-import dao.AccountDAO;
-import dao.BoarderDAO;
-import dao.DomManagerDAO;
+import dao.impl.AccountDAO;
+import dao.impl.BoarderDAO;
+import dao.impl.DomManagerDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -48,15 +53,19 @@ public class ViewUserSevlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AccountDAO accountDAO = new AccountDAO();
-        BoarderDAO boarderDAO = new BoarderDAO();
-        DomManagerDAO domManagerDAO = new DomManagerDAO();
-        ArrayList<Object> accounts = accountDAO.getAll();
-        request.setAttribute("page", "user");
-        request.setAttribute("accounts", accounts);
-        request.setAttribute("boarderDAO", boarderDAO);
-        request.setAttribute("domManagerDAO", domManagerDAO);
-        request.getRequestDispatcher("user_view_admin.jsp").forward(request, response);
+        try {
+            AccountDAO accountDAO = new AccountDAO();
+            BoarderDAO boarderDAO = new BoarderDAO();
+            DomManagerDAO domManagerDAO = new DomManagerDAO();
+            ArrayList<Object> accounts = accountDAO.getAll();
+            request.setAttribute("page", "user");
+            request.setAttribute("accounts", accounts);
+            request.setAttribute("boarderDAO", boarderDAO);
+            request.setAttribute("domManagerDAO", domManagerDAO);
+            request.getRequestDispatcher("user_view_admin.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewUserSevlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,54 +79,59 @@ public class ViewUserSevlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        AccountDAO accountDAO = new AccountDAO();
-        Account account = (Account) accountDAO.getOne(username);
-        String email;
-        String name;
-        if (account.getRole() == 2) {
-            DomManagerDAO domManagerDAO = new DomManagerDAO();
-            DomManager domManager = (DomManager) domManagerDAO.getOne(username);
-            email = domManager.getEmail();
-            name = domManager.getName();
-        } else {
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder) boarderDAO.getOne(username);
-            email = boarder.getEmail();
-            name = boarder.getBoarderName();
-        }
-        accountDAO.delete(account);
-        System.out.println("Xoas thanh cong");
         try {
-            Properties properties = new Properties();
-            properties.put("mail.smtp.host", "smtp.gmail.com");
-            properties.put("mail.smtp.port", "587");
-            properties.put("mail.smtp.auth", "true");
-            properties.put("mail.smtp.starttls.enable", "true");
-            Session session = Session.getInstance(properties, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    String username = "dormitory.swp@gmail.com";
-                    String password = "dormitory1511";
-                    return new PasswordAuthentication(username, password);
-                }
-            });
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("dormitory.swp@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Remove from system");
-            message.setText("Hello " + name + "\n"
-                    + "We're sorry, your account has been removed from the system.\n"
-                    + "You can re-register to continue accessing"
-            );
-            //            message.setReplyTo(message.getFrom());
-            Transport.send(message);
-
-        } catch (MessagingException e) {
-            Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, e);
+            String username = request.getParameter("username");
+            AccountDAO accountDAO = new AccountDAO();
+            Account account = (Account) accountDAO.getOne(username);
+            String email;
+            String name;
+            if (account.getRole() == 2) {
+                DomManagerDAO domManagerDAO = new DomManagerDAO();
+                DomManager domManager = (DomManager) domManagerDAO.getOne(username);
+                email = domManager.getEmail();
+                name = domManager.getName();
+            } else {
+                BoarderDAO boarderDAO = new BoarderDAO();
+                Boarder boarder = (Boarder) boarderDAO.getOne(username);
+                email = boarder.getEmail();
+                name = boarder.getBoarderName();
+            }
+            accountDAO.delete(account);
+            System.out.println("Xoas thanh cong");
+            try {
+                Properties properties = new Properties();
+                properties.put("mail.smtp.host", "smtp.gmail.com");
+                properties.put("mail.smtp.port", "587");
+                properties.put("mail.smtp.auth", "true");
+                properties.put("mail.smtp.starttls.enable", "true");
+                Session session = Session.getInstance(properties, new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        String username = "dormitory.swp@gmail.com";
+                        String password = "dormitory1511";
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("dormitory.swp@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+                message.setSubject("Remove from system");
+                message.setText("Hello " + name + "\n"
+                        + "We're sorry, your account has been removed from the system.\n"
+                        + "You can re-register to continue accessing"
+                );
+                //            message.setReplyTo(message.getFrom());
+                Transport.send(message);
+                
+            } catch (MessagingException e) {
+                Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, e);
+            }
+            
+            doGet(request, response);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewUserSevlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        doGet(request, response);
 
     }
 

@@ -59,6 +59,5 @@
         <div style="background-color: #FFFFFF;position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
             <c:import url="footer.jsp"></c:import>
         </div>
-
     </body>
 </html>

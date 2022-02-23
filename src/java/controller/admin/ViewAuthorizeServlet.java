@@ -1,16 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Controller Admin
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-23      2.0                 DucHT           Update code
  */
 package controller.admin;
 
 import controller.ForgotPasswordSevrvlet;
-import dao.AccountDAO;
-import dao.DomDAO;
-import dao.DomManagerDAO;
-import dao.ManagementDAO;
+import dao.impl.AccountDAO;
+import dao.impl.DomDAO;
+import dao.impl.DomManagerDAO;
+import dao.impl.ManagementDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -49,15 +54,19 @@ public class ViewAuthorizeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        AccountDAO accountDAO = new AccountDAO();
-        DomManagerDAO domManagerDAO = new DomManagerDAO();
-        DomDAO domDAO = new DomDAO();
-        ArrayList<DomManager> notAuthorized = domManagerDAO.getNotAuthorizedStaff();
-        request.setAttribute("doms", domDAO.getAll());
-        request.setAttribute("page", "user");
-        request.setAttribute("notAuthorized", notAuthorized);
-        request.setAttribute("domManagerDAO", domManagerDAO);
-        request.getRequestDispatcher("authorize_view_admin.jsp").forward(request, response);
+        try {
+            AccountDAO accountDAO = new AccountDAO();
+            DomManagerDAO domManagerDAO = new DomManagerDAO();
+            DomDAO domDAO = new DomDAO();
+            ArrayList<DomManager> notAuthorized = domManagerDAO.getNotAuthorizedStaff();
+            request.setAttribute("doms", domDAO.getAll());
+            request.setAttribute("page", "user");
+            request.setAttribute("notAuthorized", notAuthorized);
+            request.setAttribute("domManagerDAO", domManagerDAO);
+            request.getRequestDispatcher("authorize_view_admin.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewAuthorizeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -71,58 +80,62 @@ public class ViewAuthorizeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("user");
-        String domId = request.getParameter("dom");
-        response.getWriter().print(username + "," + domId);
-        AccountDAO accountDAO = new AccountDAO();
-        DomManagerDAO domManagerDAO = new DomManagerDAO();
-        ManagementDAO managementDAO = new ManagementDAO();
-        DomDAO domDAO = new DomDAO();
-        DomManager domManager = (DomManager) domManagerDAO.getOne(username);
         try {
-            Properties properties = new Properties();
-            properties.put("mail.smtp.host", "smtp.gmail.com");
-            properties.put("mail.smtp.port", "587");
-            properties.put("mail.smtp.auth", "true");
-            properties.put("mail.smtp.starttls.enable", "true");
-            Session session = Session.getInstance(properties, new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    String username = "dormitory.swp@gmail.com";
-                    String password = "dormitory1511";
-                    return new PasswordAuthentication(username, password);
+            String username = request.getParameter("user");
+            String domId = request.getParameter("dom");
+            response.getWriter().print(username + "," + domId);
+            AccountDAO accountDAO = new AccountDAO();
+            DomManagerDAO domManagerDAO = new DomManagerDAO();
+            ManagementDAO managementDAO = new ManagementDAO();
+            DomDAO domDAO = new DomDAO();
+            DomManager domManager = (DomManager) domManagerDAO.getOne(username);
+            try {
+                Properties properties = new Properties();
+                properties.put("mail.smtp.host", "smtp.gmail.com");
+                properties.put("mail.smtp.port", "587");
+                properties.put("mail.smtp.auth", "true");
+                properties.put("mail.smtp.starttls.enable", "true");
+                Session session = Session.getInstance(properties, new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        String username = "dormitory.swp@gmail.com";
+                        String password = "dormitory1511";
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+                String email = domManager.getEmail();
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("dormitory.swp@gmail.com"));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+                if (domId == null) {
+                    // delete this staff in data
+                    domManagerDAO.delete(username);
+                    accountDAO.delete(username);
+                    message.setSubject("Deny staff authorization");
+                    message.setText("Hello " + domManager.getName() + "\n"
+                            + "We regret to inform that your authorization request was not accepted.\n"
+                    );
+                } else {
+                    domManagerDAO.makeAuthorize(username);
+                    Dom dom = (Dom) domDAO.getOne(domId);
+                    managementDAO.insert(new Management(dom, domManager));
+                    message.setSubject("Accept staff authorization");
+                    message.setText("Hello " + domManager.getName() + "\n"
+                            + "Welcome to Dormitory Management System!\n"
+                            + "You have been authorized as an " + domManager.getRegency() + " for the system, your current position will be " + dom.getDomName() + ".\n"
+                            + "Now, You can access the system to work!");
                 }
-            });
-            String email = domManager.getEmail();
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("dormitory.swp@gmail.com"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            if (domId == null) {
-                // delete this staff in data
-                domManagerDAO.delete(username);
-                accountDAO.delete(username);
-                message.setSubject("Deny staff authorization");
-                message.setText("Hello " + domManager.getName() + "\n"
-                        + "We regret to inform that your authorization request was not accepted.\n"
-                );
-            } else {
-                domManagerDAO.makeAuthorize(username);
-                Dom dom = (Dom) domDAO.getOne(domId);
-                managementDAO.insert(new Management(dom, domManager));
-                message.setSubject("Accept staff authorization");
-                message.setText("Hello " + domManager.getName() + "\n"
-                        + "Welcome to Dormitory Management System!\n"
-                        + "You have been authorized as an " + domManager.getRegency() + " for the system, your current position will be " + dom.getDomName() + ".\n"
-                        + "Now, You can access the system to work!");
-            }
 //            message.setReplyTo(message.getFrom());
-            Transport.send(message);
+                Transport.send(message);
 
-        } catch (MessagingException e) {
-            Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, e);
+            } catch (MessagingException e) {
+                Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+            doGet(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewAuthorizeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        doGet(request, response);
     }
 
     /**

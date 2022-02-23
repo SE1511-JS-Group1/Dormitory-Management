@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class Connection {
 
-    public static java.sql.Connection getConnection() {
+    public java.sql.Connection getConnection() {
         java.sql.Connection connection = null; // create connection
         String connectionUrl = "jdbc:sqlserver://" + ISQLContext.HOSTNAME + ":" + ISQLContext.PORT + ";"
                 + "databaseName=" + ISQLContext.DATABASENAME + ";integratedSecurity=" + ISQLContext.INTEGRATEDSECURITY + ";";
@@ -37,16 +37,7 @@ public class Connection {
         return connection;
     }
 
-    public static void main(String[] args) throws SQLException {
-        java.sql.Connection con = Connection.getConnection();
-        if (con != null) {
-            System.out.println("You made it, take control your database now!");
-        } else {
-            System.out.println("Failed to make connection!");
-        }
-    }
-
-    public static void closeConnection(java.sql.Connection con) { // đóng kết nối
+    public void closeConnection(java.sql.Connection con) { // đóng kết nối
         if (con != null) {
             try {
                 con.close();
@@ -61,7 +52,7 @@ public class Connection {
      *
      * @param ps
      */
-    public static void closePreparedStatement(PreparedStatement ps) { // đóng biên dịch sql
+    public void closePreparedStatement(PreparedStatement ps) { // đóng biên dịch sql
         if (ps != null) {
             try {
                 ps.close();
@@ -76,7 +67,7 @@ public class Connection {
      *
      * @param rs
      */
-    public static void closeResultSet(ResultSet rs) {
+    public void closeResultSet(ResultSet rs) {
         if (rs != null) {
             try {
                 rs.close();

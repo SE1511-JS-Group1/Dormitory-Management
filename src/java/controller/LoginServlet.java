@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Controller Common
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-23      2.0                 DucHT           Update code
  */
 package controller;
 
@@ -11,7 +15,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import dao.AccountDAO;
+import dao.impl.AccountDAO;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Account;
 
 /**
@@ -47,19 +54,24 @@ public class LoginServlet extends HttpServlet {
                 }
             }
             if (!username.isEmpty() && !password.isEmpty()) {
-                AccountDAO accountDAO = new AccountDAO();
-                Account account = (Account) accountDAO.getOne(username);
-                request.getSession().setAttribute("account", account);
-                switch (account.getRole()) {
-                    case 1:
-                        response.sendRedirect("admin/home");
-                        break;
-                    case 2:
-                        response.sendRedirect("staff/home");
-                        break;
-                    case 3:
-                        response.sendRedirect("boarder/home");
-                        break;
+                try {
+                    AccountDAO accountDAO = new AccountDAO();
+                    Account account;
+                    account = (Account) accountDAO.getOne(username);
+                    request.getSession().setAttribute("account", account);
+                    switch (account.getRole()) {
+                        case 1:
+                            response.sendRedirect("admin/home");
+                            break;
+                        case 2:
+                            response.sendRedirect("staff/home");
+                            break;
+                        case 3:
+                            response.sendRedirect("boarder/home");
+                            break;
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else if (request.getSession().getAttribute("account") != null) {
@@ -91,18 +103,22 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        AccountDAO accountDAO = new AccountDAO();
-        Account account = (Account) accountDAO.getOne(username);
-        if (account != null && account.getPassWord().equals(password)) {
-            request.getSession().setAttribute("account", account);
-            request.getRequestDispatcher("/home").forward(request, response);
-        } else {
-            request.setAttribute("message_login", "Sai tên đăng nhập hoặc mật khẩu!");
-            request.setAttribute("username", username);
-            request.setAttribute("password", password);
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+        try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            AccountDAO accountDAO = new AccountDAO();
+            Account account = (Account) accountDAO.getOne(username);
+            if (account != null && account.getPassWord().equals(password)) {
+                request.getSession().setAttribute("account", account);
+                request.getRequestDispatcher("/home").forward(request, response);
+            } else {
+                request.setAttribute("message_login", "Sai tên đăng nhập hoặc mật khẩu!");
+                request.setAttribute("username", username);
+                request.setAttribute("password", password);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

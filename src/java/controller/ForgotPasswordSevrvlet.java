@@ -1,16 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Controller Common
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-23      2.0                 DucHT           Update code
  */
 package controller;
 
-import dao.AccountDAO;
-import dao.BoarderDAO;
-import dao.DomManagerDAO;
+import dao.impl.AccountDAO;
+import dao.impl.BoarderDAO;
+import dao.impl.DomManagerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.SecureRandom;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +39,7 @@ import model.DomManager;
  * @author Admin
  */
 public class ForgotPasswordSevrvlet extends HttpServlet {
-    
+
     public String generateRandomPassword() {
         // ASCII range – alphanumeric (0-9, a-z, A-Z)
         final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_-";
@@ -47,7 +52,7 @@ public class ForgotPasswordSevrvlet extends HttpServlet {
             int randomIndex = random.nextInt(chars.length());
             sb.append(chars.charAt(randomIndex));
         }
-        
+
         return sb.toString();
     }
 
@@ -80,50 +85,54 @@ public class ForgotPasswordSevrvlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String userName = request.getParameter("username");
         AccountDAO accountDAO = new AccountDAO();
-        if (accountDAO.getOne(userName) == null) {
-            
-            request.setAttribute("message_forgotpassword", "Tài khoản không tồn tại");
-            request.setAttribute("username", userName);
-            request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
-        } else {
-            try (PrintWriter out = response.getWriter()) {
-                Properties properties = new Properties();
-                properties.put("mail.smtp.host", "smtp.gmail.com");
-                properties.put("mail.smtp.port", "587");
-                properties.put("mail.smtp.auth", "true");
-                properties.put("mail.smtp.starttls.enable", "true");
-                Session session = Session.getInstance(properties, new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        String username = "dormitory.swp@gmail.com";
-                        String password = "dormitory1511";
-                        return new PasswordAuthentication(username, password);
+        try {
+            if (accountDAO.getOne(userName) == null) {
+
+                request.setAttribute("message_forgotpassword", "Tài khoản không tồn tại");
+                request.setAttribute("username", userName);
+                request.getRequestDispatcher("forgotpassword.jsp").forward(request, response);
+            } else {
+                try (PrintWriter out = response.getWriter()) {
+                    Properties properties = new Properties();
+                    properties.put("mail.smtp.host", "smtp.gmail.com");
+                    properties.put("mail.smtp.port", "587");
+                    properties.put("mail.smtp.auth", "true");
+                    properties.put("mail.smtp.starttls.enable", "true");
+                    Session session = Session.getInstance(properties, new Authenticator() {
+                        @Override
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            String username = "dormitory.swp@gmail.com";
+                            String password = "dormitory1511";
+                            return new PasswordAuthentication(username, password);
+                        }
+                    });
+                    DomManagerDAO domManagerDAO = new DomManagerDAO();
+                    BoarderDAO boarderDAO = new BoarderDAO();
+                    String email = null;
+                    if (((Account) accountDAO.getOne(userName)).getRole() == 2) {
+                        email = ((DomManager) domManagerDAO.getOne(userName)).getEmail();
+                    } else {
+                        email = ((Boarder) boarderDAO.getOne(userName)).getEmail();
                     }
-                });
-                DomManagerDAO domManagerDAO = new DomManagerDAO();
-                BoarderDAO boarderDAO = new BoarderDAO();
-                String email = null;
-                if (((Account) accountDAO.getOne(userName)).getRole() == 2) {
-                    email = ((DomManager) domManagerDAO.getOne(userName)).getEmail();
-                } else {
-                    email = ((Boarder) boarderDAO.getOne(userName)).getEmail();
-                }
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("dormitory.swp@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-                message.setSubject("Reset password");
-                String newpass = generateRandomPassword();
-                message.setText("New Password: " + newpass);
+                    Message message = new MimeMessage(session);
+                    message.setFrom(new InternetAddress("dormitory.swp@gmail.com"));
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+                    message.setSubject("Reset password");
+                    String newpass = generateRandomPassword();
+                    message.setText("New Password: " + newpass);
 //            message.setReplyTo(message.getFrom());
-                Transport.send(message);
-                accountDAO.update(newpass, userName);
-                request.getRequestDispatcher("waiting.jsp").forward(request, response);
-                
-            } catch (Exception e) {
-                Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, e);
+                    Transport.send(message);
+                    accountDAO.update(newpass, userName);
+                    request.getRequestDispatcher("waiting.jsp").forward(request, response);
+
+                } catch (Exception e) {
+                    Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, e);
+                }
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**

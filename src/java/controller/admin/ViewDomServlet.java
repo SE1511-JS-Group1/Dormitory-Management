@@ -1,13 +1,13 @@
 /*
  * Copyright(C) 2022, FPT University.
  * Dormitory Management System:
- * Controller Staff
+ * Controller Admin
  *
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
  * 2022-01-23      2.0                 DucHT           Update code
  */
-package controller.staff;
+package controller.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -17,23 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author lenovo_thinkpad
+ * @author Dell
  */
-public class HomeStaffServlet extends HttpServlet {
+public class ViewDomServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.getRequestDispatcher("home_staff.jsp").forward(request, response);
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -47,7 +34,8 @@ public class HomeStaffServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        request.setAttribute("page", "dom");
+        request.getRequestDispatcher("dom_view_admin.jsp").forward(request, response);
     }
 
     /**
@@ -61,7 +49,6 @@ public class HomeStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

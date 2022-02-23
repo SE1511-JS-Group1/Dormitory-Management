@@ -1,14 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Controller Admin
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-23      2.0                 DucHT           Update code
  */
 package controller.admin;
 
-import dao.DomDAO;
-import dao.RoomStatusDAO;
+import dao.impl.DomDAO;
+import dao.impl.RoomStatusDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,16 +40,20 @@ public class ViewRoomServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RoomStatusDAO roomStatusDAO = new RoomStatusDAO();
-        DomDAO domDAO = new DomDAO();
-        request.setAttribute("doms", domDAO.getAll());
-        String domID = request.getParameter("dom") == null ? "A" : request.getParameter("dom");
-        Object dom = domDAO.getOne(domID);
-        ArrayList<RoomStatus> map = roomStatusDAO.getDomStatus((Dom) dom);
-        request.setAttribute("dom", dom);
-        request.setAttribute("mapdom", map);
-        request.setAttribute("page", "room");
-        request.getRequestDispatcher("room_view_admin.jsp").forward(request, response);
+        try {
+            RoomStatusDAO roomStatusDAO = new RoomStatusDAO();
+            DomDAO domDAO = new DomDAO();
+            request.setAttribute("doms", domDAO.getAll());
+            String domID = request.getParameter("dom") == null ? "A" : request.getParameter("dom");
+            Object dom = domDAO.getOne(domID);
+            ArrayList<RoomStatus> map = roomStatusDAO.getDomStatus((Dom) dom);
+            request.setAttribute("dom", dom);
+            request.setAttribute("mapdom", map);
+            request.setAttribute("page", "room");
+            request.getRequestDispatcher("room_view_admin.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

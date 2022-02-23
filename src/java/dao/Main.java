@@ -1,12 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * DAO Implement
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-23      1.2                 DucHT           Update code
  */
 package dao;
 
-import java.sql.Date;
-import model.*;
+import dao.impl.BoarderDAO;
+import dao.impl.DomManagerDAO;
+import dao.impl.AccountDAO;
+import java.sql.SQLException;
 
 /**
  *
@@ -14,7 +20,7 @@ import model.*;
  */
 public class Main {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException{
         AccountDAO accountDAO = new AccountDAO();
         DomManagerDAO domManagerDAO = new DomManagerDAO();
         BoarderDAO bdao = new BoarderDAO();

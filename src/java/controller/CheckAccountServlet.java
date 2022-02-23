@@ -1,14 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Controller Common
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-23      2.0                 DucHT           Update code
  */
 package controller;
 
-import dao.AccountDAO;
-import dao.BoarderDAO;
-import dao.DomManagerDAO;
+import dao.impl.AccountDAO;
+import dao.impl.BoarderDAO;
+import dao.impl.DomManagerDAO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,27 +62,31 @@ public class CheckAccountServlet extends HttpServlet {
         AccountDAO accountDAO = new AccountDAO();
         System.out.println(type);
         System.out.println(type + ":" + txt);
-        if ((type.contains("user") && accountDAO.getOne(txt) != null)
-                || (type.contains("email") && domManagerDAO.checkEmailDomManager(txt))
-                || (type.contains("phone") && domManagerDAO.checkPhoneDomManager(txt))
-                || (type.contains("email") && boarderDAO.checkEmailBoarder(txt))
-                || (type.contains("phone") && boarderDAO.checkPhoneBoarder(txt))) {
-            System.out.println("zoo");
-            response.getWriter().print((type.contains("user") ? "Tài khoản" : type.contains("phone") ? "Số điện thoại" : "Email") + " đã được đăng ký");
-        } else if (type.contains("user")) {
-            if (txt.length() < 5 || txt.length() > 19) {
-                response.getWriter().print("Tên đăng nhập phải trong khoảng từ 5-19 ký tự");
+        try {
+            if ((type.contains("user") && accountDAO.getOne(txt) != null)
+                    || (type.contains("email") && domManagerDAO.checkEmailDomManager(txt))
+                    || (type.contains("phone") && domManagerDAO.checkPhoneDomManager(txt))
+                    || (type.contains("email") && boarderDAO.checkEmailBoarder(txt))
+                    || (type.contains("phone") && boarderDAO.checkPhoneBoarder(txt))) {
+                System.out.println("zoo");
+                response.getWriter().print((type.contains("user") ? "Tài khoản" : type.contains("phone") ? "Số điện thoại" : "Email") + " đã được đăng ký");
+            } else if (type.contains("user")) {
+                if (txt.length() < 5 || txt.length() > 19) {
+                    response.getWriter().print("Tên đăng nhập phải trong khoảng từ 5-19 ký tự");
+                } else {
+                    response.getWriter().print("");
+                }
+            } else if (type.contains("phone")) {
+                if (!txt.matches("\\d+") || txt.length() != 10) {
+                    response.getWriter().print("Số điện thoại chỉ nên gồm 10 chữ số!");
+                } else {
+                    response.getWriter().print("");
+                }
             } else {
                 response.getWriter().print("");
             }
-        } else if (type.contains("phone")) {
-            if (!txt.matches("\\d+") || txt.length() != 10) {
-                response.getWriter().print("Số điện thoại chỉ nên gồm 10 chữ số!");
-            } else {
-                response.getWriter().print("");
-            }
-        } else {
-            response.getWriter().print("");
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckAccountServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

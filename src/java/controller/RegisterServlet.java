@@ -1,15 +1,22 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Controller Common
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-01-23      2.0                 DucHT           Update code
  */
 package controller;
 
-import dao.AccountDAO;
-import dao.BoarderDAO;
-import dao.DomManagerDAO;
+import dao.impl.AccountDAO;
+import dao.impl.BoarderDAO;
+import dao.impl.DomManagerDAO;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,22 +74,30 @@ public class RegisterServlet extends HttpServlet {
         Date dateofbirth = Date.valueOf(request.getParameter("dateofbirth"));
         String position = request.getParameter("position");
         if (position.equalsIgnoreCase("teacher") || position.equalsIgnoreCase("student")) {
-            System.out.println("boarder");
-            Jobs job = Jobs.valueOf(position);
-            account = new Account(userName, password, 3);
-            Boarder boarder = new Boarder(0, fullName, dateofbirth, gender, email, phone, job, account);
-            accountDAO.insert(account);
-            boarderDAO.insert(boarder);
-            System.out.println(fullName + "," + userName + "," + password + "," + email + "," + phone + "," + gender + "," + job + "," + dateofbirth);
-            request.getRequestDispatcher("login?username=" + userName + "&&password=" + password).forward(request, response);
+            try {
+                System.out.println("boarder");
+                Jobs job = Jobs.valueOf(position);
+                account = new Account(userName, password, 3);
+                Boarder boarder = new Boarder(0, fullName, dateofbirth, gender, email, phone, job, account);
+                accountDAO.insert(account);
+                boarderDAO.insert(boarder);
+                System.out.println(fullName + "," + userName + "," + password + "," + email + "," + phone + "," + gender + "," + job + "," + dateofbirth);
+                request.getRequestDispatcher("login?username=" + userName + "&&password=" + password).forward(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
-            System.out.println("staff");
-            ManagerRegency regency = ManagerRegency.valueOf(position);
-            account = new Account(userName, password, 2);
-            DomManager domManager = new DomManager(0, fullName, gender, dateofbirth, email, phone, regency, account);
-            accountDAO.insert(account);
-            domManagerDAO.insert(domManager);
-            request.getRequestDispatcher("waiting.jsp").forward(request, response);
+            try {
+                System.out.println("staff");
+                ManagerRegency regency = ManagerRegency.valueOf(position);
+                account = new Account(userName, password, 2);
+                DomManager domManager = new DomManager(0, fullName, gender, dateofbirth, email, phone, regency, account);
+                accountDAO.insert(account);
+                domManagerDAO.insert(domManager);
+                request.getRequestDispatcher("waiting.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
