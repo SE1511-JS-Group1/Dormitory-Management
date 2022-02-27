@@ -84,6 +84,10 @@
         <servlet-name>ViewDomServlet</servlet-name>
         <servlet-class>controller.admin.ViewDomServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BoarderNoticeServlet</servlet-name>
+        <servlet-class>controller.boarder.BoarderNoticeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -139,6 +143,10 @@
     <servlet-mapping>
         <servlet-name>ViewDomServlet</servlet-name>
         <url-pattern>/admin/dom</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BoarderNoticeServlet</servlet-name>
+        <url-pattern>/boarder/notice</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
