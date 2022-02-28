@@ -55,22 +55,40 @@ public class FeedbackDAO extends Connection implements IBaseDAO {
     }
 
     @Override
-    public Object getOne(Object key) throws SQLException{
+    public Object getOne(Object key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void insert(Object object) throws SQLException{
+    public void insert(Object object) throws SQLException {
+        Feedback inserted = (Feedback) object;
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "INSERT INTO Feedback (TimeSend,BoarderID,Title)VALUES(?,?,?)";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setDate(1, inserted.getTimeSend());
+            preparedStatement.setInt(2, inserted.getOwner().getBoarderID());
+            preparedStatement.setString(3, inserted.getTitle());
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+    }
+
+    @Override
+    public void delete(Object object) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void delete(Object object) throws SQLException{
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void update(Object object, Object key) throws SQLException{
+    public void update(Object object, Object key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

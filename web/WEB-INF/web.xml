@@ -88,6 +88,10 @@
         <servlet-name>BoarderNoticeServlet</servlet-name>
         <servlet-class>controller.boarder.BoarderNoticeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BoarderFeedback</servlet-name>
+        <servlet-class>controller.boarder.BoarderFeedback</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -147,6 +151,10 @@
     <servlet-mapping>
         <servlet-name>BoarderNoticeServlet</servlet-name>
         <url-pattern>/boarder/notice</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BoarderFeedback</servlet-name>
+        <url-pattern>/boarder/feedback</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

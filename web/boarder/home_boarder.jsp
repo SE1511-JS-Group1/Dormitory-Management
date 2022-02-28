@@ -25,8 +25,10 @@
         <link href="css/overview.css" rel="stylesheet">
     </head>
     <body>
-        <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 999999999;">
+         <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
             <c:import url="boarder_header.jsp"></c:import>
+        </div>
+        <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
             <c:import url="boarder_footer.jsp"></c:import>
         </div>
     </body>

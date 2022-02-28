@@ -62,14 +62,34 @@ public class BoarderDAO extends Connection implements IBaseDAO {
 
     @Override
     public Object getOne(Object key) throws SQLException {
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM Boarder WHERE UserName = ?";
         try {
-            for (Object o : getAll()) {
-                if (((Boarder) o).getAccount().getUserName().equals((String) key)) {
-                    return o;
-                }
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setString(1, (String) key);
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            AccountDAO accountDB = new AccountDAO();
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+             while (resultSet.next()) {
+                Boarder boarder = new Boarder(resultSet.getInt(1), // tạo mợi object của mình và bắt add vào list
+                        resultSet.getString("BoarderName"),
+                        resultSet.getDate("DOB"),
+                        resultSet.getBoolean("Gender"),
+                        resultSet.getString("Email"),
+                        resultSet.getString("PhoneNumber"),
+                        resultSet.getString(7).equalsIgnoreCase("Student") ? Jobs.Student : Jobs.Teacher,
+                        (Account) accountDB.getOne((String) key));
+                return  boarder;
             }
         } catch (SQLException e) {
             throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
         }
         return null;
     }
