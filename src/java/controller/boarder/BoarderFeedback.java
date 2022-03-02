@@ -3,25 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.admin;
+package controller.boarder;
 
-import dao.impl.RoomDAO;
+import dao.impl.BoarderDAO;
+import dao.impl.FeedbackDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
+import model.Boarder;
+import model.Feedback;
 
 /**
  *
- * @author Dell
+ * @author XuanDinh
  */
-@WebServlet(name = "AddRoomServlet", urlPatterns = {"/admin/addroom"})
-public class AddRoomServlet extends HttpServlet {
+public class BoarderFeedback extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,15 +39,18 @@ public class AddRoomServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-            String domId = request.getParameter("domid");
-            int roomCategory = Integer.parseInt(request.getParameter("category"));
-            int floor = Integer.parseInt(request.getParameter("floor"));
-            RoomDAO roomDAO = new RoomDAO();
-            roomDAO.addNewRoom(domId, floor, roomCategory);
-        } catch (SQLException ex) {
-            Logger.getLogger(AddRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet BoarderFeedback</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet BoarderFeedback at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -58,7 +66,8 @@ public class AddRoomServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       request.setAttribute("page", "Feedback");
+       request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
     }
 
     /**
@@ -72,7 +81,27 @@ public class AddRoomServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            String title = request.getParameter("title");
+            String massage = request.getParameter("massage");
+            Date date= Date.valueOf(LocalDate.now());
+            Account account = (Account) request.getSession().getAttribute("account");
+            String user = account.getUserName();
+            BoarderDAO boarderDAO = new BoarderDAO();
+            Boarder boarder = (Boarder)boarderDAO.getOne(user);
+            Feedback feedback= new Feedback(0,
+                    date,
+                    title,
+                    boarder);
+            FeedbackDAO feedbackDAO = new FeedbackDAO();
+            feedbackDAO.insert(feedback);
+            System.out.println("feedback successful");
+            request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(BoarderFeedback.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
     }
 
     /**

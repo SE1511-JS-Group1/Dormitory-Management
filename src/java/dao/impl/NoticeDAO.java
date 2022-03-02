@@ -5,7 +5,7 @@
  *
  * Record of change:
  * DATE            Version             AUTHOR           DESCRIPTION
- * 2022-01-23      1.2                 DucHT           Update code
+ * 2022-01-27      1.3                 HuyLQ           Update code
  */
 package dao.impl;
 
@@ -19,10 +19,6 @@ import model.Boarder;
 import model.DomManager;
 import model.Notice;
 
-/**
- *
- * @author lenovo_thinkpad
- */
 public class NoticeDAO extends Connection implements IBaseDAO {
 
     @Override
@@ -67,7 +63,44 @@ public class NoticeDAO extends Connection implements IBaseDAO {
     public Object getOne(Object key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    public ArrayList<Object> getNoticesById(Object key) throws SQLException {
+        ArrayList<Object> notices = new ArrayList<>();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "select * from Notices " + "where NoticeID=?";
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, (int) key);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int boarderID = resultSet.getInt(5); // lấy id của boarder từ database             
+                BoarderDAO boarderDAO = new BoarderDAO();
+                Boarder boarder = boarderDAO.getBoarderById(boarderID); //lấy object boarder thông qua phương thức getOne trong BoarderDAO
 
+                int ManagerID = resultSet.getInt(6);  //lấy id của domManager từ database
+                DomManagerDAO dmDAO = new DomManagerDAO();
+                DomManager domManager = (DomManager) dmDAO.getOne(ManagerID); //lấy object DomManager thông qua phương thức getOne trong DomManagerDAO
+                Notice notice = new Notice(resultSet.getInt("NoticeID"), //tạo mới một notice
+                        resultSet.getDate("Time"),
+                        resultSet.getString("Title"),
+                        boarder,
+                        domManager,
+                        resultSet.getBoolean("Direction"));
+                notices.add(notice);
+            }
+        }catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return notices;
+    }
+    
+    
     @Override
     public void insert(Object object) throws SQLException {
         Notice inserted = (Notice) object;
