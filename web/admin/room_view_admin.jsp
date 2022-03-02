@@ -65,38 +65,59 @@
                                     <div class="card-body p-md-9 mx-md-4">
                                         <div class="container map">
                                             <table style="margin: 50px auto;border: 2px solid black;" >
+                                                <c:set var="j" value="6" scope="page" />
+                                                <% for (int i = 5; i > 0; i--) {%>
+                                                <c:set var="j" value="${j - 1}" scope="page" />
                                                 <tr style="border: 2px solid black;">
-                                                    <%!int i = 0;%>
                                                     <td>
-                                                        <h6>&ensp;Floor 5</h6>
+                                                        <h6>&ensp;Floor <%= i%></h6>
                                                     </td> 
+                                                    <c:set var="count" value="0" scope="page" />
                                                     <c:forEach var="roomStatus" items="${mapdom}">
-                                                        <c:if test="<%=i % 2 == 0%>">
-                                                            <td>
-                                                            </c:if>
-                                                            <% i++;%>
-                                                            <div class="map-block">
-                                                                <button type="button" data-bs-toggle="modal" onclick="loadRoomInformation('${roomStatus.getRoom()}', '${roomStatus.getRoom().getFloor()}', '${roomStatus.getBedAvailable()}', '${roomStatus.getRoom().getCategory().isRoomGender()?"Male":"Female"}');" data-bs-target="#domInformation" class="btn btn-outline-info map-${roomStatus.getStatus()}" style="margin: 5px 10px;">
-                                                                    ${roomStatus.getRoom()}
-                                                                </button>
-                                                            </div>
-
-                                                            <c:if test="<%=i % 2 == 0%>">
-                                                            </td>
-                                                        </c:if>
-                                                        <c:if test="<%= i % 16 == 0%>">
-                                                        </tr><tr style="border: 2px solid black;">
-                                                            <c:if test="<%= i % 80 != 0%>">
+                                                        <c:if test="${roomStatus.getRoom().getFloor()== j}">
+                                                            <c:set var="count" value="${count +1}" scope="page" />
+                                                            <c:if test="${count%2==1}">
                                                                 <td>
-                                                                    <h6>&ensp;Floor ${roomStatus.getRoom().getFloor()-1}</h6>
-                                                                </td> 
+                                                                </c:if>                                                                
+                                                                <div class="map-block">
+                                                                    <button type="button" data-bs-toggle="modal" onclick="loadRoomInformation('${roomStatus.getRoom()}', '${roomStatus.getRoom().getFloor()}', '${roomStatus.getBedAvailable()}', '${roomStatus.getRoom().getCategory().isRoomGender()?"Male":"Female"}');" data-bs-target="#roomInformation" class="btn btn-outline-info map-${roomStatus.getStatus()}" style="margin: 5px 10px;">
+                                                                        ${roomStatus.getRoom()}
+                                                                    </button>
+                                                                </div>
+                                                                <c:if test="${count%2==0}">
+                                                                </td>
                                                             </c:if>
                                                         </c:if>
                                                     </c:forEach>
                                                 </tr>
+                                                <%}%>
                                             </table>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="domInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <!-- Modal Disable -->
+                                            <div class="modal fade modal-second" id="roomDisable" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" style="margin-top: 15%;">
+                                                    <div class="modal-content" style="z-index: 3;">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Disable Room</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container">
+                                                                <p>This action will erase all existing data of the room<br>Are you sure about that?</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form action="disableroom" method="post">
+                                                                <button type="submit" class="btn btn-outline-info">Yes</button>                                                                
+                                                            </form>
+                                                            <form action="room" method="post">
+                                                                <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>                                                           
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal Show information-->
+                                            <div class="modal fade" id="roomInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" style="margin-top: 15%;">
                                                     <div class="modal-content" style="z-index: 3;">
                                                         <div class="modal-header">
@@ -141,7 +162,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-                                                            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="document.getElementById('roomInformation').classList.remove('show');" data-bs-target="#roomDisable" >Disable</button>
                                                         </div>
                                                     </div>
                                                 </div>

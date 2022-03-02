@@ -40,11 +40,11 @@ public class NoticeDAO extends Connection implements IBaseDAO {
             while (resultSet.next()) {
                 int boarderID = resultSet.getInt(5); // lấy id của boarder từ database             
                 BoarderDAO boarderDAO = new BoarderDAO();
-                Boarder boarder = boarderDAO.getBoarderById(boarderID); //lấy object boarder thông qua phương thức getOne trong BoarderDAO
+                Boarder boarder = boarderDAO.getBoarderById(boarderID); //lấy object boarder thông qua phương thức getDomManagerById trong BoarderDAO
 
                 int ManagerID = resultSet.getInt(6);  //lấy id của domManager từ database
                 DomManagerDAO dmDAO = new DomManagerDAO();
-                DomManager domManager = (DomManager) dmDAO.getOne(ManagerID); //lấy object DomManager thông qua phương thức getOne trong DomManagerDAO
+                DomManager domManager = (DomManager) dmDAO.getDomManagerById(ManagerID); //lấy object DomManager thông qua phương thức getDomManagerById trong DomManagerDAO
                 Notice notice = new Notice(resultSet.getInt("NoticeID"), //tạo mới một notice
                         resultSet.getDate("Time"),
                         resultSet.getString("Title"),

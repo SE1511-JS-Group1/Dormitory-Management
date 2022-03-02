@@ -36,9 +36,9 @@ public class AccountDAO extends Connection implements IBaseDAO {
             resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (resultSet.next()) {
-                Account account = new Account(resultSet.getString(1), // tạo mợi object của mình và bắt add vào list
-                        resultSet.getString(2),
-                        resultSet.getInt(3));
+                Account account = new Account(resultSet.getString("Username"), // tạo mợi object của mình và bắt add vào list
+                        resultSet.getString("Password"),
+                        resultSet.getInt("RoleId"));
                 accounts.add(account); // add vào list
             }
         } catch (SQLException e) {

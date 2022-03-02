@@ -19,6 +19,7 @@ import java.util.HashMap;
 import model.Dom;
 import model.Room;
 import model.RoomCategory;
+import model.RoomStatus;
 
 /**
  *
@@ -96,21 +97,18 @@ public class RoomDAO extends Connection implements IBaseDAO {
         Room inserted = (Room) object;
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String sql = "Insert into Room(RoomID,RoomName,Floor,DomID,CategoryID) values (?,?,?,?,?)";
+        String sql = "Insert into Room(RoomName,Floor,DomID,CategoryID) values (?,?,?,?)";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            preparedStatement.setInt(1, inserted.getRoomID());
-            preparedStatement.setString(2, inserted.getRoomName());
-            preparedStatement.setInt(3, inserted.getFloor());
-            preparedStatement.setString(4, inserted.getDom().getDomID());
-            preparedStatement.setInt(5, inserted.getCategory().getCategoryID());
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.setString(1, inserted.getRoomName());
+            preparedStatement.setInt(2, inserted.getFloor());
+            preparedStatement.setString(3, inserted.getDom().getDomID());
+            preparedStatement.setInt(4, inserted.getCategory().getCategoryID());
+            preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
@@ -186,5 +184,113 @@ public class RoomDAO extends Connection implements IBaseDAO {
             closeConnection(connection);
         }
         return roomstatus;
+    }
+
+    public Room getFistRoom(Dom dom) throws SQLException {
+        Room room = new Room();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT Top(1)* FROM Room where DomID = ? Order By RoomID desc";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setString(1, dom.getDomID());
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            RoomCategoryDAO roomCategoryDAO = new RoomCategoryDAO();
+            DomDAO domDAO = new DomDAO();
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (resultSet.next()) {
+                room = new Room(resultSet.getInt(1), // tạo mợi object của mình và bắt add vào list
+                        (Dom) domDAO.getOne(resultSet.getString(4)),
+                        resultSet.getString(2),
+                        resultSet.getInt(3),
+                        (RoomCategory) roomCategoryDAO.getOne((int) resultSet.getInt(5)));
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return room;
+    }
+
+    private Room getLastRoom(String domId, int floor) throws SQLException {
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT top(1) * FROM Room where floor = ? and domId = ? Order by roomID desc";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setInt(1, floor);
+            preparedStatement.setString(2, domId);
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            RoomCategoryDAO roomCategoryDAO = new RoomCategoryDAO();
+            DomDAO domDAO = new DomDAO();
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (resultSet.next()) {
+                return new Room(resultSet.getInt("RoomID"), // tạo mợi object của mình và bắt add vào list
+                        (Dom) domDAO.getOne(resultSet.getString("DOmID")),
+                        resultSet.getString("RoomName"),
+                        resultSet.getInt("Floor"),
+                        (RoomCategory) roomCategoryDAO.getOne((int) resultSet.getInt("CategoryID")));
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return null;
+    }
+
+    public void addNewRoom(String domId, int floor, int category) throws SQLException {
+        Room lastRoom = getLastRoom(domId, floor);
+        if (lastRoom != null && lastRoom.getRoomName().endsWith("16")) {
+            return;
+        }
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "Insert into Room(RoomName,Floor,DomID,CategoryID) values (?,?,?,?)";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setString(1, lastRoom == null ? String.valueOf(floor * 100 + 1)
+                    : String.valueOf(Integer.parseInt(lastRoom.getRoomName()) + 1));
+            preparedStatement.setInt(2, floor);
+            preparedStatement.setString(3, domId);
+            preparedStatement.setInt(4, category);
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+
+        RoomCategoryDAO rcdao = new RoomCategoryDAO();
+        RoomCategory rc = (RoomCategory) rcdao.getOne(category);
+        for (int i = 1; i <= rc.getBedNumber(); i++) {
+            sql = "Insert into RoomStatus(RoomID,BedNo,Status) values (?,?,?) ";
+            try {
+                connection = getConnection(); // Open 1 connect với Database của mình
+                preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+                preparedStatement.setInt(1, getLastRoom(domId, floor).getRoomID());
+                preparedStatement.setInt(2, i);
+                preparedStatement.setBoolean(3, false);
+                preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
+            } catch (SQLException e) {
+                throw e;
+            } finally {
+                closePreparedStatement(preparedStatement);
+                closeConnection(connection);
+            }
+        }
     }
 }
