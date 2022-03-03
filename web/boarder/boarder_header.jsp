@@ -15,7 +15,7 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                 <div class="logo" style="width: 70px;">                            
-                    <img src="https://by.com.vn/xQTXSg" class="img-thumbnail" alt="logo">
+                    <img src="../images/logo.png" class="img-thumbnail" alt="logo">
                 </div>
                 <div style="width: 20px;"></div>
             </a>

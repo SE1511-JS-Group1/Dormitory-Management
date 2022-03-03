@@ -195,7 +195,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
             preparedStatement.setString(5, boarder.getJob().toString());
             preparedStatement.setString(6, boarder.getEmail());
             preparedStatement.setString(7, boarder.getAccount().getUserName());
-            preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {

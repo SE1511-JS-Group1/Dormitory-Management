@@ -80,9 +80,94 @@
                                                                 <td>
                                                                 </c:if>                                                                
                                                                 <div class="map-block">
-                                                                    <button type="button" data-bs-toggle="modal" onclick="loadRoomInformation('${roomStatus.getRoom()}', '${roomStatus.getRoom().getFloor()}', '${roomStatus.getBedAvailable()}', '${roomStatus.getRoom().getCategory().isRoomGender()?"Male":"Female"}');" data-bs-target="#roomInformation" class="btn btn-outline-info map-${roomStatus.getStatus()}" style="margin: 5px 10px;">
+                                                                    <button type="button" data-bs-toggle="modal" onclick="" data-bs-target="#roomInformation${roomStatus.getRoom().getRoomID()}" class="btn btn-outline-info map-${roomStatus.getStatus()}" style="margin: 5px 10px;">
                                                                         ${roomStatus.getRoom()}
                                                                     </button>
+                                                                    <!-- Modal Show information-->
+                                                                    <div class="modal fade" id="roomInformation${roomStatus.getRoom().getRoomID()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog" style="margin-top: 15%;">
+                                                                            <div class="modal-content" style="z-index: 3;">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="exampleModalLabel">Room Information</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <div class="container">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-3">
+                                                                                                Name:
+                                                                                            </div>
+                                                                                            <div class="col-md-5">
+                                                                                                <input class="room_information" id="chosenName" type="text" value="${roomStatus.getRoom()}" style="border: none;" disabled>                                                                        
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-3">
+                                                                                                Floor:
+                                                                                            </div>
+                                                                                            <div class="col-md-5">
+                                                                                                <input class="room_information" id="chosenFloor" type="text" value="${roomStatus.getRoom().getFloor()}" style="border: none;" disabled>                                                                        
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-3">
+                                                                                                Availability:
+                                                                                            </div>
+                                                                                            <div class="col-md-5">
+                                                                                                <input class="room_information" id="chosenStatus" type="text" value="${roomStatus.getBedAvailable()} Bed" style="border: none;" disabled>                                                                    
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-3">
+                                                                                                Gender:
+                                                                                            </div>
+                                                                                            <div class="col-md-5">
+                                                                                                <input class="room_information" id="chosenGender" type="text" value="${roomStatus.getRoom().getCategory().isRoomGender()?"Male":"Female"}" style="border: none;" disabled>                                                                    
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                                                                                    <c:choose>
+                                                                                        <c:when test="${roomStatus.getRoom().getRoomName() eq '101'}">
+                                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="" data-bs-target="#roomDisable${roomStatus.getRoom().getRoomID()}" disabled>Disable</button>
+                                                                                        </c:when>
+                                                                                        <c:otherwise>
+                                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="" data-bs-target="#roomDisable${roomStatus.getRoom().getRoomID()}" >Disable</button>
+                                                                                        </c:otherwise>
+                                                                                    </c:choose>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- Modal Disable -->
+                                                                    <div class="modal fade modal-second" id="roomDisable${roomStatus.getRoom().getRoomID()}" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog" style="margin-top: 15%;">
+                                                                            <div class="modal-content" style="z-index: 3;">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="exampleModalLabel">Disable Room</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <div class="container">
+                                                                                        <p>This action will erase all existing data of the room<br>Are you sure about that?</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <form action="disableroom" method="post">
+                                                                                        <input type="hidden" name="dom" value="${dom.getDomID()}">
+                                                                                        <input type="hidden" name="room" value="${roomStatus.getRoom().getRoomID()}">
+                                                                                        <button type="submit" class="btn btn-outline-info">Yes</button>                                                                
+                                                                                    </form>
+                                                                                    <form action="room" method="post">
+                                                                                        <input type="hidden" name="dom" value="${dom.getDomID()}">
+                                                                                        <button type="submit" class="btn btn-outline-danger">No</button>                                                           
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <c:if test="${count%2==0}">
                                                                 </td>
@@ -92,81 +177,7 @@
                                                 </tr>
                                                 <%}%>
                                             </table>
-                                            <!-- Modal Disable -->
-                                            <div class="modal fade modal-second" id="roomDisable" tabindex="-2" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" style="margin-top: 15%;">
-                                                    <div class="modal-content" style="z-index: 3;">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Disable Room</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container">
-                                                                <p>This action will erase all existing data of the room<br>Are you sure about that?</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form action="disableroom" method="post">
-                                                                <button type="submit" class="btn btn-outline-info">Yes</button>                                                                
-                                                            </form>
-                                                            <form action="room" method="post">
-                                                                <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>                                                           
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Modal Show information-->
-                                            <div class="modal fade" id="roomInformation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" style="margin-top: 15%;">
-                                                    <div class="modal-content" style="z-index: 3;">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Room Information</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="container">
-                                                                <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        Name:
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                        <input class="room_information" id="chosenName" type="text" value="" style="border: none;" disabled>                                                                        
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        Floor:
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                        <input class="room_information" id="chosenFloor" type="text" value="" style="border: none;" disabled>                                                                        
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        Availability:
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                        <input class="room_information" id="chosenStatus" type="text" value="" style="border: none;" disabled>                                                                    
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        Gender:
-                                                                    </div>
-                                                                    <div class="col-md-5">
-                                                                        <input class="room_information" id="chosenGender" type="text" value="" style="border: none;" disabled>                                                                    
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="document.getElementById('roomInformation').classList.remove('show');" data-bs-target="#roomDisable" >Disable</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>                                

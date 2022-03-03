@@ -110,7 +110,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BoarderRoomServlet</servlet-name>
-        <url-pattern>/boarder/boarderroom</url-pattern>
+        <url-pattern>/boarder/room</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HomeAdminServlet</servlet-name>

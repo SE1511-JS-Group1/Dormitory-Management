@@ -84,7 +84,6 @@ public class AccountDAO extends Connection implements IBaseDAO {
         Account inserted = (Account) object;
         java.sql.Connection Connect = null;
         PreparedStatement Statement = null;
-        ResultSet Result = null;
         String sql = "Insert into Account(UserName,PassWord,RoleId) values (?,?,?)";
         try {
             Connect = getConnection(); // Open 1 connect với Database của mình
@@ -92,11 +91,10 @@ public class AccountDAO extends Connection implements IBaseDAO {
             Statement.setString(1, inserted.getUserName());
             Statement.setString(2, inserted.getPassWord());
             Statement.setInt(3, inserted.getRole());
-            Result = Statement.executeQuery(); // Chạy và thực thi câu SQL
+            Statement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(Result);
             closePreparedStatement(Statement);
             closeConnection(Connect);
         }
@@ -107,7 +105,6 @@ public class AccountDAO extends Connection implements IBaseDAO {
         Account deleted = (Account) object;
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "Delete [Transaction] where WalletID = (select WalletID from [Wallet] where UserName = ?) "
                 + "Delete [Wallet] where UserName = ? "
                 + "Delete [Notices] where ManagerID = (select ManagerID from [DomManager] where UserName = ?) "
@@ -135,11 +132,10 @@ public class AccountDAO extends Connection implements IBaseDAO {
             preparedStatement.setString(10, deleted.getUserName());
             preparedStatement.setString(11, deleted.getUserName());
             preparedStatement.setString(12, deleted.getUserName());
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
@@ -149,7 +145,6 @@ public class AccountDAO extends Connection implements IBaseDAO {
     public void update(Object object, Object key) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "Update Account set PassWord = ? where UserName like ? ";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
@@ -160,7 +155,6 @@ public class AccountDAO extends Connection implements IBaseDAO {
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }

@@ -88,7 +88,6 @@ public class RegisterServlet extends HttpServlet {
             }
         } else {
             try {
-                System.out.println("staff");
                 ManagerRegency regency = ManagerRegency.valueOf(position);
                 account = new Account(userName, password, 2);
                 DomManager domManager = new DomManager(0, fullName, gender, dateofbirth, email, phone, regency, account);

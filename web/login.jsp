@@ -47,11 +47,11 @@
                                             <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
 
                                             <div class="form-outline mb-4">
-                                                <input type="text" id="form2Example17" name="username" onchange="document.getElementById('message_login').display = none;" placeholder="Your username" value="" class="form-control form-control-lg" />
+                                                <input type="text" id="form2Example17" name="username" onchange="document.getElementById('message_login').display = none;" placeholder="Your username" value="" class="form-control form-control-lg" maxlength="32"/>
                                             </div>
 
                                             <div class="form-outline mb-4">
-                                                <input type="password" id="form2Example27" name="password" onchange="document.getElementById('message_login').display = none;" placeholder="Your password" value="" class="form-control form-control-lg" />
+                                                <input type="password" id="form2Example27" name="password" onchange="document.getElementById('message_login').display = none;" placeholder="Your password" value="" class="form-control form-control-lg" maxlength="32"/>
                                             </div>
                                             <div class="form-outline mb-4 text-center" style="color: red;height: 25px;" id="message_login">
                                                 ${message_login}                                                

@@ -1,13 +1,20 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright(C) 2022, FPT University.
+ * Dormitory Management System:
+ * Controller Admin
+ *
+ * Record of change:
+ * DATE            Version             AUTHOR           DESCRIPTION
+ * 2022-02-25      1.0                 DucHT           First Implement
  */
 package controller.admin;
 
+import dao.impl.DomDAO;
+import dao.impl.RoomCategoryDAO;
 import dao.impl.RoomDAO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DomInformation;
 
 /**
  *
@@ -43,6 +51,18 @@ public class AddRoomServlet extends HttpServlet {
             roomDAO.addNewRoom(domId, floor, roomCategory);
         } catch (SQLException ex) {
             Logger.getLogger(AddRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            request.setAttribute("page", "dom");
+            DomDAO domDAO = new DomDAO();
+            RoomCategoryDAO roomCategoryDAO = new RoomCategoryDAO();
+            ArrayList<Object> categorys = roomCategoryDAO.getAll();
+            ArrayList<DomInformation> domInformations = domDAO.getDomInformations();
+            request.setAttribute("categorys", categorys);
+            request.setAttribute("domInformations", domInformations);
+            request.getRequestDispatcher("dom_view_admin.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewDomServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

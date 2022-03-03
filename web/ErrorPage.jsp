@@ -25,7 +25,7 @@
                 <div class="row d-flex justify-content-center align-items-center h-90">
                     <div class="col-xl-8">
                         <div class="card rounded-3 text-black">
-                            <img style="z-index: 3;" src="../images/ErrorPage404-05.jpg">
+                            <img style="z-index: 3;" src="images/ErrorPage404-05.jpg">
                             <button style="z-index: 9; position: fixed;margin-left: 25%; margin-top: 30%;" class="btn btn-outline-info" onclick="history.back();"> <%= "<< Back"%> </button>
                         </div>
                     </div>

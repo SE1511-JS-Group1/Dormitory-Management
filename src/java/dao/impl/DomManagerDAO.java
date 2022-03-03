@@ -112,7 +112,7 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
             preparedStatement.setDate(5, inserted.getDateOfBirth());
             preparedStatement.setString(6, inserted.getRegency().toString());
             preparedStatement.setString(7, inserted.getAccount().getUserName());
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {

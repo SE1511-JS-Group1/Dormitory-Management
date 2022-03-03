@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.DomInformation;
-import model.RoomCategory;
 
 /**
  *
@@ -48,6 +47,7 @@ public class ViewDomServlet extends HttpServlet {
             RoomCategoryDAO roomCategoryDAO = new RoomCategoryDAO();
             ArrayList<Object> categorys = roomCategoryDAO.getAll();
             ArrayList<DomInformation> domInformations = domDAO.getDomInformations();
+            request.setAttribute("domDAO", domDAO);
             request.setAttribute("categorys", categorys);
             request.setAttribute("domInformations", domInformations);
             request.getRequestDispatcher("dom_view_admin.jsp").forward(request, response);

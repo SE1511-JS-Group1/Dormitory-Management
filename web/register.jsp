@@ -40,34 +40,34 @@
                                         <form action="register" method="post">
                                             <input type="hidden" name="role" value="boarder"/>
                                             <div class="form-outline mb-4">
-                                                <input name="fullname" type="text" id="fullname" class="form-control" required placeholder="Your name"/>
+                                                <input name="fullname" type="text" id="fullname" class="form-control" required placeholder="Your name" maxlength="32"/>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="username" type="text" id="form2Example12" oninput="CheckAccount('message_username',this);"  class="form-control" required placeholder="User name"/>
+                                                <input name="username" type="text" id="form2Example12" oninput="CheckAccount('message_username',this);"  class="form-control" required placeholder="User name"maxlength="32"/>
                                                 <div class="form-outline mb-4 text-center" style="color: red;display: none;" id="message_username">
                                                     ${message_username}                                                
                                                 </div>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="password" type="password" id="password" class="form-control" value=" " oninput="CheckPassword(this);" required placeholder="Password"/>
+                                                <input name="password" type="password" id="password" class="form-control" value=" " oninput="CheckPassword(this);" required placeholder="Password" maxlength="32"/>
                                                 <div class="form-outline mb-4 text-center" style="color: red;display: none;" id="message_password">
                                                     ${message_password}                                                
                                                 </div>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="confirmpassword" type="password" id="form2Example14" oninput="CheckConfirmPassword(this);" class="form-control" required  placeholder="Confirm Password"/>
+                                                <input name="confirmpassword" type="password" id="form2Example14" oninput="CheckConfirmPassword(this);" class="form-control" required  placeholder="Confirm Password" maxlength="32"/>
                                                 <div class="form-outline mb-4 text-center" style="color: red;display: none;" id="message_confirmpassword">
                                                     ${message_confirmpassword}                                                
                                                 </div>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="email" type="email" id="form2Example15" oninput="CheckAccount('message_email',this);" class="form-control" required placeholder="Your email"/>
+                                                <input name="email" type="email" id="form2Example15" oninput="CheckAccount('message_email',this);" class="form-control" required placeholder="Your email"maxlength="48"/>
                                                 <div class="form-outline mb-4 text-center" style="color: red;display: none;" id="message_email">
                                                     ${message_email}                                                
                                                 </div>
                                             </div>
                                             <div class="form-outline mb-4">
-                                                <input name="phone" type="text" id="form2Example16" oninput="CheckAccount('message_phone',this);"  class="form-control" required placeholder="Your phone"/>
+                                                <input name="phone" type="text" id="form2Example16" oninput="CheckAccount('message_phone',this);"  class="form-control" required placeholder="Your phone"maxlength="10"/>
                                                 <div class="form-outline mb-4 text-center" style="color: red;display: none;" id="message_phone">
                                                     ${message_phone}                                                
                                                 </div>
@@ -100,7 +100,7 @@
                                                 </div>
                                                 <h6 class="mb-0 me-4">Birthday: </h6>
                                                 <div class="form-check form-check-inline mb-0 me-4">
-                                                    <input name="dateofbirth" type="date" id="form2Example18" required/>
+                                                    <input name="dateofbirth" type="date" id="form2Example18" required maxlength="10"/>
                                                 </div>
                                             </div>
                                             <div class="mb-4 pb-2">
@@ -120,7 +120,6 @@
                                                 <a type="button" class="btn btn-outline-danger" href="login">Login</a>
                                             </div>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>

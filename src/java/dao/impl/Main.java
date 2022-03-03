@@ -20,8 +20,6 @@ public class Main {
     
     public static void main(String[] args) throws SQLException{
         DomDAO aO = new DomDAO();
-        for(DomInformation di : aO.getDomInformations()){
-            System.out.println(di.getDom().getDomName());
-        }
+        aO.checkFloorFull("A", 1);
     }
 }

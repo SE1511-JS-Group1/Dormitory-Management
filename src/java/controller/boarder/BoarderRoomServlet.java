@@ -9,12 +9,20 @@
  */
 package controller.boarder;
 
+import controller.admin.ViewRoomServlet;
+import dao.impl.DomDAO;
+import dao.impl.RoomStatusDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Dom;
+import model.RoomStatus;
 
 /**
  *
@@ -34,17 +42,20 @@ public class BoarderRoomServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BoarderRoomServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BoarderRoomServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            RoomStatusDAO roomStatusDAO = new RoomStatusDAO();
+            DomDAO domDAO = new DomDAO();
+            request.setAttribute("doms", domDAO.getAll());
+            String domID = request.getParameter("dom") == null ? "A" : request.getParameter("dom");
+            Object dom = domDAO.getOne(domID);
+            ArrayList<RoomStatus> map = roomStatusDAO.getDomStatus((Dom) dom);
+            request.setAttribute("roomStatusDAO", roomStatusDAO);
+            request.setAttribute("dom", dom);
+            request.setAttribute("mapdom", map);
+            request.setAttribute("page", "room");
+            request.getRequestDispatcher("boarder_room.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

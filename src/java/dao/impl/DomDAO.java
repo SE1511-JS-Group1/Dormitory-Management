@@ -286,4 +286,29 @@ public class DomDAO extends Connection implements IBaseDAO {
         }
         return domInformations;
     }
+
+    public boolean checkFloorFull(String domId, int floor) throws SQLException {
+        System.out.println(domId + "" + floor);
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "Select Count(*) as 'count' from Room where DomID = ? and [Floor] = ? ";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setString(1, domId);
+            preparedStatement.setInt(2, floor);
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            while (resultSet.next()) {
+                return resultSet.getInt("count") < 16;
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return false;
+    }
 }

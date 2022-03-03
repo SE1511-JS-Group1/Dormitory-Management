@@ -11,6 +11,7 @@ package dao.impl;
 
 import dao.Connection;
 import dao.IBaseDAO;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,6 @@ import java.util.HashMap;
 import model.Dom;
 import model.Room;
 import model.RoomCategory;
-import model.RoomStatus;
 
 /**
  *
@@ -105,7 +105,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
             preparedStatement.setInt(2, inserted.getFloor());
             preparedStatement.setString(3, inserted.getDom().getDomID());
             preparedStatement.setInt(4, inserted.getCategory().getCategoryID());
-            preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -125,7 +125,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
             preparedStatement.setInt(1, deleted.getRoomID());
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -150,7 +150,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
             preparedStatement.setString(3, updated.getDom().getDomID());
             preparedStatement.setInt(4, updated.getCategory().getCategoryID());
             preparedStatement.setInt(5, (int) key);
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -291,6 +291,27 @@ public class RoomDAO extends Connection implements IBaseDAO {
                 closePreparedStatement(preparedStatement);
                 closeConnection(connection);
             }
+        }
+    }
+    
+    public void disableRoom(int roomID) throws SQLException{
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "Update BoardingInformation set EndDate = ? where RoomID = ? "
+                + "Update RoomStatus set [Status] = ? where RoomID = ? ";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setDate(1, new Date(System.currentTimeMillis()));
+            preparedStatement.setInt(2, roomID);
+            preparedStatement.setBoolean(3, false);
+            preparedStatement.setInt(4, roomID);
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
         }
     }
 }

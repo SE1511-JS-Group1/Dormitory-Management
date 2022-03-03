@@ -112,10 +112,11 @@
                                                                             <tr>
                                                                                 <th>Floor</th>
                                                                                 <td>
-                                                                                    <input name="floor" type="radio" value="1" checked> 1  <input name="floor" type="radio" value="2"> 2  
-                                                                                    <input name="floor" type="radio" value="3"> 3  
-                                                                                    <input name="floor" type="radio" value="4"> 4  
-                                                                                    <input name="floor" type="radio" value="5"> 5  
+                                                                                    <input name="floor" type="radio" value="1" ${domDAO.checkFloorFull(dom.getDom().getDomID(),1)?'checked':'disabled'}> 1  
+                                                                                    <input name="floor" type="radio" value="2" ${domDAO.checkFloorFull(dom.getDom().getDomID(),2)?'checked':'disabled'}> 2  
+                                                                                    <input name="floor" type="radio" value="3" ${domDAO.checkFloorFull(dom.getDom().getDomID(),3)?'checked':'disabled'}> 3  
+                                                                                    <input name="floor" type="radio" value="4" ${domDAO.checkFloorFull(dom.getDom().getDomID(),4)?'checked':'disabled'}> 4  
+                                                                                    <input name="floor" type="radio" value="5" ${domDAO.checkFloorFull(dom.getDom().getDomID(),5)?'checked':'disabled'}> 5  
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
