@@ -9,12 +9,22 @@
  */
 package controller.boarder;
 
+import dao.impl.AccountDAO;
+import dao.impl.BoarderDAO;
+import dao.impl.NoticeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
+import model.Boarder;
+import model.Notice;
 
 /**
  *
@@ -32,20 +42,18 @@ public class BoarderNoticeServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BoarderNoticeServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BoarderNoticeServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            throws ServletException, IOException, SQLException {
+        AccountDAO accountDAO = new AccountDAO();
+        BoarderDAO boarderDAO = new BoarderDAO();
+        NoticeDAO noticeDAO = new NoticeDAO();
+        
+        Account account = (Account) request.getSession().getAttribute("account");    
+        String user = account.getUserName();
+        Boarder boarder = boarderDAO.getBoarderByUserName(user);
+        int id = boarder.getBoarderID();
+        ArrayList<Notice> notices = noticeDAO.getNoticesByBoarderId(id);
+        request.setAttribute("ListNotice", notices);
+        request.getRequestDispatcher("notices_view_boarder.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,7 +68,11 @@ public class BoarderNoticeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(BoarderNoticeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -74,7 +86,11 @@ public class BoarderNoticeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(BoarderNoticeServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

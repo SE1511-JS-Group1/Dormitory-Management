@@ -63,8 +63,10 @@ public class NoticeDAO extends Connection implements IBaseDAO {
     public Object getOne(Object key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    public ArrayList<Object> getNoticesById(Object key) throws SQLException {
-        ArrayList<Object> notices = new ArrayList<>();
+    
+    
+    public ArrayList<Notice> getNoticesByBoarderId(int id) throws SQLException {
+        ArrayList<Notice> notices = new ArrayList<>();
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -72,7 +74,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, (int) key);
+            preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int boarderID = resultSet.getInt(5); // lấy id của boarder từ database             
