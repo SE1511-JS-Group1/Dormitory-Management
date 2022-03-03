@@ -1,34 +1,50 @@
 /*
- * Copyright(C) 2022, FPT University.
- * Dormitory Management System:
- * Controller Admin
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 2022-01-23      2.0                 DucHT           Update code
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package controller.admin;
 
-import dao.impl.DomDAO;
-import dao.impl.RoomCategoryDAO;
+import dao.impl.RoomDAO;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.DomInformation;
-import model.RoomCategory;
 
 /**
  *
  * @author Dell
  */
-public class ViewDomServlet extends HttpServlet {
+@WebServlet(name = "AddRoomServlet", urlPatterns = {"/admin/addroom"})
+public class AddRoomServlet extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            String domId = request.getParameter("domid");
+            int roomCategory = Integer.parseInt(request.getParameter("category"));
+            int floor = Integer.parseInt(request.getParameter("floor"));
+            RoomDAO roomDAO = new RoomDAO();
+            roomDAO.addNewRoom(domId, floor, roomCategory);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -42,18 +58,7 @@ public class ViewDomServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.setAttribute("page", "dom");
-            DomDAO domDAO = new DomDAO();
-            RoomCategoryDAO roomCategoryDAO = new RoomCategoryDAO();
-            ArrayList<Object> categorys = roomCategoryDAO.getAll();
-            ArrayList<DomInformation> domInformations = domDAO.getDomInformations();
-            request.setAttribute("categorys", categorys);
-            request.setAttribute("domInformations", domInformations);
-            request.getRequestDispatcher("dom_view_admin.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ViewDomServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -67,13 +72,7 @@ public class ViewDomServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            DomDAO domDAO = new DomDAO();
-            domDAO.addNewDom();
-        } catch (SQLException ex) {
-            Logger.getLogger(ViewDomServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        doGet(request, response);
+        processRequest(request, response);
     }
 
     /**

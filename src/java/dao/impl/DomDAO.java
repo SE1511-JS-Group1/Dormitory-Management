@@ -144,6 +144,55 @@ public class DomDAO extends Connection implements IBaseDAO {
 
     }
 
+    private Dom getLastDom() throws SQLException {
+        Dom dom = new Dom();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT TOP(1) * from Dom ORDER BY DomID desc";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (resultSet.next()) {
+                dom = new Dom(resultSet.getString(1), //get được object dom thông qua id của dom
+                        resultSet.getString(2));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return dom;
+    }
+
+    public void addNewDom() throws SQLException {
+        Dom lastDom = getLastDom();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "Insert into [Dom](DomID, DomName) values (?, ?) "
+                + "Insert into Room(RoomName,Floor,DomID,CategoryID) values (?,?,?,?) ";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setString(1, String.valueOf((char) (lastDom.getDomID().charAt(0) + 1)));
+            preparedStatement.setString(2, "Dom " + String.valueOf((char) (lastDom.getDomID().charAt(0) + 1)));
+            preparedStatement.setString(3, "101");
+            preparedStatement.setInt(4, 1);
+            preparedStatement.setString(5, String.valueOf((char) (lastDom.getDomID().charAt(0) + 1)));
+            preparedStatement.setInt(6, 0);
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+    }
+
     public int getTotalBoarder(Dom dom) throws SQLException {
         int total = 0;
         java.sql.Connection connection = null;
@@ -172,10 +221,68 @@ public class DomDAO extends Connection implements IBaseDAO {
         return total;
     }
 
-    public ArrayList<DomInformation> getDomInformations() throws SQLException{
-        ArrayList<DomInformation> domInformations = new ArrayList<>();
-        for (Object dom : getAll()) {
+    public int getTotalRoom(Dom dom) throws SQLException {
+        int total = 0;
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT COUNT(*) FROM Room where DomID = ?";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setString(1, dom.getDomID());
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (resultSet.next()) {
+                total = (int) resultSet.getInt(1);
+            }
 
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return total;
+    }
+
+    public int getTotalBed(Dom dom) throws SQLException {
+        int total = 0;
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT COUNT(*)\n"
+                + "FROM RoomStatus rs,Room r\n"
+                + "WHERE r.RoomID=rs.RoomID AND r.DomID = ?";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setString(1, dom.getDomID());
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (resultSet.next()) {
+                total = (int) resultSet.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return total;
+    }
+
+    public ArrayList<DomInformation> getDomInformations() throws SQLException {
+        ArrayList<DomInformation> domInformations = new ArrayList<>();
+        ManagementDAO managementDAO = new ManagementDAO();
+        for (Object dom : getAll()) {
+            domInformations.add(new DomInformation(
+                    (Dom) dom, managementDAO.getDomManagers((Dom) dom),
+                    getTotalRoom((Dom) dom), getTotalBed((Dom) dom),
+                    getTotalBoarder((Dom) dom)));
         }
         return domInformations;
     }

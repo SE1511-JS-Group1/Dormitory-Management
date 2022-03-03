@@ -12,18 +12,37 @@ package model;
 import java.util.ArrayList;
 
 /**
- * This class define <code>DomInformation</code> object.
- * It contains information of each dom in the system. 
- * About <code>DomManager</code> of this <code>Dom</code> and total, status of <code>Room</code>, Bed, in this dom. 
+ * This class define <code>DomInformation</code> object. It contains information
+ * of each dom in the system. About <code>DomManager</code> of this
+ * <code>Dom</code> and total, status of <code>Room</code>, Bed, in this dom.
+ *
  * @author DucHT
  */
 public class DomInformation {
+
     private Dom dom;
     private ArrayList<DomManager> domManagers;
+    private int totalRoom;
     private int totalBed;
     private int bookedBed;
 
     public DomInformation() {
+    }
+
+    public int getTotalRoom() {
+        return totalRoom;
+    }
+
+    public void setTotalRoom(int totalRoom) {
+        this.totalRoom = totalRoom;
+    }
+
+    public DomInformation(Dom dom, ArrayList<DomManager> domManagers, int totalRoom, int totalBed, int bookedBed) {
+        this.dom = dom;
+        this.domManagers = domManagers;
+        this.totalRoom = totalRoom;
+        this.totalBed = totalBed;
+        this.bookedBed = bookedBed;
     }
 
     public Dom getDom() {
@@ -57,6 +76,5 @@ public class DomInformation {
     public void setBookedBed(int bookedBed) {
         this.bookedBed = bookedBed;
     }
-    
-    
+
 }

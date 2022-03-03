@@ -39,9 +39,9 @@ public class ManagementDAO extends Connection implements IBaseDAO {
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (resultSet.next()) {
                 DomDAO domDAO = new DomDAO();
-                Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getOne lấy về 1 dom theo domID
+                Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getDomManagerById lấy về 1 dom theo domID
                 DomManagerDAO dmd = new DomManagerDAO();
-                DomManager domManager = (DomManager) dmd.getOne(resultSet.getInt(2)); ////gọi phương thức getOne lấy về 1 domManager theo ID
+                DomManager domManager = (DomManager) dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
                 Management management = new Management(dom, domManager);
                 managements.add(management); // add vào list
             }
@@ -76,9 +76,9 @@ public class ManagementDAO extends Connection implements IBaseDAO {
                 // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
                 while (resultSet.next()) {
                     DomDAO domDAO = new DomDAO();
-                    Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getOne lấy về 1 dom theo domID
+                    Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getDomManagerById lấy về 1 dom theo domID
                     DomManagerDAO dmd = new DomManagerDAO();
-                    DomManager domManager = (DomManager) dmd.getOne(resultSet.getInt(2)); ////gọi phương thức getOne lấy về 1 domManager theo ID
+                    DomManager domManager = (DomManager) dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
                     Management management = new Management(dom, domManager);
                     managements.add(management); // add vào list
                 }
@@ -89,9 +89,9 @@ public class ManagementDAO extends Connection implements IBaseDAO {
                 resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
                 while (resultSet.next()) {
                     DomDAO domDAO = new DomDAO();
-                    Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getOne lấy về 1 dom theo domID
+                    Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getDomManagerById lấy về 1 dom theo domID
                     DomManagerDAO dmd = new DomManagerDAO();
-                    DomManager domManager = (DomManager) dmd.getOne(resultSet.getInt(2)); ////gọi phương thức getOne lấy về 1 domManager theo ID
+                    DomManager domManager = (DomManager) dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
                     Management management = new Management(dom, domManager);
                     managements.add(management); // add vào list
                 }
@@ -107,6 +107,33 @@ public class ManagementDAO extends Connection implements IBaseDAO {
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
+    }
+
+    public ArrayList<DomManager> getDomManagers(Dom dom) throws SQLException{
+        ArrayList<DomManager> domManagers = new ArrayList<>();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "select * from Manager where DomID = ?";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setString(1, dom.getDomID());
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            DomManagerDAO domManagerDAO = new DomManagerDAO();
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (resultSet.next()) {
+                DomManager domManager = domManagerDAO.getDomManagerById((int)resultSet.getInt("ManagerID"));
+                domManagers.add(domManager);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return domManagers;
     }
 
     @Override

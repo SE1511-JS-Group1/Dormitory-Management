@@ -63,7 +63,7 @@ public class ProjectFilter implements Filter {
             String[] commonpages = {"/index.jsp", "/viewdom", "/home", "/login", "/register", "/checkaccount","/forgotpassword","waiting.jsp"};
             ArrayList<String> commonpage = new ArrayList<>();
             Collections.addAll(commonpage, commonpages);
-            if (req.getServletPath().contains(".js") || req.getServletPath().contains(".css") || req.getServletPath().contains(".images") || req.getServletPath().equals("/logout")) {
+            if (req.getServletPath().contains(".js") || req.getServletPath().contains(".css") || req.getServletPath().contains("images/") || req.getServletPath().equals("/logout")) {
                 System.out.println("Common Page/Support");
                 chain.doFilter(request, response);
             } else if (account == null) {
