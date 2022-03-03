@@ -53,6 +53,7 @@ public class BoarderNoticeServlet extends HttpServlet {
         int id = boarder.getBoarderID();
         ArrayList<Notice> notices = noticeDAO.getNoticesByBoarderId(id);
         request.setAttribute("ListNotice", notices);
+        request.setAttribute("page", "notice");
         request.getRequestDispatcher("notices_view_boarder.jsp").forward(request, response);
     }
 
