@@ -63,16 +63,18 @@ public class NoticeDAO extends Connection implements IBaseDAO {
     public Object getOne(Object key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    public ArrayList<Object> getNoticesById(Object key) throws SQLException {
-        ArrayList<Object> notices = new ArrayList<>();
+    
+    
+    public ArrayList<Notice> getNoticesByBoarderId(int id) throws SQLException {
+        ArrayList<Notice> notices = new ArrayList<>();
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "select * from Notices " + "where NoticeID=?";
+        String sql = "select * from Notices where BoarderID=? Order by Time desc";
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, (int) key);
+            preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int boarderID = resultSet.getInt(5); // lấy id của boarder từ database             
@@ -81,7 +83,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
 
                 int ManagerID = resultSet.getInt(6);  //lấy id của domManager từ database
                 DomManagerDAO dmDAO = new DomManagerDAO();
-                DomManager domManager = (DomManager) dmDAO.getOne(ManagerID); //lấy object DomManager thông qua phương thức getOne trong DomManagerDAO
+                DomManager domManager = (DomManager) dmDAO.getOnee(ManagerID); //lấy object DomManager thông qua phương thức getOne trong DomManagerDAO
                 Notice notice = new Notice(resultSet.getInt("NoticeID"), //tạo mới một notice
                         resultSet.getDate("Time"),
                         resultSet.getString("Title"),
@@ -117,7 +119,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
             preparedStatement.setString(4, inserted.getTitle());
             preparedStatement.setInt(5, inserted.getBoarder().getBoarderID());
             preparedStatement.setInt(6, inserted.getDomManager().getManagerID());
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -138,7 +140,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
             preparedStatement.setInt(1, deleted.getId());
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -165,7 +167,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
             preparedStatement.setInt(4, updated.getBoarder().getBoarderID());
             preparedStatement.setInt(5, updated.getDomManager().getManagerID());
             preparedStatement.setInt(6, (int) key); //key là giá trị id của Notice cần thay đổi
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {

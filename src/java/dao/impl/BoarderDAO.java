@@ -128,7 +128,41 @@ public class BoarderDAO extends Connection implements IBaseDAO {
         }
         return null;
     }
+    
+    public Boarder getBoarderByUserName(String username) throws SQLException {
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "select * from Boarder where UserName = ?";
 
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int ID = resultSet.getInt(1); //lấy ID của boarder
+                String name = resultSet.getString("BoarderName"); //lấy boarder name
+                Date dob = resultSet.getDate("DOB"); //lấy boarder date of birth
+                boolean gender = resultSet.getBoolean("Gender"); //lấy boarder gender
+                String email = resultSet.getString("Email"); //lấy boarder gender
+                String phonenumber = resultSet.getString("PhoneNumber"); //lấy boarder phonenumber
+                Jobs job = Jobs.valueOf(resultSet.getString("Job")); //lấy boarder job ép kiểu về enum :3
+                AccountDAO accDAO = new AccountDAO();
+                Account a = (Account) accDAO.getOne(resultSet.getString("UserName")); //gọi phương thức getone lấy account của boarder bằng username
+                Boarder boarder = new Boarder(ID, name, dob, gender, email, phonenumber, job, a);
+                return boarder;
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return null;
+    }
     public boolean checkEmailBoarder(String email) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;

@@ -58,7 +58,39 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
         }
         return domManagers;
     }
-
+    public DomManager getOnee(int id) throws SQLException {
+        DomManager domManager = new DomManager();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM DomManager where ManagerID = ? ";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            AccountDAO accountDAO = new AccountDAO();
+            while (resultSet.next()) {
+                domManager = new DomManager(resultSet.getInt("ManagerID"), // tạo mợi object của mình và bắt add vào list
+                        resultSet.getString("ManagerName"),
+                        resultSet.getBoolean("Gender"),
+                        resultSet.getDate("DOB"),
+                        resultSet.getString("Email"),
+                        resultSet.getString("PhoneNumber"),
+                        ManagerRegency.valueOf(resultSet.getString("Regency")),
+                        (Account) accountDAO.getOne(resultSet.getString("UserName")));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return domManager;
+    }
+    
     @Override
     public Object getOne(Object key) throws SQLException { //get về 1 object dom manager thông qua dommanager username
         Object domManager = new DomManager();
