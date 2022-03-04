@@ -1,23 +1,13 @@
 /*
- * Copyright(C) 2022, FPT University.
- * Dormitory Management System:
- * Controller Boarder
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 2022-01-23      2.0                 DucHT           Update code
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package controller.boarder;
 
-import controller.admin.ViewRoomServlet;
-import dao.impl.AccountDAO;
 import dao.impl.BoarderDAO;
-import dao.impl.BoardingInformationDAO;
-import dao.impl.DomDAO;
-import dao.impl.RoomStatusDAO;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -27,15 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import model.Boarder;
-import model.BoardingInformation;
-import model.Dom;
-import model.RoomStatus;
 
 /**
  *
- * @author lenovo_thinkpad
+ * @author Admin
  */
-public class BoarderRoomServlet extends HttpServlet {
+public class BookingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,38 +37,18 @@ public class BoarderRoomServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-             AccountDAO accountDAO = new AccountDAO();
+            int roomID = Integer.parseInt(request.getParameter("roomId"));
+            int bedNo = Integer.parseInt(request.getParameter("bedno"));
             Account act = (Account) request.getSession().getAttribute("account");
             BoarderDAO boarderDAO = new BoarderDAO();
             Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
-            Cookie[] cookies = request.getCookies();
-            for (Cookie c : cookies) {
-                if (c.getName().equals("Book" + boarder.getBoarderID())) {
-                    //waiting + edit request        request.getRequestDispatcher("waiting.jsp").forward(request, response);
-                    return;
-                }
-            }
-            BoardingInformationDAO boardingInformationDAO = new BoardingInformationDAO();
-            BoardingInformation boardingInformation = boardingInformationDAO.getBoardingInformation(boarder.getBoarderID());
-            if (boardingInformation != null && boardingInformation.getEndDate() == null) {
-                request.setAttribute("infor", boardingInformation);
-                request.getRequestDispatcher("boarder_room_view.jsp").forward(request, response);
-                return;
-            }
-            RoomStatusDAO roomStatusDAO = new RoomStatusDAO();
-            DomDAO domDAO = new DomDAO();
-            request.setAttribute("doms", domDAO.getAll());
-            String domID = request.getParameter("dom") == null ? "A" : request.getParameter("dom");
-            Object dom = domDAO.getOne(domID);
-            ArrayList<RoomStatus> map = roomStatusDAO.getDomStatus((Dom) dom);
-            request.setAttribute("roomStatusDAO", roomStatusDAO);
-            request.setAttribute("dom", dom);
-            request.setAttribute("mapdom", map);
-            request.setAttribute("page", "room");
-            request.getRequestDispatcher("boarder_room_book.jsp").forward(request, response);
+            Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
+            Booking.setMaxAge(60 * 60 * 24 * 30);
+            response.addCookie(Booking);
         } catch (SQLException ex) {
-            Logger.getLogger(ViewRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        request.getRequestDispatcher("waiting_boarder.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

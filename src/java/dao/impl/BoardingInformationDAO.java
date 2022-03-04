@@ -26,6 +26,38 @@ import model.Room;
  */
 public class BoardingInformationDAO extends Connection implements IBaseDAO {
 
+    
+    public BoardingInformation getBoardingInformation(int BoarderID) throws SQLException {
+        BoardingInformation boardingInformation = null;
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM BoardingInformation WHERE BoarderID = ?";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setInt(1, BoarderID);
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            RoomDAO roomDAO = new RoomDAO();
+            BoarderDAO boarderDAO = new BoarderDAO();
+            while (resultSet.next()) {
+                boardingInformation = new BoardingInformation((Room) roomDAO.getOne(resultSet.getInt("RoomID")), // tạo mợi object của mình và bắt add vào list
+                        (Boarder) boarderDAO.getBoarderById(resultSet.getInt("BoarderID")),
+                        resultSet.getInt("BedNo"),
+                        resultSet.getDate("StartDate"),
+                        resultSet.getDate("EndDate"));
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return boardingInformation;
+    }
+
     @Override
     public ArrayList<Object> getAll() throws SQLException {
         ArrayList<Object> boadingInformations = new ArrayList<>();
@@ -69,14 +101,15 @@ public class BoardingInformationDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "Insert into BoardingInformation(BoarderID,RoomID,StartDate,BedNo) values (?,?,?,?)";
+        String sql = "Insert into BoardingInformation(BoarderID,RoomID,StartDate,EndDate,BedNo) values (?,?,?,?,?)";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
             preparedStatement.setInt(1, boardingInformation.getBoarder().getBoarderID());
             preparedStatement.setInt(2, boardingInformation.getRoom().getRoomID());
             preparedStatement.setDate(3, boardingInformation.getStartDate());
-            preparedStatement.setInt(4, boardingInformation.getBedNo());
+            preparedStatement.setDate(4, boardingInformation.getEndDate());
+            preparedStatement.setInt(5, boardingInformation.getBedNo());
             resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
