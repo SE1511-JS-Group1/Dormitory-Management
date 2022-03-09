@@ -101,8 +101,20 @@
         <servlet-class>controller.boarder.BoarderFeedback</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>BoarderChangePasswordServlet</servlet-name>
-        <servlet-class>controller.boarder.BoarderChangePasswordServlet</servlet-class>
+        <servlet-name>StaffViolationManage</servlet-name>
+        <servlet-class>controller.staff.StaffViolationManage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffViolationAddNew</servlet-name>
+        <servlet-class>controller.staff.StaffViolationAddNew</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffDeleteViolation</servlet-name>
+        <servlet-class>controller.staff.StaffDeleteViolation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffUpdateViolation</servlet-name>
+        <servlet-class>controller.staff.StaffUpdateViolation</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -177,8 +189,20 @@
         <url-pattern>/boarder/feedback</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>BoarderChangePasswordServlet</servlet-name>
-        <url-pattern>/boarder/changepassword</url-pattern>
+        <servlet-name>StaffViolationManage</servlet-name>
+        <url-pattern>/staff/violation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffViolationAddNew</servlet-name>
+        <url-pattern>/staff/StaffViolationAddNew</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffDeleteViolation</servlet-name>
+        <url-pattern>/staff/StaffDeleteViolation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffUpdateViolation</servlet-name>
+        <url-pattern>/staff/StaffUpdateViolation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

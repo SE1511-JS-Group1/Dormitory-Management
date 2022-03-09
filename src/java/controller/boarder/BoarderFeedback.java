@@ -101,7 +101,6 @@ public class BoarderFeedback extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(BoarderFeedback.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
          
     }
 

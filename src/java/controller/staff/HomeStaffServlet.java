@@ -9,7 +9,11 @@
  */
 package controller.staff;
 
+import dao.impl.ViolationDAO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +36,8 @@ public class HomeStaffServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setAttribute("page", "Room");
         request.getRequestDispatcher("home_staff.jsp").forward(request, response);
     }
 

@@ -36,12 +36,8 @@
                                                 <h6 class="mb-0 me-4 text-center">Your feedback: </h6>
                                                 <div class="form-check form-check-inline mb-0 me-4" style="margin-left: 15%;">                                             
                                                     <input name="title" type="text" placeholder="title"   required/>
-                                                    <textarea style="width:86%" name="massage" onkeyup="CheckMessage(this)" placeholder="massage"required></textarea>
+                                                    <textarea style="width:86%" name="massage" placeholder="massage"required></textarea>
                                                     <button class="btn btn-outline-info" type="submit">feedback</button>
-                                                    <script>
-                                                        alert("FeedBack Successful");
-                                                    </script>
-                                                        
                                                 </div>
                                             </form>
                                         </div>
@@ -55,15 +51,4 @@
                 <c:import url="boarder_footer.jsp"></c:import>
             </div>
     </body>
-    <script>
-        function CheckMessage(param){
-                 var massege = param.value; 
-                 param.value = massege.trim();
-                if (massege.length ==0 ) {
-                    document.getElementById('message1').innerHTML = 'Trống';
-                } else {
-                    document.getElementById('message1').innerHTML = '';
-                }
-            }
-    </script>
 </html>

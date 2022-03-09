@@ -14,12 +14,12 @@ import java.sql.SQLException;
  *
  * @author lenovo_thinkpad
  */
-public class Connection implements ISQLContext{
+public class Connection {
 
     public java.sql.Connection getConnection() {
         java.sql.Connection connection = null; // create connection
-        String connectionUrl = "jdbc:sqlserver://" + HOSTNAME + ":" + PORT + ";"
-                + "databaseName=" + DATABASENAME + ";integratedSecurity=" + INTEGRATEDSECURITY + ";";
+        String connectionUrl = "jdbc:sqlserver://" + ISQLContext.HOSTNAME + ":" + ISQLContext.PORT + ";"
+                + "databaseName=" + ISQLContext.DATABASENAME + ";integratedSecurity=" + ISQLContext.INTEGRATEDSECURITY + ";";
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); // đăng kí một cái driver
