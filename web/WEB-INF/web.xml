@@ -96,10 +96,13 @@
         <servlet-name>BookingServlet</servlet-name>
         <servlet-class>controller.boarder.BookingServlet</servlet-class>
     </servlet>
-
     <servlet>
         <servlet-name>BoarderFeedback</servlet-name>
         <servlet-class>controller.boarder.BoarderFeedback</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BoarderChangePasswordServlet</servlet-name>
+        <servlet-class>controller.boarder.BoarderChangePasswordServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -169,11 +172,13 @@
         <servlet-name>BookingServlet</servlet-name>
         <url-pattern>/boarder/book</url-pattern>
     </servlet-mapping>
- 
-
     <servlet-mapping>
         <servlet-name>BoarderFeedback</servlet-name>
         <url-pattern>/boarder/feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BoarderChangePasswordServlet</servlet-name>
+        <url-pattern>/boarder/changepassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

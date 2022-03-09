@@ -5,13 +5,10 @@
  */
 package controller.boarder;
 
-import dao.impl.BoarderDAO;
-import dao.impl.FeedbackDAO;
+import dao.impl.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,14 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
-import model.Boarder;
-import model.Feedback;
 
 /**
  *
  * @author XuanDinh
  */
-public class BoarderFeedback extends HttpServlet {
+public class BoarderChangePasswordServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +40,10 @@ public class BoarderFeedback extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BoarderFeedback</title>");            
+            out.println("<title>Servlet BoarderChangePasswordServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BoarderFeedback at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BoarderChangePasswordServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,8 +61,7 @@ public class BoarderFeedback extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       request.setAttribute("page", "Feedback");
-       request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
+        request.getRequestDispatcher("boarder_change_password.jsp").forward(request, response);
     }
 
     /**
@@ -82,27 +76,15 @@ public class BoarderFeedback extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String title = request.getParameter("title");
-            String massage = request.getParameter("massage");
-            Date date= Date.valueOf(LocalDate.now());
-            Account account = (Account) request.getSession().getAttribute("account");
-            String user = account.getUserName();
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder)boarderDAO.getOne(user);
-            Feedback feedback= new Feedback(0,
-                    date,
-                    title,
-                    boarder);
-            FeedbackDAO feedbackDAO = new FeedbackDAO();
-            feedbackDAO.insert(feedback);
-            System.out.println("feedback successful");
-            request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
-           
+            String username = request.getParameter("user");
+            String newpassword = request.getParameter("new");
+            AccountDAO accountDAO = new AccountDAO();
+            accountDAO.update(newpassword, username);
+            request.getRequestDispatcher("boarder_change_password.jsp").forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(BoarderFeedback.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BoarderChangePasswordServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
-         
+        request.getRequestDispatcher("boarder_change_password.jsp").forward(request, response);
     }
 
     /**
