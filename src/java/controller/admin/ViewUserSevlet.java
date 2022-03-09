@@ -97,7 +97,6 @@ public class ViewUserSevlet extends HttpServlet {
                 name = boarder.getBoarderName();
             }
             accountDAO.delete(account);
-            System.out.println("Xoas thanh cong");
             try {
                 Properties properties = new Properties();
                 properties.put("mail.smtp.host", "smtp.gmail.com");

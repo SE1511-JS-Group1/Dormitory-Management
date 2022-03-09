@@ -98,6 +98,7 @@ public class AdminFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
@@ -136,6 +137,7 @@ public class AdminFilter implements Filter {
 
     /**
      * Return the filter configuration object for this filter.
+     * @return 
      */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
@@ -153,12 +155,15 @@ public class AdminFilter implements Filter {
     /**
      * Destroy method for this filter
      */
+    @Override
     public void destroy() {        
     }
 
     /**
      * Init method for this filter
+     * @param filterConfig
      */
+    @Override
     public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
@@ -176,7 +181,7 @@ public class AdminFilter implements Filter {
         if (filterConfig == null) {
             return ("AdminFilter()");
         }
-        StringBuffer sb = new StringBuffer("AdminFilter(");
+        StringBuilder sb = new StringBuilder("AdminFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
