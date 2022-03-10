@@ -116,6 +116,10 @@
         <servlet-name>StaffUpdateViolation</servlet-name>
         <servlet-class>controller.staff.StaffUpdateViolation</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StaffBoarderManage</servlet-name>
+        <servlet-class>controller.staff.StaffBoarderManage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -203,6 +207,10 @@
     <servlet-mapping>
         <servlet-name>StaffUpdateViolation</servlet-name>
         <url-pattern>/staff/StaffUpdateViolation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffBoarderManage</servlet-name>
+        <url-pattern>/staff/StaffBoarderManage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

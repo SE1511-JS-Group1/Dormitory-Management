@@ -74,7 +74,7 @@ public class BoardingInformationDAO extends Connection implements IBaseDAO {
             BoarderDAO boarderDAO = new BoarderDAO();
             while (resultSet.next()) {
                 BoardingInformation boardingInformation = new BoardingInformation((Room) roomDAO.getOne(resultSet.getInt("RoomID")), // tạo mợi object của mình và bắt add vào list
-                        (Boarder) boarderDAO.getOne(resultSet.getInt("BoarderID")),
+                        (Boarder) boarderDAO.getBoarderById(resultSet.getInt("BoarderID")),
                         resultSet.getInt("BedNo"),
                         resultSet.getDate("StartDate"),
                         resultSet.getDate("EndDate"));

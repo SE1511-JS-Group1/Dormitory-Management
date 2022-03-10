@@ -4,7 +4,6 @@
     Author     : NgocDuy
 --%>
 
-<%@page import="model.Violation"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,45 +18,43 @@
         <link href="../css/overview.css" rel="stylesheet">
         <link href="../css/violation_manage.css" rel="stylesheet">
         <style>
-            input{
-                display: block;
-                margin-top: 10px;
-                margin-left: auto;
-                margin-right: auto;
-                height: 45px;
-                width: 550px; 
-                text-align: center;
-            }
-            h4{
-                text-align: center;
-            }
-            button{
-                background-color: #555b6b;
-                margin-top: 10px;
-                margin-left: auto;
-                margin-right: auto;
-                height: 45px;
-                width: 550px; 
-                text-align: center;
-                display: block;
+            table{
+                width: 1000px;
             }
         </style>
-        <title>Dormitory System</title>
-        <% Violation p = (Violation) request.getAttribute("violation");%> //đẩy violation lên để hiển thị thông tin cũ
+        <title>Boarder List</title>
     </head>
-    <body style="">
+    <body>
         <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
             <c:import url="staff_header.jsp"></c:import>
         </div>
+        <h1>Boarder List</h1>
         
-        <div style="padding-top: 200px; background-color: #f0f4f5; height: 590px;">
-            <form action="StaffUpdateViolation" method="POST">     
-                <input name="id" value="<%=p.getViolationID()%>" display="none">
-                <input type="text" name="type" value="<%=p.getType()%>">
-                <input type="text" name="violator" value="<%=p.getViolatorID()%>">
-                <input type="text" name="penalization" value="<%=p.getPenalization()%>">
-                <input type="text" name="description" value="<%=p.getDiscription()%>">     
-                <button onclick="showMess()">SAVE</button>
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Phone Number</th>
+                        <th>Bed No</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${list}" var="p" varStatus="loop">
+                        <tr>
+                            <td>${p.getBoarder().getBoarderName()}</td>
+                            <td>${p.getBoarder().isGender()}</td>
+                            <td>${p.getBoarder().getDateOfBirth()}</td>
+                            <td>${p.getBoarder().getPhoneNumber()}</td>
+                            <td>${p.getBedNo().toString()}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <form action="#" method="GET">
+                <input type="submit" value="View Borader Request" style="margin-left: 158px; margin-top: 10px">
             </form>
         </div>
         
@@ -65,9 +62,5 @@
             <c:import url="staff_footer.jsp"></c:import>
         </div>
     </body>
-    <script>
-        function showMess() {
-            alert("Updated successfuly");
-        }
-    </script>
+
 </html>
