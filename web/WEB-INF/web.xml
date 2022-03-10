@@ -96,10 +96,25 @@
         <servlet-name>BookingServlet</servlet-name>
         <servlet-class>controller.boarder.BookingServlet</servlet-class>
     </servlet>
-
     <servlet>
         <servlet-name>BoarderFeedback</servlet-name>
         <servlet-class>controller.boarder.BoarderFeedback</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffViolationManage</servlet-name>
+        <servlet-class>controller.staff.StaffViolationManage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffViolationAddNew</servlet-name>
+        <servlet-class>controller.staff.StaffViolationAddNew</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffDeleteViolation</servlet-name>
+        <servlet-class>controller.staff.StaffDeleteViolation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StaffUpdateViolation</servlet-name>
+        <servlet-class>controller.staff.StaffUpdateViolation</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -169,11 +184,25 @@
         <servlet-name>BookingServlet</servlet-name>
         <url-pattern>/boarder/book</url-pattern>
     </servlet-mapping>
- 
-
     <servlet-mapping>
         <servlet-name>BoarderFeedback</servlet-name>
         <url-pattern>/boarder/feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffViolationManage</servlet-name>
+        <url-pattern>/staff/violation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffViolationAddNew</servlet-name>
+        <url-pattern>/staff/StaffViolationAddNew</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffDeleteViolation</servlet-name>
+        <url-pattern>/staff/StaffDeleteViolation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StaffUpdateViolation</servlet-name>
+        <url-pattern>/staff/StaffUpdateViolation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

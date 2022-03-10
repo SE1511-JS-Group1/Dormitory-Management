@@ -10,7 +10,8 @@
 package dao.impl;
 
 import java.sql.SQLException;
-import model.DomInformation;
+import java.util.*;
+import model.*;
 
 /**
  *
@@ -19,7 +20,8 @@ import model.DomInformation;
 public class Main {
     
     public static void main(String[] args) throws SQLException{
-        DomDAO aO = new DomDAO();
-        aO.checkFloorFull("A", 1);
+        ViolationDAO dao = new ViolationDAO();
+        Violation a = dao.getViolationByID(1);
+        System.out.println(a.getDiscription());
     }
 }

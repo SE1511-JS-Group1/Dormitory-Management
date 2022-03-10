@@ -1,16 +1,13 @@
 /*
- * Copyright(C) 2022, FPT University.
- * Dormitory Management System:
- * Controller Staff
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 2022-01-23      2.0                 DucHT           Update code
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package controller.staff;
 
 import dao.impl.ViolationDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,9 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author lenovo_thinkpad
+ * @author NgocDuy
  */
-public class HomeStaffServlet extends HttpServlet {
+public class StaffDeleteViolation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,8 +34,18 @@ public class HomeStaffServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setAttribute("page", "Room");
-        request.getRequestDispatcher("home_staff.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet StaffDeleteViolation</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet StaffDeleteViolation at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -67,7 +74,14 @@ public class HomeStaffServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int id = Integer.parseInt(request.getParameter("id"));
+        ViolationDAO dao = new ViolationDAO();
+        try {
+            dao.delete(id);
+            response.sendRedirect("violation");
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffDeleteViolation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
