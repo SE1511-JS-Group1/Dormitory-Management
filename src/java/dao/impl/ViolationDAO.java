@@ -66,12 +66,12 @@ public class ViolationDAO extends Connection implements IBaseDAO {
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            preparedStatement.setInt(1, (int) key);
+            preparedStatement.setInt(1, key);
             resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (resultSet.next()) {
-                Violation a = new Violation((int)key, resultSet.getString(2), resultSet.getString(3), 
-                                    resultSet.getString(5), resultSet.getString(6));
+                Violation a = new Violation(key, resultSet.getString(2), resultSet.getString(3), 
+                                    resultSet.getString(5), resultSet.getString(4));
                 return a; // trả về đối tượng cần tìm
             }
         } catch (SQLException e) {
