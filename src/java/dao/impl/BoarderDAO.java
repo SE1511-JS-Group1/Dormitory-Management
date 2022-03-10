@@ -81,7 +81,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
                         resultSet.getString("Email"),
                         resultSet.getString("PhoneNumber"),
                         resultSet.getString(7).equalsIgnoreCase("Student") ? Jobs.Student : Jobs.Teacher,
-                        (Account) accountDB.getOne((String) key));
+                        (Account) accountDB.getOne(key));
                 return  boarder;
             }
         } catch (SQLException e) {

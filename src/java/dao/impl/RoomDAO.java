@@ -46,7 +46,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
                         (Dom) domDAO.getOne(resultSet.getString(4)),
                         resultSet.getString(2),
                         resultSet.getInt(3),
-                        (RoomCategory) roomCategoryDAO.getOne((int) resultSet.getInt(5)));
+                        (RoomCategory) roomCategoryDAO.getOne(resultSet.getInt(5)));
                 rooms.add(room); // add vào list
             }
         } catch (SQLException e) {
@@ -79,7 +79,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
                         (Dom) domDAO.getOne(resultSet.getString(4)),
                         resultSet.getString(2),
                         resultSet.getInt(3),
-                        (RoomCategory) roomCategoryDAO.getOne((int) resultSet.getInt(5)));
+                        (RoomCategory) roomCategoryDAO.getOne(resultSet.getInt(5)));
             }
 
         } catch (SQLException e) {
@@ -129,7 +129,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
+            closeResultSet(null);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
@@ -154,7 +154,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
+            closeResultSet(null);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
@@ -165,9 +165,10 @@ public class RoomDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "select r.RoomID, rc.BedNumber\n"
-                + "from room r, RoomCategory rc\n"
-                + "where r.CategoryID = rc.CategoryID";
+        String sql = """
+                select r.RoomID, rc.BedNumber
+                from room r, RoomCategory rc
+                where r.CategoryID = rc.CategoryID""";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -205,7 +206,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
                         (Dom) domDAO.getOne(resultSet.getString(4)),
                         resultSet.getString(2),
                         resultSet.getInt(3),
-                        (RoomCategory) roomCategoryDAO.getOne((int) resultSet.getInt(5)));
+                        (RoomCategory) roomCategoryDAO.getOne(resultSet.getInt(5)));
             }
 
         } catch (SQLException e) {
@@ -237,7 +238,7 @@ public class RoomDAO extends Connection implements IBaseDAO {
                         (Dom) domDAO.getOne(resultSet.getString("DOmID")),
                         resultSet.getString("RoomName"),
                         resultSet.getInt("Floor"),
-                        (RoomCategory) roomCategoryDAO.getOne((int) resultSet.getInt("CategoryID")));
+                        (RoomCategory) roomCategoryDAO.getOne(resultSet.getInt("CategoryID")));
             }
 
         } catch (SQLException e) {

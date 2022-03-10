@@ -179,7 +179,7 @@ public class DomDAO extends Connection implements IBaseDAO {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
             preparedStatement.setString(1, String.valueOf((char) (lastDom.getDomID().charAt(0) + 1)));
-            preparedStatement.setString(2, "Dom " + String.valueOf((char) (lastDom.getDomID().charAt(0) + 1)));
+            preparedStatement.setString(2, "Dom " + (char) (lastDom.getDomID().charAt(0) + 1));
             preparedStatement.setString(3, "101");
             preparedStatement.setInt(4, 1);
             preparedStatement.setString(5, String.valueOf((char) (lastDom.getDomID().charAt(0) + 1)));
@@ -198,10 +198,11 @@ public class DomDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "select d.DomID, sum(CONVERT(int,rs.[Status])) as 'TotalBoarder'\n"
-                + "from Dom d, Room r, RoomStatus rs\n"
-                + "where d.DomID=r.DomID and r.RoomID = rs.RoomID and d.DomID = ?\n"
-                + "group by d.DomID";
+        String sql = """
+                select d.DomID, sum(CONVERT(int,rs.[Status])) as 'TotalBoarder'
+                from Dom d, Room r, RoomStatus rs
+                where d.DomID=r.DomID and r.RoomID = rs.RoomID and d.DomID = ?
+                group by d.DomID""";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -234,7 +235,7 @@ public class DomDAO extends Connection implements IBaseDAO {
             resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (resultSet.next()) {
-                total = (int) resultSet.getInt(1);
+                total = resultSet.getInt(1);
             }
 
         } catch (SQLException e) {
@@ -252,9 +253,10 @@ public class DomDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT COUNT(*)\n"
-                + "FROM RoomStatus rs,Room r\n"
-                + "WHERE r.RoomID=rs.RoomID AND r.DomID = ?";
+        String sql = """
+                SELECT COUNT(*)
+                FROM RoomStatus rs,Room r
+                WHERE r.RoomID=rs.RoomID AND r.DomID = ?""";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -262,7 +264,7 @@ public class DomDAO extends Connection implements IBaseDAO {
             resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (resultSet.next()) {
-                total = (int) resultSet.getInt(1);
+                total = resultSet.getInt(1);
             }
 
         } catch (SQLException e) {

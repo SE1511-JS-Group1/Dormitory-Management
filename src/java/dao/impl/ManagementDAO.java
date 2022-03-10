@@ -41,7 +41,7 @@ public class ManagementDAO extends Connection implements IBaseDAO {
                 DomDAO domDAO = new DomDAO();
                 Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getDomManagerById lấy về 1 dom theo domID
                 DomManagerDAO dmd = new DomManagerDAO();
-                DomManager domManager = (DomManager) dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
+                DomManager domManager = dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
                 Management management = new Management(dom, domManager);
                 managements.add(management); // add vào list
             }
@@ -78,7 +78,7 @@ public class ManagementDAO extends Connection implements IBaseDAO {
                     DomDAO domDAO = new DomDAO();
                     Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getDomManagerById lấy về 1 dom theo domID
                     DomManagerDAO dmd = new DomManagerDAO();
-                    DomManager domManager = (DomManager) dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
+                    DomManager domManager = dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
                     Management management = new Management(dom, domManager);
                     managements.add(management); // add vào list
                 }
@@ -91,7 +91,7 @@ public class ManagementDAO extends Connection implements IBaseDAO {
                     DomDAO domDAO = new DomDAO();
                     Dom dom = (Dom) domDAO.getOne(resultSet.getString(1)); //gọi phương thức getDomManagerById lấy về 1 dom theo domID
                     DomManagerDAO dmd = new DomManagerDAO();
-                    DomManager domManager = (DomManager) dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
+                    DomManager domManager = dmd.getDomManagerById(resultSet.getInt(2)); ////gọi phương thức getDomManagerById lấy về 1 domManager theo ID
                     Management management = new Management(dom, domManager);
                     managements.add(management); // add vào list
                 }
@@ -123,7 +123,7 @@ public class ManagementDAO extends Connection implements IBaseDAO {
             DomManagerDAO domManagerDAO = new DomManagerDAO();
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (resultSet.next()) {
-                DomManager domManager = domManagerDAO.getDomManagerById((int)resultSet.getInt("ManagerID"));
+                DomManager domManager = domManagerDAO.getDomManagerById(resultSet.getInt("ManagerID"));
                 domManagers.add(domManager);
             }
         } catch (SQLException e) {
