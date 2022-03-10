@@ -60,15 +60,9 @@ public class LoginServlet extends HttpServlet {
                     account = (Account) accountDAO.getOne(username);
                     request.getSession().setAttribute("account", account);
                     switch (account.getRole()) {
-                        case 1:
-                            response.sendRedirect("admin/home");
-                            break;
-                        case 2:
-                            response.sendRedirect("staff/home");
-                            break;
-                        case 3:
-                            response.sendRedirect("boarder/home");
-                            break;
+                        case 1 -> response.sendRedirect("admin/home");
+                        case 2 -> response.sendRedirect("staff/home");
+                        case 3 -> response.sendRedirect("boarder/home");
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -40,7 +40,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
 
                 int ManagerID = resultSet.getInt(6);  //lấy id của domManager từ database
                 DomManagerDAO dmDAO = new DomManagerDAO();
-                DomManager domManager = (DomManager) dmDAO.getDomManagerById(ManagerID); //lấy object DomManager thông qua phương thức getDomManagerById trong DomManagerDAO
+                DomManager domManager = dmDAO.getDomManagerById(ManagerID); //lấy object DomManager thông qua phương thức getDomManagerById trong DomManagerDAO
                 Notice notice = new Notice(resultSet.getInt("NoticeID"), //tạo mới một notice
                         resultSet.getDate("Time"),
                         resultSet.getString("Title"),
@@ -83,7 +83,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
 
                 int ManagerID = resultSet.getInt(6);  //lấy id của domManager từ database
                 DomManagerDAO dmDAO = new DomManagerDAO();
-                DomManager domManager = (DomManager) dmDAO.getOnee(ManagerID); //lấy object DomManager thông qua phương thức getOne trong DomManagerDAO
+                DomManager domManager = dmDAO.getOnee(ManagerID); //lấy object DomManager thông qua phương thức getOne trong DomManagerDAO
                 Notice notice = new Notice(resultSet.getInt("NoticeID"), //tạo mới một notice
                         resultSet.getDate("Time"),
                         resultSet.getString("Title"),
@@ -123,7 +123,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
+            closeResultSet(null);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
@@ -144,7 +144,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
+            closeResultSet(null);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
@@ -171,7 +171,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
+            closeResultSet(null);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
