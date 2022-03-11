@@ -176,9 +176,10 @@ public class BoarderFilter implements Filter {
         if (filterConfig == null) {
             return ("BoarderFilter()");
         }
-        String sb = "BoarderFilter(" + filterConfig +
-                ")";
-        return (sb);
+        StringBuffer sb = new StringBuffer("BoarderFilter(");
+        sb.append(filterConfig);
+        sb.append(")");
+        return (sb.toString());
     }
     
     private void sendProcessingError(Throwable t, ServletResponse response) {

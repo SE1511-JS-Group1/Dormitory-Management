@@ -57,10 +57,6 @@
         <servlet-class>controller.boarder.HomeBoarderServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>HomeStaffServlet</servlet-name>
-        <servlet-class>controller.staff.HomeStaffServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ViewDomAdminServlet</servlet-name>
         <servlet-class>controller.admin.ViewRoomServlet</servlet-class>
     </servlet>
@@ -120,6 +116,10 @@
         <servlet-name>StaffBoarderManage</servlet-name>
         <servlet-class>controller.staff.StaffBoarderManage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewRequestServlet</servlet-name>
+        <servlet-class>controller.staff.ViewRequestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -147,10 +147,6 @@
     <servlet-mapping>
         <servlet-name>HomeBoarderServlet</servlet-name>
         <url-pattern>/boarder/home</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>HomeStaffServlet</servlet-name>
-        <url-pattern>/staff/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewDomAdminServlet</servlet-name>
@@ -210,7 +206,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StaffBoarderManage</servlet-name>
-        <url-pattern>/staff/StaffBoarderManage</url-pattern>
+        <url-pattern>/staff/boarder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewRequestServlet</servlet-name>
+        <url-pattern>/staff/request</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

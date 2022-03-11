@@ -7,7 +7,6 @@ package controller.staff;
 
 import dao.impl.ViolationDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +31,7 @@ public class StaffViolationManage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setAttribute("page", "Room");
+        request.setAttribute("page", "violation");
         ViolationDAO vioDAO = new ViolationDAO();
         try {
             request.setAttribute("listVio", vioDAO.getAll());

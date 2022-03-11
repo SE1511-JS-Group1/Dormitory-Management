@@ -1,7 +1,7 @@
 <%-- 
-    Document   : ManageViolation
-    Created on : Mar 1, 2022, 6:56:49 PM
-    Author     : NgocDuy
+    Document   : ViewRequest
+    Created on : Mar 11, 2022, 1:13:22 AM
+    Author     : Dell
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -52,7 +52,7 @@
                                                     }
                                                 </style>
                                             <c:forEach var="d" items="${doms}">
-                                                <form action="boarder" method="get">
+                                                <form action="request" method="get">
                                                     <input type="hidden" name="dom" value="${d.getDomID()}"/>
                                                     <button type="submit" class="btn btn-outline-info ${d.getDomID() eq dom.getDomID()?'pushin':'btn-map-field-col'}"><h6>${d.getDomName()}</h6></button>    
                                                 </form>
@@ -64,8 +64,8 @@
                                     <div class="card-body p-md-9 mx-md-4">
                                         <div class="container">
                                             <c:choose>
-                                                <c:when test="${list.size()==0}">
-                                                    <h5 class="text-center">No Boarder in this Dom</h5>
+                                                <c:when test="${boarding.size()==0}">
+                                                    <h5 class="text-center">No request in this Dom</h5>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <table>
@@ -92,10 +92,10 @@
                                                     </table>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <form action="request" method="get" class="row">
-                                                    <div class="col-lg-4"></div>
-                                                    <input type="hidden" name="dom" value="${dom.getDomID()}"/>
-                                                <button type="submit" class="btn btn-outline-info col-lg-4">View Boarder's Request</button>
+                                            <form action="boarder" method="get" class="row">
+                                                <div class="col-lg-4"></div>
+                                                <input type="hidden" name="dom" value="${dom.getDomID()}"/>
+                                                <button type="submit" class="btn btn-outline-info col-lg-4">View Boarder</button>
                                             </form>
                                         </div>
                                     </div>
@@ -115,3 +115,4 @@
 </body>
 
 </html>
+

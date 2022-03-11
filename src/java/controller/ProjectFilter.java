@@ -145,9 +145,10 @@ public class ProjectFilter implements Filter {
         if (filterConfig == null) {
             return ("ProjectFilter()");
         }
-        String sb = "ProjectFilter(" + filterConfig +
-                ")";
-        return (sb);
+        StringBuffer sb = new StringBuffer("ProjectFilter(");
+        sb.append(filterConfig);
+        sb.append(")");
+        return (sb.toString());
     }
 
     private void sendProcessingError(Throwable t, ServletResponse response) {

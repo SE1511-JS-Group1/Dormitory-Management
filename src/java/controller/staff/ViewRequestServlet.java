@@ -5,7 +5,10 @@
  */
 package controller.staff;
 
-import dao.impl.*;
+import dao.impl.BoarderDAO;
+import dao.impl.BoardingInformationDAO;
+import dao.impl.DomDAO;
+import dao.impl.RoomDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -13,15 +16,19 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Boarder;
+import model.BoardingInformation;
+import model.Room;
 
 /**
  *
- * @author tango
+ * @author Dell
  */
-public class StaffBoarderManage extends HttpServlet {
+public class ViewRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +47,10 @@ public class StaffBoarderManage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StaffBoarderManage</title>");            
+            out.println("<title>Servlet ViewRequestServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StaffBoarderManage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewRequestServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -71,11 +78,27 @@ public class StaffBoarderManage extends HttpServlet {
             ArrayList<Object> infor = dao.getAll();
             request.setAttribute("list", infor);
             request.setAttribute("page", "boarder");
-            request.getRequestDispatcher("Manage_Boarder.jsp").forward(request, response);
+            // Doc request tu cookie
+            RoomDAO roomDAO = new RoomDAO();
+            BoarderDAO boarderDAO = new BoarderDAO();
+            ArrayList<BoardingInformation> boardingInformations = new ArrayList<>();
+            Cookie[] cookies = request.getCookies();
+            if (cookies.length > 2){
+                for(Cookie c:cookies){
+                    if(c.getName().startsWith("Book")){
+                        String[] reqString = c.getValue().split("|");
+                        Room r = (Room)roomDAO.getOne(reqString[1]);
+                        Boarder b = (Boarder)boarderDAO.getBoarderById(Integer.parseInt(reqString[0]));
+                        BoardingInformation bi = new BoardingInformation(r, b, Integer.parseInt(reqString[2]), null, null);
+                        boardingInformations.add(bi);
+                    }
+                }
+            }
+            request.setAttribute("boarding", boardingInformations);
+            request.getRequestDispatcher("ViewRequest.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(StaffBoarderManage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     /**

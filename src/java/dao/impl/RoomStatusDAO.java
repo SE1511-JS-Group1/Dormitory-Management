@@ -36,12 +36,11 @@ public class RoomStatusDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = """
-                SELECT rs.RoomID,r.[Floor], SUM(Convert(int,[Status])) as 'FillStatus'
-                FROM RoomStatus rs, Room r
-                Where rs.RoomID=r.RoomID and r.domID = ?
-                group by rs.RoomID,r.[Floor]
-                order by r.[Floor] desc, rs.RoomID asc""";
+        String sql = "SELECT rs.RoomID,r.[Floor], SUM(Convert(int,[Status])) as 'FillStatus'\n"
+                + "FROM RoomStatus rs, Room r\n"
+                + "Where rs.RoomID=r.RoomID and r.domID = ?\n"
+                + "group by rs.RoomID,r.[Floor]\n"
+                + "order by r.[Floor] desc, rs.RoomID asc";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -51,7 +50,7 @@ public class RoomStatusDAO extends Connection implements IBaseDAO {
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (resultSet.next()) {
                 Room r = ((Room) roomDAO.getOne(resultSet.getInt(1)));
-                domStatus.add(new RoomStatus(r, Math.max((r.getCategory().getBedNumber() - resultSet.getInt(3)), 0),
+                domStatus.add(new RoomStatus(r, (r.getCategory().getBedNumber() - resultSet.getInt(3))<0 ? 0 : (r.getCategory().getBedNumber() - resultSet.getInt(3)),
                         r.getCategory().getBedNumber() == 0 ? 7 : (int) (resultSet.getInt(3) * 7.0 / r.getCategory().getBedNumber())));// tạo mợi object của mình và bắt add vào list
             }
         } catch (SQLException e) {

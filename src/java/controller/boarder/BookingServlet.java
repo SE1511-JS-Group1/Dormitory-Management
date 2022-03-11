@@ -43,6 +43,7 @@ public class BookingServlet extends HttpServlet {
             BoarderDAO boarderDAO = new BoarderDAO();
             Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
             Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
+            Booking.setDomain("Dormitoryswp.com.vn/*");
             Booking.setMaxAge(60 * 60 * 24 * 30);
             response.addCookie(Booking);
         } catch (SQLException ex) {

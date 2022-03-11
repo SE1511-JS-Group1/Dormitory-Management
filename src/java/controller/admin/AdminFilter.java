@@ -176,9 +176,10 @@ public class AdminFilter implements Filter {
         if (filterConfig == null) {
             return ("AdminFilter()");
         }
-        String sb = "AdminFilter(" + filterConfig +
-                ")";
-        return (sb);
+        StringBuffer sb = new StringBuffer("AdminFilter(");
+        sb.append(filterConfig);
+        sb.append(")");
+        return (sb.toString());
     }
     
     private void sendProcessingError(Throwable t, ServletResponse response) {

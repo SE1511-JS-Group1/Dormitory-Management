@@ -57,7 +57,7 @@ public class BoarderRoomServlet extends HttpServlet {
             Cookie[] cookies = request.getCookies();
             for (Cookie c : cookies) {
                 if (c.getName().equals("Book" + boarder.getBoarderID())) {
-                    //waiting + edit request        request.getRequestDispatcher("waiting.jsp").forward(request, response);
+                    request.getRequestDispatcher("waiting_boarder.jsp").forward(request, response);
                     return;
                 }
             }

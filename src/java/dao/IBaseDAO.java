@@ -18,13 +18,16 @@ public interface IBaseDAO {
      * be an <code>ArrayList</code> of <code>Object</code>.
      *
      * @return an {@code  ArrayList<Object>} .
+     * @throws java.lang.Exception
      */
     ArrayList<Object> getAll() throws Exception;
 
     /**
      * Alow user search an {@code Object} with its primary key in the database.
      * Result may be an {@code  ArrayList<Object>}
+     * @param key 
      * @return {@code  ArrayList<Object>}
+     * @throws java.lang.Exception
      */
     Object getOne(Object key)throws Exception;
 

@@ -33,7 +33,6 @@ import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import model.Boarder;
 import model.DomManager;
-import org.jetbrains.annotations.NotNull;
 
 /**
  *
@@ -81,7 +80,7 @@ public class ForgotPasswordSevrvlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userName = request.getParameter("username");

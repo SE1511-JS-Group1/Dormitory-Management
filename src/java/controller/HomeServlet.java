@@ -38,11 +38,17 @@ public class HomeServlet extends HttpServlet {
         if (request.getSession().getAttribute("account") != null) {
             Account account = (Account) request.getSession().getAttribute("account");
             switch (account.getRole()) {
-                case 1 -> response.sendRedirect("admin/user");
-                case 2 -> response.sendRedirect("staff/home");
-                case 3 -> response.sendRedirect("boarder/home");
-                default -> {
-                }
+                case 1:
+                   response.sendRedirect("admin/user");
+                    break;
+                case 2:
+                    response.sendRedirect("staff/boarder");
+                    break;
+                case 3:
+                    response.sendRedirect("boarder/room");
+                    break;
+                default:
+                    break;
             }
         } else {
             request.getRequestDispatcher("index.jsp").forward(request, response);

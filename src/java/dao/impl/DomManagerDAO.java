@@ -181,16 +181,15 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = """
-                Update DomManager set\s
-                PhoneNumber=?,\s
-                ManagerName=?,\s
-                Email=?,
-                Gender=?,
-                DOB=?,
-                Regency=?,
-                UserName=?
-                where ManagerID = ?""";
+        String sql = "Update DomManager set \n"
+                + "PhoneNumber=?, \n"
+                + "ManagerName=?, \n"
+                + "Email=?,\n"
+                + "Gender=?,\n"
+                + "DOB=?,\n"
+                + "Regency=?,\n"
+                + "UserName=?\n"
+                + "where ManagerID = ?";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -300,10 +299,9 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = """
-                Update DomManager set\s
-                Authorize=1\s
-                where UserName = ?""";
+        String sql = "Update DomManager set \n"
+                + "Authorize=1 \n"
+                + "where UserName = ?";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
