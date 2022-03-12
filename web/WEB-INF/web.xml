@@ -104,6 +104,10 @@
         <servlet-name>BoarderChangePasswordServlet</servlet-name>
         <servlet-class>controller.boarder.BoarderChangePasswordServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewFeedback</servlet-name>
+        <servlet-class>controller.admin.ViewFeedback</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -179,6 +183,10 @@
     <servlet-mapping>
         <servlet-name>BoarderChangePasswordServlet</servlet-name>
         <url-pattern>/boarder/changepassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewFeedback</servlet-name>
+        <url-pattern>/admin/feedback</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

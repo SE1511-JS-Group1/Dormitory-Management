@@ -17,7 +17,7 @@
                 <li><a href="dom" class="nav-link px-2 ${page eq 'dom' ? 'text-white':'text-secondary'}">Dom</a></li>
                 <li><a href="room" class="nav-link px-2 ${page eq 'room' ? 'text-white':'text-secondary'}">Room</a></li>
                 <li><a href="#" class="nav-link px-2 ${page eq 'report' ? 'text-white':'text-secondary'}">Report</a></li>
-                <li><a href="#" class="nav-link px-2 ${page eq 'Feedback' ? 'text-white':'text-secondary'}">Feedback</a></li>
+                <li><a href="feedback" class="nav-link px-2 ${page eq 'Feedback' ? 'text-white':'text-secondary'}">Feedback</a></li>
             </ul>
             <div class="text-end">
                 <a type="button" class="btn btn-outline-light me-2" href="#">${sessionScope.account.getUserName()}</a>
