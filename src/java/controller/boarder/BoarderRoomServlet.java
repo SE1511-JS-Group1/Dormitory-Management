@@ -49,15 +49,16 @@ public class BoarderRoomServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setAttribute("page", "room");
         try {
-             AccountDAO accountDAO = new AccountDAO();
+            AccountDAO accountDAO = new AccountDAO();
             Account act = (Account) request.getSession().getAttribute("account");
             BoarderDAO boarderDAO = new BoarderDAO();
             Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
             Cookie[] cookies = request.getCookies();
             for (Cookie c : cookies) {
                 if (c.getName().equals("Book" + boarder.getBoarderID())) {
-                    //waiting + edit request        request.getRequestDispatcher("waiting.jsp").forward(request, response);
+                    request.getRequestDispatcher("waiting_boarder.jsp").forward(request, response);
                     return;
                 }
             }
@@ -77,7 +78,6 @@ public class BoarderRoomServlet extends HttpServlet {
             request.setAttribute("roomStatusDAO", roomStatusDAO);
             request.setAttribute("dom", dom);
             request.setAttribute("mapdom", map);
-            request.setAttribute("page", "room");
             request.getRequestDispatcher("boarder_room_book.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(ViewRoomServlet.class.getName()).log(Level.SEVERE, null, ex);

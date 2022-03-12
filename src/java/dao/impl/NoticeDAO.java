@@ -42,6 +42,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
                 DomManagerDAO dmDAO = new DomManagerDAO();
                 DomManager domManager = (DomManager) dmDAO.getDomManagerById(ManagerID); //lấy object DomManager thông qua phương thức getDomManagerById trong DomManagerDAO
                 Notice notice = new Notice(resultSet.getInt("NoticeID"), //tạo mới một notice
+                        resultSet.getTime("Time"),
                         resultSet.getDate("Time"),
                         resultSet.getString("Title"),
                         boarder,
@@ -70,22 +71,23 @@ public class NoticeDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "select * from Notices where BoarderID=? Order by Time desc";
+        String sql = "select * from Notices where BoarderID=? Order by [Date] desc,[Time] desc";
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int boarderID = resultSet.getInt(5); // lấy id của boarder từ database             
+                int boarderID = resultSet.getInt("BoarderID"); // lấy id của boarder từ database             
                 BoarderDAO boarderDAO = new BoarderDAO();
                 Boarder boarder = boarderDAO.getBoarderById(boarderID); //lấy object boarder thông qua phương thức getOne trong BoarderDAO
 
-                int ManagerID = resultSet.getInt(6);  //lấy id của domManager từ database
+                int ManagerID = resultSet.getInt("ManagerID");  //lấy id của domManager từ database
                 DomManagerDAO dmDAO = new DomManagerDAO();
                 DomManager domManager = (DomManager) dmDAO.getOnee(ManagerID); //lấy object DomManager thông qua phương thức getOne trong DomManagerDAO
                 Notice notice = new Notice(resultSet.getInt("NoticeID"), //tạo mới một notice
-                        resultSet.getDate("Time"),
+                        resultSet.getTime("Time"),
+                        resultSet.getDate("Date"),
                         resultSet.getString("Title"),
                         boarder,
                         domManager,
@@ -108,14 +110,13 @@ public class NoticeDAO extends Connection implements IBaseDAO {
         Notice inserted = (Notice) object;
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String sql = "Insert into Notices (NoticeID, Direction, Time, Title, BoarderID, ManagerID) values (?,?,?,?,?,?)";
+        String sql = "Insert into Notices (Direction, [Time], [Date], Title, BoarderID, ManagerID) values (?,?,?,?,?,?)";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            preparedStatement.setInt(1, inserted.getId());
-            preparedStatement.setBoolean(2, inserted.isDirection());
-            preparedStatement.setDate(3, inserted.getTimeSend());
+            preparedStatement.setBoolean(1, inserted.isDirection());
+            preparedStatement.setTime(2, inserted.getTimeSend());
+            preparedStatement.setDate(3, inserted.getDateSend());
             preparedStatement.setString(4, inserted.getTitle());
             preparedStatement.setInt(5, inserted.getBoarder().getBoarderID());
             preparedStatement.setInt(6, inserted.getDomManager().getManagerID());
@@ -123,7 +124,6 @@ public class NoticeDAO extends Connection implements IBaseDAO {
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }

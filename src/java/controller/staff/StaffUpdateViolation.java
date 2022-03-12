@@ -3,20 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.staff;
 
+import dao.impl.ViolationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Violation;
 
 /**
  *
- * @author Dell
+ * @author NgocDuy
  */
-public class NewServlet extends HttpServlet {
+public class StaffUpdateViolation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +40,10 @@ public class NewServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
+            out.println("<title>Servlet StaffUpdateViolation</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet StaffUpdateViolation at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,7 +61,15 @@ public class NewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        int id = Integer.parseInt(request.getParameter("id"));
+        String hello = "hello";
+//        request.setAttribute("a", id);
+        request.setAttribute("h", hello);
+        request.getRequestDispatcher("new.jsp").forward(request, response);
+//            ViolationDAO dao = new ViolationDAO();
+//            request.setAttribute("violation", dao.getViolationByID(id));
+//            request.getRequestDispatcher("Edit_Violation.jsp").forward(request, response);
+        
     }
 
     /**
@@ -70,17 +83,26 @@ public class NewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String type = request.getParameter("type");
+        String violatorID = request.getParameter("violator");
+        String penalization = request.getParameter("penalization");
+        String description = request.getParameter("description");
+        Violation a = new Violation(id, type, violatorID, description, penalization);
+        ViolationDAO dao = new ViolationDAO();
+        try {
+            dao.update(a, null);
+            response.sendRedirect("violation");
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffViolationAddNew.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
     /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
      */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
+
+

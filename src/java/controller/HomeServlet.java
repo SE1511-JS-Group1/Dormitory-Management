@@ -42,10 +42,10 @@ public class HomeServlet extends HttpServlet {
                    response.sendRedirect("admin/user");
                     break;
                 case 2:
-                    response.sendRedirect("staff/home");
+                    response.sendRedirect("staff/boarder");
                     break;
                 case 3:
-                    response.sendRedirect("boarder/home");
+                    response.sendRedirect("boarder/room");
                     break;
                 default:
                     break;

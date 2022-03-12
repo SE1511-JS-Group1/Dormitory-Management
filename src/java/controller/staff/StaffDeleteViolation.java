@@ -3,26 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.boarder;
+package controller.staff;
 
-import dao.impl.BoarderDAO;
+import dao.impl.ViolationDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
-import model.Boarder;
 
 /**
  *
- * @author Admin
+ * @author NgocDuy
  */
-public class BookingServlet extends HttpServlet {
+public class StaffDeleteViolation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,20 +34,18 @@ public class BookingServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            int roomID = Integer.parseInt(request.getParameter("roomId"));
-            int bedNo = Integer.parseInt(request.getParameter("bedno"));
-            Account act = (Account) request.getSession().getAttribute("account");
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
-            Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
-            Booking.setPath(request.getContextPath());
-            Booking.setMaxAge(60 * 60 * 24 * 30);
-            response.addCookie(Booking);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet StaffDeleteViolation</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet StaffDeleteViolation at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        request.getRequestDispatcher("waiting_boarder.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -78,7 +74,14 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int id = Integer.parseInt(request.getParameter("id"));
+        ViolationDAO dao = new ViolationDAO();
+        try {
+            dao.delete(id);
+            response.sendRedirect("violation");
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffDeleteViolation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

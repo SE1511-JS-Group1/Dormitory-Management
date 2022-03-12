@@ -3,26 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.boarder;
+package controller.staff;
 
-import dao.impl.BoarderDAO;
+import dao.impl.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
-import model.Boarder;
+import model.BoardingInformation;
 
 /**
  *
- * @author Admin
+ * @author tango
  */
-public class BookingServlet extends HttpServlet {
+public class StaffBoarderManage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,20 +36,18 @@ public class BookingServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            int roomID = Integer.parseInt(request.getParameter("roomId"));
-            int bedNo = Integer.parseInt(request.getParameter("bedno"));
-            Account act = (Account) request.getSession().getAttribute("account");
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
-            Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
-            Booking.setPath(request.getContextPath());
-            Booking.setMaxAge(60 * 60 * 24 * 30);
-            response.addCookie(Booking);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet StaffBoarderManage</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet StaffBoarderManage at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        request.getRequestDispatcher("waiting_boarder.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -64,7 +62,21 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        BoardingInformationDAO dao = new BoardingInformationDAO();
+        DomDAO domDAO = new DomDAO();            
+        try {
+            request.setAttribute("doms", domDAO.getAll());
+            String domID = request.getParameter("dom") == null ? "A" : request.getParameter("dom");
+            Object dom = domDAO.getOne(domID);
+            request.setAttribute("dom", dom);
+            ArrayList<BoardingInformation> infor = dao.getAllOfDom(domID);
+            request.setAttribute("list", infor);
+            request.setAttribute("page", "boarder");
+            request.getRequestDispatcher("Manage_Boarder.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffBoarderManage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**

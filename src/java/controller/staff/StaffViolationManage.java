@@ -3,26 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.boarder;
+package controller.staff;
 
-import dao.impl.BoarderDAO;
+import dao.impl.ViolationDAO;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
-import model.Boarder;
 
 /**
  *
- * @author Admin
+ * @author NgocDuy
  */
-public class BookingServlet extends HttpServlet {
+public class StaffViolationManage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,20 +31,14 @@ public class BookingServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setAttribute("page", "violation");
+        ViolationDAO vioDAO = new ViolationDAO();
         try {
-            int roomID = Integer.parseInt(request.getParameter("roomId"));
-            int bedNo = Integer.parseInt(request.getParameter("bedno"));
-            Account act = (Account) request.getSession().getAttribute("account");
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
-            Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
-            Booking.setPath(request.getContextPath());
-            Booking.setMaxAge(60 * 60 * 24 * 30);
-            response.addCookie(Booking);
+            request.setAttribute("listVio", vioDAO.getAll());
         } catch (SQLException ex) {
-            Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
-        request.getRequestDispatcher("waiting_boarder.jsp").forward(request, response);
+        request.getRequestDispatcher("ManageViolation.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -78,7 +67,7 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.sendRedirect("Add_New_Violation.jsp");
     }
 
     /**

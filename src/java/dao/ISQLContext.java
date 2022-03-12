@@ -17,4 +17,6 @@ public interface ISQLContext {
     public static final String INTEGRATEDSECURITY = "false";
     public static final String USERNAME = "sa";
     public static final String PASSWORD = "01052001";
+
+    
 }

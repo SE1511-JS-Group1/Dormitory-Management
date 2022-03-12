@@ -26,28 +26,24 @@
         <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
             <c:import url="boarder_header.jsp"></c:import>
             </div>
-           
-                <div id="form">
-                    <div class="fish" id="fish"></div>
-                    <div class="fish" id="fish2"></div>
-                    <form action="feedback" method="POST">
-                        <div class="formgroup" id="name-form" style="margin-top: 150px">
-                            <label for="name">Title</label>
-                            <input name="title" id="name" type="text" onkeyup="CheckMessage(this)" placeholder="Title" required/>
-                        </div>
-                        <div class="formgroup" id="message-form">
-                            <label for="message">Your message</label>
-                            <textarea id="message" name="massage" onkeyup="CheckMessage(this)" placeholder="Massage" required></textarea>
-                        </div>
-                        <input type="submit" value="Send your message!" />
-                        <script>
-                            alert("Feedback Successful");
-                        </script>
-                    </form>
-                </div>
-                <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
-                <c:import url="boarder_footer.jsp"></c:import>
+            <div id="form">
+                <div class="fish" id="fish"></div>
+                <div class="fish" id="fish2"></div>
+                <form action="feedback" method="POST">
+                    <div class="formgroup" id="name-form" style="margin-top: 150px">
+                        <label for="name">Title</label>
+                        <input name="title" id="name" type="text" onkeyup="CheckMessage(this)" placeholder="Title" required/>
+                    </div>
+                    <div class="formgroup" id="message-form">
+                        <label for="message">Your message</label>
+                        <textarea id="message" name="massage" onkeyup="CheckMessage(this)" placeholder="Massage" required></textarea>
+                    </div>
+                    <input type="submit" value="Send your message!" />
+                </form>
             </div>
+            <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
+            <c:import url="boarder_footer.jsp"></c:import>
+        </div>
     </body>
     <script>
         function CheckMessage(param) {

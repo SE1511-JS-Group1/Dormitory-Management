@@ -132,14 +132,9 @@
                                                                                         </div>
                                                                                         <div class="col-md-5">
                                                                                             <c:forEach var="bed" items="${roomStatusDAO.getBedStatus(roomStatus.getRoom())}">
-                                                                                                <c:choose>
-                                                                                                    <c:when test="${bed.getStatus()}">
-                                                                                                        <input type="radio" name="bedno" disabled value="${bed.getBedNo()}"/> ${bed.getBedNo()}
-                                                                                                    </c:when>
-                                                                                                    <c:otherwise>
-                                                                                                        <input type="radio" name="bedno" checked value="${bed.getBedNo()}"/> ${bed.getBedNo()}
-                                                                                                    </c:otherwise>
-                                                                                                </c:choose>
+                                                                                                <c:if test="${!bed.getStatus() && bed.getBedNo()>0}">
+                                                                                                    <input type="radio" name="bedno" checked value="${bed.getBedNo()}"/> ${bed.getBedNo()}
+                                                                                                </c:if>
                                                                                             </c:forEach>
                                                                                         </div>
                                                                                     </div>

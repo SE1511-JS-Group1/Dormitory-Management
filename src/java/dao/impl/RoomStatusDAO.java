@@ -50,7 +50,7 @@ public class RoomStatusDAO extends Connection implements IBaseDAO {
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             while (resultSet.next()) {
                 Room r = ((Room) roomDAO.getOne(resultSet.getInt(1)));
-                domStatus.add(new RoomStatus(r, (r.getCategory().getBedNumber() - resultSet.getInt(3))<0 ? 0 : (r.getCategory().getBedNumber() - resultSet.getInt(3)),
+                domStatus.add(new RoomStatus(r, (r.getCategory().getBedNumber() - resultSet.getInt(3)) < 0 ? 0 : (r.getCategory().getBedNumber() - resultSet.getInt(3)),
                         r.getCategory().getBedNumber() == 0 ? 7 : (int) (resultSet.getInt(3) * 7.0 / r.getCategory().getBedNumber())));// tạo mợi object của mình và bắt add vào list
             }
         } catch (SQLException e) {
@@ -107,5 +107,23 @@ public class RoomStatusDAO extends Connection implements IBaseDAO {
             closeConnection(connection);
         }
         return bedStatuses;
+    }
+
+    public void setStatusNewBoarder(Room room, int bedNo) throws SQLException {
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "Update RoomStatus set [Status] = 1 Where RoomID = ? and BedNo = ?";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setInt(1, room.getRoomID());
+            preparedStatement.setInt(2, bedNo);
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
     }
 }
