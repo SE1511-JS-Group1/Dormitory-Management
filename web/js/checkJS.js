@@ -33,6 +33,9 @@ function CheckConfirmPassword(param) {
         document.getElementById('message_confirmpassword').innerHTML = '';
     }
 }
+
+
+
 function CheckPassword(param) {
     document.getElementById('message_username').style.display = 'none';
     document.getElementById('message_password').style.display = 'none';

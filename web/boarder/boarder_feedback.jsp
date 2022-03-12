@@ -19,36 +19,41 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
         <link rel='icon' href='https://by.com.vn/xQTXSg'>   
         <link href="../css/overview.css" rel="stylesheet">
+        <link href="../css/feedback.css" rel="stylesheet">
+        <script src="../js/feedback.js"></script>
     </head>
     <body>
         <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
             <c:import url="boarder_header.jsp"></c:import>
             </div>
-            <section class="vh-100" style="background-color: #eee;">
-                <div class="container py-5 h-100">
-                    <div class="row d-flex justify-content-center align-items-center h-100">
-                        <div class="col col-xl-4">
-                            <div class="card" style="border-radius: 1rem;">
-                                <div class="row g-0">
-                                    <div class="col-md-12 col-lg-12 d-flex align-items-center">
-                                        <div class="card-body p-4 p-lg-5 text-black">
-                                            <form action="feedback" method="POST">
-                                                <h6 class="mb-0 me-4 text-center">Your feedback: </h6>
-                                                <div class="form-check form-check-inline mb-0 me-4" style="margin-left: 15%;">                                             
-                                                    <input name="title" type="text" placeholder="title"   required/>
-                                                    <textarea style="width:86%" name="massage" placeholder="massage"required></textarea>
-                                                    <button class="btn btn-outline-info" type="submit">feedback</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div id="form">
+                <div class="fish" id="fish"></div>
+                <div class="fish" id="fish2"></div>
+                <form action="feedback" method="POST">
+                    <div class="formgroup" id="name-form" style="margin-top: 150px">
+                        <label for="name">Title</label>
+                        <input name="title" id="name" type="text" onkeyup="CheckMessage(this)" placeholder="Title" required/>
                     </div>
-                </div>
-                <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
-                <c:import url="boarder_footer.jsp"></c:import>
+                    <div class="formgroup" id="message-form">
+                        <label for="message">Your message</label>
+                        <textarea id="message" name="massage" onkeyup="CheckMessage(this)" placeholder="Massage" required></textarea>
+                    </div>
+                    <input type="submit" value="Send your message!" />
+                </form>
             </div>
+            <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
+            <c:import url="boarder_footer.jsp"></c:import>
+        </div>
     </body>
+    <script>
+        function CheckMessage(param) {
+            var massege = param.value;
+            param.value = massege.trim();
+            if (massege.length == 0) {
+                document.getElementById('message1').innerHTML = 'Trống';
+            } else {
+                document.getElementById('message1').innerHTML = '';
+            }
+        }
+    </script>
 </html>
