@@ -40,6 +40,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
+        System.out.println(cookies.length);
         if (cookies.length > 2) {
             String username = "";
             String password = "";
@@ -59,22 +60,12 @@ public class LoginServlet extends HttpServlet {
                     Account account;
                     account = (Account) accountDAO.getOne(username);
                     request.getSession().setAttribute("account", account);
-                    switch (account.getRole()) {
-                        case 1:
-                            response.sendRedirect("admin/home");
-                            break;
-                        case 2:
-                            response.sendRedirect("staff/home");
-                            break;
-                        case 3:
-                            response.sendRedirect("boarder/home");
-                            break;
-                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        } else if (request.getSession().getAttribute("account") != null) {
+        }
+        if (request.getSession().getAttribute("account") != null) {
             Account account = (Account) request.getSession().getAttribute("account");
             switch (account.getRole()) {
                 case 1:

@@ -10,6 +10,8 @@
 package model;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.time.LocalDateTime;
 
 /**
  * The class define <code>Notice</code> object: <code>Notice</code> of dormitory
@@ -20,7 +22,8 @@ import java.sql.Date;
 public class Notice {
 
     private int id;
-    private Date timeSend;
+    private Time timeSend;
+    private Date dateSend;
     private String title;
     private Boarder boarder;
     private DomManager domManager;
@@ -33,16 +36,6 @@ public class Notice {
     public Notice() {
     }
 
-    
-    public Notice(int id, Date timeSend, String title, Boarder boarder, DomManager domManager, boolean direction) {
-        this.id = id;
-        this.timeSend = timeSend;
-        this.title = title;
-        this.boarder = boarder;
-        this.domManager = domManager;
-        this.direction = direction;
-    }
-
     public int getId() {
         return id;
     }
@@ -51,12 +44,20 @@ public class Notice {
         this.id = id;
     }
 
-    public Date getTimeSend() {
+    public Time getTimeSend() {
         return timeSend;
     }
 
-    public void setTimeSend(Date timeSend) {
+    public void setTimeSend(Time timeSend) {
         this.timeSend = timeSend;
+    }
+
+    public Date getDateSend() {
+        return dateSend;
+    }
+
+    public void setDateSend(Date dateSend) {
+        this.dateSend = dateSend;
     }
 
     public String getTitle() {
@@ -88,6 +89,16 @@ public class Notice {
     }
 
     public void setDirection(boolean direction) {
+        this.direction = direction;
+    }
+
+    public Notice(int id, Time timeSend, Date dateSend, String title, Boarder boarder, DomManager domManager, boolean direction) {
+        this.id = id;
+        this.timeSend = timeSend;
+        this.dateSend = dateSend;
+        this.title = title;
+        this.boarder = boarder;
+        this.domManager = domManager;
         this.direction = direction;
     }
 

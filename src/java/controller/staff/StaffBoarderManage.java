@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.BoardingInformation;
 
 /**
  *
@@ -68,7 +69,7 @@ public class StaffBoarderManage extends HttpServlet {
             String domID = request.getParameter("dom") == null ? "A" : request.getParameter("dom");
             Object dom = domDAO.getOne(domID);
             request.setAttribute("dom", dom);
-            ArrayList<Object> infor = dao.getAll();
+            ArrayList<BoardingInformation> infor = dao.getAllOfDom(domID);
             request.setAttribute("list", infor);
             request.setAttribute("page", "boarder");
             request.getRequestDispatcher("Manage_Boarder.jsp").forward(request, response);

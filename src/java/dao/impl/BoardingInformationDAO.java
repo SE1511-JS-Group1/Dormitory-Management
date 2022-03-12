@@ -26,7 +26,6 @@ import model.Room;
  */
 public class BoardingInformationDAO extends Connection implements IBaseDAO {
 
-    
     public BoardingInformation getBoardingInformation(int BoarderID) throws SQLException {
         BoardingInformation boardingInformation = null;
         java.sql.Connection connection = null;
@@ -90,6 +89,40 @@ public class BoardingInformationDAO extends Connection implements IBaseDAO {
         return boadingInformations;
     }
 
+    public ArrayList<BoardingInformation> getAllOfDom(String domID) throws SQLException {
+        ArrayList<BoardingInformation> boadingInformations = new ArrayList<>();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM BoardingInformation";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            RoomDAO roomDAO = new RoomDAO();
+            BoarderDAO boarderDAO = new BoarderDAO();
+            while (resultSet.next()) {
+                Room r = (Room) roomDAO.getOne(resultSet.getInt("RoomID"));
+                BoardingInformation boardingInformation = new BoardingInformation(r, // tạo mợi object của mình và bắt add vào list
+                        (Boarder) boarderDAO.getBoarderById(resultSet.getInt("BoarderID")),
+                        resultSet.getInt("BedNo"),
+                        resultSet.getDate("StartDate"),
+                        resultSet.getDate("EndDate"));
+                if (r.getDom().getDomID().equalsIgnoreCase(domID) && resultSet.getDate("EndDate") == null) {
+                    boadingInformations.add(boardingInformation); // add vào list
+                }
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return boadingInformations;
+    }
+
     @Override
     public Object getOne(Object key) throws SQLException {
         throw new UnsupportedOperationException("This method not created yet!");
@@ -100,7 +133,6 @@ public class BoardingInformationDAO extends Connection implements IBaseDAO {
         BoardingInformation boardingInformation = (BoardingInformation) object;
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "Insert into BoardingInformation(BoarderID,RoomID,StartDate,EndDate,BedNo) values (?,?,?,?,?)";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
@@ -110,11 +142,10 @@ public class BoardingInformationDAO extends Connection implements IBaseDAO {
             preparedStatement.setDate(3, boardingInformation.getStartDate());
             preparedStatement.setDate(4, boardingInformation.getEndDate());
             preparedStatement.setInt(5, boardingInformation.getBedNo());
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }

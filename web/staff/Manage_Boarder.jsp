@@ -68,33 +68,43 @@
                                                     <h5 class="text-center">No Boarder in this Dom</h5>
                                                 </c:when>
                                                 <c:otherwise>
+
                                                     <table>
+                                                        <colgroup>
+                                                            <col width="200" span="1">
+                                                            <col width="150" span="1">
+                                                            <col width="150" span="1">
+                                                            <col width="150" span="1">
+                                                            <col width="100" span="1">
+                                                            <col width="100" span="1">
+                                                        </colgroup>
                                                         <thead>
-                                                            <tr>
+                                                            <tr style="text-align: center;">
                                                                 <th>Full Name</th>
                                                                 <th>Gender</th>
                                                                 <th>Date of Birth</th>
                                                                 <th>Phone Number</th>
-                                                                <th>Bed No</th>                       
+                                                                <th>Room</th>
+                                                                <th>Bed No</th> 
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            <c:forEach items="${list}" var="p" varStatus="loop">
-                                                                <tr>
-                                                                    <td>${p.getBoarder().getBoarderName()}</td>
-                                                                    <td>${p.getBoarder().isGender()}</td>
-                                                                    <td>${p.getBoarder().getDateOfBirth()}</td>
-                                                                    <td>${p.getBoarder().getPhoneNumber()}</td>
-                                                                    <td>${p.getBedNo().toString()}</td>
-                                                                </tr>
-                                                            </c:forEach>
-                                                        </tbody>
+                                                        <c:forEach items="${list}" var="b">
+                                                            <tr style="text-align: center;">
+                                                                <td>${b.getBoarder().getBoarderName()}</td>
+                                                                <td>${b.getBoarder().isGender()?"Male":"Female"}</td>
+                                                                <td>${b.getBoarder().getDateOfBirth()}</td>
+                                                                <td>${b.getBoarder().getPhoneNumber()}</td>
+                                                                <td>${b.getRoom()}</td>
+                                                                <td>${b.getBedNo()}</td>
+                                                            </tr>
+
+                                                        </c:forEach>
                                                     </table>
                                                 </c:otherwise>
                                             </c:choose>
                                             <form action="request" method="get" class="row">
-                                                    <div class="col-lg-4"></div>
-                                                    <input type="hidden" name="dom" value="${dom.getDomID()}"/>
+                                                <div class="col-lg-4"></div>
+                                                <input type="hidden" name="dom" value="${dom.getDomID()}"/>
                                                 <button type="submit" class="btn btn-outline-info col-lg-4">View Boarder's Request</button>
                                             </form>
                                         </div>

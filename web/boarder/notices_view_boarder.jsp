@@ -57,7 +57,7 @@
                                                 <tbody>
                                                 <c:forEach var="i" items="${ListNotice}">
                                                     <tr>
-                                                        <td>${i.getTimeSend()}</td>
+                                                        <td>${i.getTimeSend()} ${i.getDateSend()}</td>
                                                         <td>${i.getTitle()}</td>
                                                     </tr>
                                                 </c:forEach>
