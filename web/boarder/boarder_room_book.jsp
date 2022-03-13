@@ -28,12 +28,6 @@
                 <div style="height: 50px;"></div>
                 <div class="container py-5 h-90">
                     <div class="row d-flex justify-content-center align-items-center h-90">
-                        <form method="post" action="room" style="width: 100px;margin-right:20px">
-                            <button type="submit" class="btn btn-primary" style="width: 100px">Book</button>
-                        </form>
-                        <button type="submit" class="btn btn-primary" style="width: 100px;margin-right:  10px">Renew</button>
-                        <button type="submit" class="btn btn-primary" style="width: 100px;margin-right:  20px">Change</button>
-
                         <div class="col-xl-12">
                             <div class="card rounded-3 text-black">
                                 <div class="row g-0">
@@ -58,17 +52,31 @@
                                                         border: none;
                                                     }
                                                 </style>
-                                            <c:forEach var="do" items="${doms}">
-                                                <form action="room" method="get">
-                                                    <input type="hidden" name="dom" value="${do.getDomID()}"/>
-                                                    <button type="submit" class="btn btn-outline-info ${do.getDomID() eq dom.getDomID()?'pushin':'btn-map-field-col'}"><h6>${do.getDomName()}</h6></button>    
-                                                </form>
-                                            </c:forEach>
+                                                <form action="room" method="post">
+                                                    <input type="hidden" name="dom" value="A"/>
+                                                    <button type="submit" class="btn btn-outline-info ${act eq 'book' ? 'pushin':'btn-map-field-col'}"><h6>Book</h6></button>    
+                                            </form>
+                                            <form action="#" method="post">
+                                                <button type="submit" class="btn btn-outline-info ${act eq 'renew' ? 'pushin':'btn-map-field-col'}"><h6>Renew</h6></button>    
+                                            </form>
+                                            <form action="#" method="post">
+                                                <button type="submit" class="btn btn-outline-info ${act eq 'change' ? 'pushin':'btn-map-field-col'}"><h6>Change</h6></button>    
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-10">
                                     <div class="card-body p-md-9 mx-md-4">
+                                        <h3 class="text-center">Book your room</h3>
+                                        <form  action="room" method="get">
+                                            <select class="form-select" name="dom" onclick="this.form.submit();">
+                                                <c:forEach var="do" items="${doms}">
+                                                    <option value="${do.getDomID()}" ${do.getDomID() eq dom.getDomID()?"selected":""}>
+                                                    <h6>${do.getDomName()}</h6>
+                                                    </option>  
+                                                </c:forEach>
+                                            </select>
+                                        </form>
                                         <div class="container map">
                                             <table style="margin: 50px auto;border: 2px solid black;" >
                                                 <c:set var="j" value="6" scope="page" />

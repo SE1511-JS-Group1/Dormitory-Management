@@ -26,7 +26,7 @@
                 <li><a href="feedback" class="nav-link px-2 ${page eq 'Feedback' ? 'text-white':'text-secondary'}">Feedback</a></li>
             </ul>
             <div class="text-end">
-                <a type="button" class="btn btn-outline-light me-2" href="changepassword">${sessionScope.account.getUserName()}</a>
+                <a type="button" class="btn btn-outline-light me-2" href="infor">${sessionScope.account.getUserName()}</a>
                 <a type="button" class="btn btn-warning" href="../logout">Logout</a>
             </div>
         </div>

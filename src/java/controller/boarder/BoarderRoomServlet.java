@@ -50,6 +50,7 @@ public class BoarderRoomServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setAttribute("page", "room");
+        request.setAttribute("act", "book");
         try {
             AccountDAO accountDAO = new AccountDAO();
             Account act = (Account) request.getSession().getAttribute("account");

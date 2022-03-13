@@ -120,13 +120,21 @@
         <servlet-name>ViewRequestServlet</servlet-name>
         <servlet-class>controller.staff.ViewRequestServlet</servlet-class>
     </servlet>
-     <servlet>
+    <servlet>
         <servlet-name>BoarderChangePasswordServlet</servlet-name>
         <servlet-class>controller.boarder.BoarderChangePasswordServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewFeedback</servlet-name>
         <servlet-class>controller.admin.ViewFeedback</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewInformationServlet</servlet-name>
+        <servlet-class>controller.boarder.ViewInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditBoarderServlet</servlet-name>
+        <servlet-class>controller.staff.EditBoarderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -224,9 +232,17 @@
         <servlet-name>ViewFeedback</servlet-name>
         <url-pattern>/admin/feedback</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>BoarderChangePasswordServlet</servlet-name>
         <url-pattern>/boarder/changepassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewInformationServlet</servlet-name>
+        <url-pattern>/boarder/infor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBoarderServlet</servlet-name>
+        <url-pattern>/staff/edit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
