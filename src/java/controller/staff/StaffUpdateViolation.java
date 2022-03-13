@@ -61,15 +61,14 @@ public class StaffUpdateViolation extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        int id = Integer.parseInt(request.getParameter("id"));
-        String hello = "hello";
-//        request.setAttribute("a", id);
-        request.setAttribute("h", hello);
-        request.getRequestDispatcher("new.jsp").forward(request, response);
-//            ViolationDAO dao = new ViolationDAO();
-//            request.setAttribute("violation", dao.getViolationByID(id));
-//            request.getRequestDispatcher("Edit_Violation.jsp").forward(request, response);
-        
+        int id = Integer.parseInt(request.getParameter("id"));      
+            ViolationDAO dao = new ViolationDAO();
+        try {
+            request.setAttribute("violation", dao.getViolationByID(id));
+            request.getRequestDispatcher("Edit_Violation.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffUpdateViolation.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
