@@ -44,14 +44,15 @@
                     <div class="wthree-text">
                         <div class="clear"> </div>
                     </div>
-                    <input type="submit" onclick="return CheckChangePassword()" value="Change Password">
+                    <input type="submit" onclick="return CheckChangePassword(), showMess()"  value="Change Password">
                 </form>
             </div>
-            </section>
-            <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
-                <c:import url="boarder_footer.jsp"></c:import>
-            </div>
-        
+        </section> 
+       
+        <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
+            <c:import url="boarder_footer.jsp"></c:import>
+        </div>
+
 
     </body>
     <script>
@@ -86,5 +87,10 @@
             return txt === 0;
             alert("Change password successful");
         }
+         
+        function showMess() {
+            alert("Change password successfuly");
+        }
+    
     </script> 
 </html>

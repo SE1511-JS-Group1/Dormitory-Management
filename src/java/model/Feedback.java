@@ -10,6 +10,7 @@
 package model;
 
 import java.sql.Date;
+import java.sql.Time;
 
 /**
  * The class define <code>Feedback</code> object: response of
@@ -21,7 +22,8 @@ import java.sql.Date;
 public class Feedback {
 
     private int feedbackId;
-    private Date timeSend;
+    private Date dateSend;
+    private Time timeSend;
     private String title;
     private Boarder owner;
 
@@ -36,20 +38,22 @@ public class Feedback {
      * Initializes a newly created <code>Feedback</code> object with all
      * information of each <code>Feedback</code>.
      * <br> The <code>Feedback</code> information includes 3 attributes:
-     * feedbackId, timeSend, title, owner.
-     * <br>
+ feedbackId, dateSend, title, owner.
+ <br>
      *
      * @param feedbackId<code>int</code> object <code>feedbackId</code> is
      * automatically increased by the dormitory management system
+     * @param dateSend
      * @param timeSend<code>java.sql.Date</code> object. submission date of
      * <code>Feedback</code>'s
      * @param title<code>java.sql.String</code> content <code>Feedback</code>
      * @param owner<code>boarder</code> info <code>Boarder</code>sent
      * <code>Feedback</code>
      */
-    public Feedback(int feedbackId, Date timeSend, String title, Boarder owner) {
+    public Feedback(int feedbackId, Date dateSend,Time timeSend, String title, Boarder owner) {
         this.feedbackId = feedbackId;
-        this.timeSend = timeSend;
+        this.dateSend = dateSend;
+        this.timeSend =timeSend;
         this.title = title;
         this.owner = owner;
     }
@@ -62,12 +66,20 @@ public class Feedback {
         this.feedbackId = feedbackId;
     }
 
-    public Date getTimeSend() {
+    public Time getTimeSend() {
         return timeSend;
     }
 
-    public void setTimeSend(Date timeSend) {
+    public void setTimeSend(Time timeSend) {
         this.timeSend = timeSend;
+    }
+
+    public Date getDateSend() {
+        return dateSend;
+    }
+
+    public void setDateSend(Date dateSend) {
+        this.dateSend = dateSend;
     }
 
     public String getTitle() {
