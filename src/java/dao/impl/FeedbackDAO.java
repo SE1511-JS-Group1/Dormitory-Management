@@ -9,7 +9,6 @@
  */
 package dao.impl;
 
-import com.sun.corba.se.spi.oa.OADefault;
 import dao.Connection;
 import dao.IBaseDAO;
 import java.sql.Date;

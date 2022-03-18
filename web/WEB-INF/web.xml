@@ -132,6 +132,14 @@
         <servlet-name>AdminDeleteFeedbackServlet</servlet-name>
         <servlet-class>controller.admin.AdminDeleteFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewInformationServlet</servlet-name>
+        <servlet-class>controller.boarder.ViewInformationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditBoarderServlet</servlet-name>
+        <servlet-class>controller.staff.EditBoarderServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -235,6 +243,15 @@
     <servlet-mapping>
         <servlet-name>AdminDeleteFeedbackServlet</servlet-name>
         <url-pattern>/admin/deletefeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewInformationServlet</servlet-name>
+        <url-pattern>/boarder/infor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBoarderServlet</servlet-name>
+        <url-pattern>/staff/edit</url-pattern>
+
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -38,8 +37,10 @@ import model.Account;
 import model.Boarder;
 import model.BoardingInformation;
 import model.DomManager;
+import model.Jobs;
 import model.Notice;
 import model.Room;
+import org.apache.axis.encoding.Base64;
 
 /**
  *
@@ -71,6 +72,7 @@ public class ViewRequestServlet extends HttpServlet {
             RoomDAO roomDAO = new RoomDAO();
             BoarderDAO boarderDAO = new BoarderDAO();
             ArrayList<BoardingInformation> boardingInformations = new ArrayList<>();
+            ArrayList<Boarder> boarders = new ArrayList<>();
             Cookie[] cookies = request.getCookies();
             if (cookies.length >= 2) {
                 for (Cookie c : cookies) {
@@ -84,9 +86,21 @@ public class ViewRequestServlet extends HttpServlet {
                             boardingInformations.add(bi);
                         }
                     }
+                    if (c.getName().startsWith("Edit")) {
+                        //Decode req
+                        byte[] decodeBytes = Base64.decode(c.getValue());
+                        String editReq = new String(decodeBytes, "UTF-8");
+                        System.out.println(editReq);
+                        String[] editing = editReq.split("\\|");
+                        Boarder b = new Boarder(Integer.parseInt(editing[0]), editing[1], Date.valueOf(editing[3]), editing[2].equals("1"), editing[5], editing[4], Jobs.valueOf(editing[6]), null);
+                        boarders.add(b);
+                    }
                 }
             }
-            System.out.println("Size: "+boardingInformations.size());
+            System.out.println("Size: " + boardingInformations.size());
+            BoarderDAO bdao = new BoarderDAO();
+            request.setAttribute("bdao", bdao);
+            request.setAttribute("editing", boarders);
             request.setAttribute("boarding", boardingInformations);
             request.getRequestDispatcher("ViewRequest.jsp").forward(request, response);
         } catch (SQLException ex) {
@@ -151,7 +165,7 @@ public class ViewRequestServlet extends HttpServlet {
                 Transport.send(message);
                 mesString = "Your booking request has been denied. Maybe you were a step behind or the gender didn't match! Thank you!";
             }
-            notice = new Notice(0, new Time(System.currentTimeMillis()),new Date(System.currentTimeMillis()), mesString, b, (DomManager) dmdao.getOne(((Account) request.getSession().getAttribute("account")).getUserName()), true);
+            notice = new Notice(0, new Time(System.currentTimeMillis()), new Date(System.currentTimeMillis()), mesString, b, (DomManager) dmdao.getOne(((Account) request.getSession().getAttribute("account")).getUserName()), true);
             noticeDAO.insert(notice);
             Cookie[] cookies = request.getCookies();
             for (Cookie c : cookies) {

@@ -64,50 +64,92 @@
                                     <div class="card-body p-md-9 mx-md-4">
                                         <div class="container">
                                             <c:choose>
-                                                <c:when test="${boarding.size()==0}">
+                                                <c:when test="${boarding.size()==0&&editing.size()==0}">
                                                     <h5 class="text-center">No request in this Dom</h5>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <table>
-                                                        <colgroup>
-                                                            <col width="200" span="1">
-                                                            <col width="150" span="1">
-                                                            <col width="150" span="1">
-                                                            <col width="150" span="1">
-                                                            <col width="100" span="1">
-                                                            <col width="100" span="1">
-                                                            <col width="150" span="1">
-                                                        </colgroup>
-                                                        <thead>
-                                                            <tr style="text-align: center;">
-                                                                <th>Full Name</th>
-                                                                <th>Gender</th>
-                                                                <th>Date of Birth</th>
-                                                                <th>Phone Number</th>
-                                                                <th>Room</th>
-                                                                <th>Bed No</th> 
-                                                                <th>Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <c:forEach items="${boarding}" var="b">
-                                                            <tr style="text-align: center;">
-                                                                <td>${b.getBoarder().getBoarderName()}</td>
-                                                                <td>${b.getBoarder().isGender()?"Male":"Female"}</td>
-                                                                <td>${b.getBoarder().getDateOfBirth()}</td>
-                                                                <td>${b.getBoarder().getPhoneNumber()}</td>
-                                                                <td>${b.getRoom()}</td>
-                                                                <td>${b.getBedNo()}</td>
-                                                                <td>
-                                                                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#acceptRequest" onclick="loadModal('${b.getBoarder().getBoarderID()}','${b.getRoom().getRoomID()}','${b.getBedNo()}', 'Accept');">Accept</button>
-                                                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#acceptRequest"onclick="loadModal('${b.getBoarder().getBoarderID()}','${b.getRoom().getRoomID()}','${b.getBedNo()}', 'Deny');">Deny</button>
-                                                                </td>
-                                                            </tr>
+                                                    <c:if test="${boarding.size()>0}">
+                                                        <table>
+                                                            <colgroup>
+                                                                <col width="200" span="1">
+                                                                <col width="150" span="1">
+                                                                <col width="150" span="1">
+                                                                <col width="150" span="1">
+                                                                <col width="100" span="1">
+                                                                <col width="100" span="1">
+                                                                <col width="150" span="1">
+                                                            </colgroup>
+                                                            <thead>
+                                                                <tr style="text-align: center;">
+                                                                    <th>Full Name</th>
+                                                                    <th>Gender</th>
+                                                                    <th>Date of Birth</th>
+                                                                    <th>Phone Number</th>
+                                                                    <th>Room</th>
+                                                                    <th>Bed No</th> 
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <c:forEach items="${boarding}" var="b">
+                                                                <tr style="text-align: center;">
+                                                                    <td>${b.getBoarder().getBoarderName()}</td>
+                                                                    <td>${b.getBoarder().isGender()?"Male":"Female"}</td>
+                                                                    <td>${b.getBoarder().getDateOfBirth()}</td>
+                                                                    <td>${b.getBoarder().getPhoneNumber()}</td>
+                                                                    <td>${b.getRoom()}</td>
+                                                                    <td>${b.getBedNo()}</td>
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#acceptRequest" onclick="loadModal('${b.getBoarder().getBoarderID()}', '${b.getRoom().getRoomID()}', '${b.getBedNo()}', 'Accept');">Accept</button>
+                                                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#acceptRequest"onclick="loadModal('${b.getBoarder().getBoarderID()}', '${b.getRoom().getRoomID()}', '${b.getBedNo()}', 'Deny');">Deny</button>
+                                                                    </td>
+                                                                </tr>
 
-                                                        </c:forEach>
-                                                    </table>
+                                                            </c:forEach>
+                                                        </table>
+                                                    </c:if>
+                                                    <c:if test="${editing.size()>0}">
+                                                        <table>
+                                                            <colgroup>
+                                                                <col width="200" span="1">
+                                                                <col width="150" span="1">
+                                                                <col width="150" span="1">
+                                                                <col width="150" span="1">
+                                                                <col width="100" span="1">
+                                                                <col width="100" span="1">
+                                                                <col width="200" span="1">
+                                                            </colgroup>
+                                                            <thead>
+                                                                <tr><th colspan="7"><h5 class="text-center">Edit Information</h5></th></tr>
+                                                                <tr style="text-align: center;">
+                                                                    <th>Full Name</th>
+                                                                    <th>Gender</th>
+                                                                    <th>Date of Birth</th>
+                                                                    <th>Phone Number</th>
+                                                                    <th>Email</th>
+                                                                    <th>Job</th> 
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <c:forEach items="${editing}" var="b">
+                                                                <c:set var="boarder" value="${bdao.getBoarderById(b.getBoarderID())}" scope="page" />
+                                                                <tr style="text-align: center;">
+                                                                    <td>Old: ${boarder.getBoarderName()}<br>New: ${b.getBoarderName()}</td>
+                                                                    <td>${boarder.isGender()?"Male":"Female"}<br>${b.isGender()?"Male":"Female"}</td>
+                                                                    <td>${boarder.getDateOfBirth()}<br>${b.getDateOfBirth()}</td>
+                                                                    <td>${boarder.getPhoneNumber()}<br>${b.getPhoneNumber()}</td>
+                                                                    <td>${boarder.getEmail()}<br>${b.getEmail()}</td>
+                                                                    <td>${boarder.getJob()}<br>${b.getJob()}</td>
+                                                                    <td>
+                                                                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#editInfor" onclick="loadInfor('${b.getBoarderID()}', 'Accept')">Accept</button>
+                                                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#editInfor"onclick="loadInfor('${b.getBoarderID()}', 'Deny')">Deny</button>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </table>
+                                                    </c:if>
                                                 </c:otherwise>
                                             </c:choose>
-                                            <!-- Modal -->
+                                            <!-- Modal Booking-->
                                             <form action="request" method="post" class="modal fade" id="acceptRequest" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabindex="-1" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div style="height: 200px;"></div>
@@ -126,6 +168,27 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                             <button id="btnReq" type="submit" class="btn btn-primary">Accept</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <!-- Modal Editing-->
+                                            <form action="edit" method="post" class="modal fade" id="editInfor" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" tabindex="-1" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div style="height: 200px;"></div>
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">Edit Information</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input id="boarder_id" type="hidden" name="boarderid" value=""/>
+                                                            <input id="action" type="hidden" name="act" value=""/>
+                                                            <h5>Are you sure about your action?</h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button id="btnEdit" type="submit" class="btn btn-primary">Accept</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -151,7 +214,12 @@
         <c:import url="staff_footer.jsp"></c:import>
     </div>
     <script>
-        function loadModal(boarderid,roomid,bedno, act) {
+        function loadInfor(boarderid, act) {
+            document.getElementById('boarder_id').value = boarderid;
+            document.getElementById('action').value = act;
+            document.getElementById('btnEdit').innerHTML = act;
+        }
+        function loadModal(boarderid, roomid, bedno, act) {
             document.getElementById('boarderid').value = boarderid;
             document.getElementById('roomid').value = roomid;
             document.getElementById('bedno').value = bedno;

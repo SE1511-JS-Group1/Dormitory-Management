@@ -53,8 +53,9 @@
                             <td>${p.getPenalization()}</td>
                             <td>${p.getDiscription()}</td>    
                             <td>
-                                <form action="StaffUpdateViolation?id=${p.getViolationID()}" method="GET">
+                                <form action="StaffUpdateViolation" method="GET">
                                     <input type="submit" value="Edit">
+                                    <input type="hidden" value="${p.getViolationID()}" name="id">
                                 </form>
                                 <form action="StaffDeleteViolation?id=${p.getViolationID()}" method="POST">
                                     <input type="submit" value="Delete">
@@ -65,7 +66,7 @@
                 </tbody>
             </table>
             <form action="StaffViolationAddNew" method="GET">
-                <input type="submit" value="Add New Violation" style="margin-left: 158px; margin-top: 10px">
+                <input type="submit" value="Add New Violation" style="margin-left: 250px; margin-top: 10px">
             </form>
         </div>
             <div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">

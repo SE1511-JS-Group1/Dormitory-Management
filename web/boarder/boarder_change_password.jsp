@@ -30,7 +30,7 @@
                 <div id="form">
                     <div class="fish" id="fish"></div>
                     <div class="fish" id="fish2"></div>
-                    <form method="POST" action="changepassword" style="margin-top: 150px">
+                    <form method="post" action="changepassword" style="margin-top: 150px">
                         <input type="test" class="text" name="user" id="old" hidden="" oninput="CheckAccount('message_username',this);" required="import old passworf" value="${sessionScope.account.getUserName()}">
                     <label for="old"> Old Password </label>
                     <input type="password" class="text email" name="old" id="old" oninput="CheckPassword(this);" required="import old passworf" value="${sessionScope.account.getPassWord()}">
@@ -47,8 +47,12 @@
                     <input type="submit" onclick="return CheckChangePassword(), showMess()"  value="Change Password">
                 </form>
             </div>
+<<<<<<< HEAD
         </section> 
        
+=======
+        </section>
+>>>>>>> 84089ecc7420d9574db45ef926abea2a69698c38
         <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
             <c:import url="boarder_footer.jsp"></c:import>
         </div>

@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * @author lenovo_thinkpad
  */
 public class BoarderDAO extends Connection implements IBaseDAO {
-
+    
     @Override
     public ArrayList<Object> getAll() throws SQLException {
         ArrayList<Object> boarders = new ArrayList<>();
@@ -59,7 +59,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
         }
         return boarders;
     }
-
+    
     @Override
     public Object getOne(Object key) throws SQLException {
         java.sql.Connection connection = null;
@@ -73,7 +73,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
             resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
             AccountDAO accountDB = new AccountDAO();
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
-             while (resultSet.next()) {
+            while (resultSet.next()) {
                 Boarder boarder = new Boarder(resultSet.getInt(1), // tạo mợi object của mình và bắt add vào list
                         resultSet.getString("BoarderName"),
                         resultSet.getDate("DOB"),
@@ -82,7 +82,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
                         resultSet.getString("PhoneNumber"),
                         resultSet.getString(7).equalsIgnoreCase("Student") ? Jobs.Student : Jobs.Teacher,
                         (Account) accountDB.getOne((String) key));
-                return  boarder;
+                return boarder;
             }
         } catch (SQLException e) {
             throw e;
@@ -93,13 +93,13 @@ public class BoarderDAO extends Connection implements IBaseDAO {
         }
         return null;
     }
-
+    
     public Boarder getBoarderById(int id) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String sql = "select * from Boarder where BoarderID = ?";
-
+        
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
@@ -118,7 +118,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
                 Boarder boarder = new Boarder(ID, name, dob, gender, email, phonenumber, job, a);
                 return boarder;
             }
-
+            
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -134,7 +134,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String sql = "select * from Boarder where UserName = ?";
-
+        
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
@@ -153,7 +153,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
                 Boarder boarder = new Boarder(ID, name, dob, gender, email, phonenumber, job, a);
                 return boarder;
             }
-
+            
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -163,6 +163,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
         }
         return null;
     }
+    
     public boolean checkEmailBoarder(String email) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -186,7 +187,7 @@ public class BoarderDAO extends Connection implements IBaseDAO {
         }
         return count > 0;
     }
-
+    
     public boolean checkPhoneBoarder(String phone) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -210,14 +211,14 @@ public class BoarderDAO extends Connection implements IBaseDAO {
         }
         return count > 0;
     }
-
+    
     @Override
     public void insert(Object object) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         String sql = "INSERT INTO BOARDER(BoarderName,DOB,Gender,PhoneNumber,Job,Email,UserName) VALUES(?,?,?,?,?,?,?)";
         try {
-
+            
             Boarder boarder = (Boarder) object;
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -237,9 +238,9 @@ public class BoarderDAO extends Connection implements IBaseDAO {
             closeConnection(connection);
         }
     }
-
+    
     @Override
-    public void delete(Object object) throws SQLException{
+    public void delete(Object object) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         String sql = "DELETE BOARDER WHERE BOARDERID = ?";
@@ -256,27 +257,30 @@ public class BoarderDAO extends Connection implements IBaseDAO {
             closeConnection(connection);
         }
     }
-
+    
     @Override
-    public void update(Object object, Object key) throws SQLException{
+    public void update(Object object, Object key) throws SQLException {
         Boarder updated = (Boarder) object;
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String sql = "Update Boarder set PassWord = ?  where UserName = ? ";
+        String sql = "Update Boarder set BoarderName = ?,DOB = ?,Gender = ? ,PhoneNumber = ? ,Job =? ,Email=?  where BoarderID = ? ";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
-            //Statement.setString(1, updated.getPassWord());
-            preparedStatement.setString(2, (String) key);
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.setNString(1, updated.getBoarderName());
+            preparedStatement.setDate(2, updated.getDateOfBirth());
+            preparedStatement.setBoolean(3, updated.isGender());
+            preparedStatement.setString(4, updated.getPhoneNumber());
+            preparedStatement.setString(5, updated.getJob().toString());
+            preparedStatement.setString(6, updated.getEmail());
+            preparedStatement.setInt(7, (int) key);
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
     }
-
+    
 }
