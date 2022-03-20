@@ -3,16 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.boarder;
+package controller.staff;
 
 import dao.impl.BoarderDAO;
-import dao.impl.FeedbackDAO;
+import dao.impl.BoardingInformationDAO;
+import dao.impl.RoomCategoryDAO;
+import dao.impl.RoomFeeBillDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Array;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalDate;
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,13 +24,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import model.Boarder;
-import model.Feedback;
+import model.BoardingInformation;
+import model.RoomFeeBill;
 
 /**
  *
  * @author XuanDinh
  */
-public class BoarderFeedback extends HttpServlet {
+public class AddRoomFeeBill extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +50,10 @@ public class BoarderFeedback extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BoarderFeedback</title>");            
+            out.println("<title>Servlet AddRoomFeeBill</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BoarderFeedback at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddRoomFeeBill at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,8 +71,7 @@ public class BoarderFeedback extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       request.setAttribute("page", "Feedback");
-       request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -82,28 +85,27 @@ public class BoarderFeedback extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
-            String title = request.getParameter("title");
-            String massage = request.getParameter("massage");
-            Date date= new Date(System.currentTimeMillis());
-            Time time = new Time(System.currentTimeMillis());
-            Account account = (Account) request.getSession().getAttribute("account");
-            String user = account.getUserName();
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder)boarderDAO.getOne(user);
-            Feedback feedback= new Feedback(0,
-                    date,
-                    time,
-                    title + ": " + massage,
-                    boarder);
-            FeedbackDAO feedbackDAO = new FeedbackDAO();
-            feedbackDAO.insert(feedback);
-            request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
-           
+            BoardingInformationDAO infors = new BoardingInformationDAO();
+            ArrayList<BoardingInformation> allBoarder = new ArrayList<>();
+            for (BoardingInformation boardingInformation : allBoarder) {
+                Boarder boarder = boardingInformation.getBoarder();
+                Date date = new Date(System.currentTimeMillis());
+                int month = (date.getMonth() + 1) % 12;
+                String monthString;
+                monthString = new DateFormatSymbols().getMonths()[month - 1];
+                Date date1 = new Date((date.getMonth() == 11 ? date.getYear() + 1 : date.getYear()) - 1900,
+                        (date.getMonth() + 1) % 12,
+                        10);
+                RoomFeeBill feebill = new RoomFeeBill(0, boarder, monthString, date1, false);
+                RoomFeeBillDAO feebilldao = new RoomFeeBillDAO();
+                feebilldao. insert(feebill);
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(BoarderFeedback.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddRoomFeeBill.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
+
     }
 
     /**

@@ -311,4 +311,32 @@ public class DomDAO extends Connection implements IBaseDAO {
         }
         return false;
     }
+    
+     public Dom getDomById(String id) throws SQLException {
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "select * from Dom where DomID = ?";
+        
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String ID = resultSet.getString("DomID"); 
+                String name = resultSet.getString("DomName"); 
+                Dom dom = new Dom(ID, name);
+                return dom;
+            }
+            
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return null;
+    }
 }

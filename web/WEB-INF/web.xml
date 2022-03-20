@@ -140,6 +140,10 @@
         <servlet-name>EditBoarderServlet</servlet-name>
         <servlet-class>controller.staff.EditBoarderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddRoomFeeBill</servlet-name>
+        <servlet-class>controller.staff.AddRoomFeeBill</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -251,7 +255,10 @@
     <servlet-mapping>
         <servlet-name>EditBoarderServlet</servlet-name>
         <url-pattern>/staff/edit</url-pattern>
-
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddRoomFeeBill</servlet-name>
+        <url-pattern>/staff/addroomfeebill</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

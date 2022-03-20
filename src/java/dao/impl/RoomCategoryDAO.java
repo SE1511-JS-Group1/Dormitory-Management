@@ -153,5 +153,36 @@ public class RoomCategoryDAO extends Connection implements IBaseDAO {
             closeConnection(connection);
         }
     }
+    
+      public RoomCategory getRoomCategoryById(int id) throws SQLException {
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "select * from RoomCategory where CategoryID = ?";
+        
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int ID = resultSet.getInt("CategoryID"); 
+                String name = resultSet.getString("CategoryName"); 
+                boolean gender = resultSet.getBoolean("Gender");
+                float roomfee = resultSet.getFloat("RoomFee");
+                int bedNumber = resultSet.getInt("BedNumber"); 
+                RoomCategory category = new RoomCategory(ID, name, gender, roomfee, bedNumber);
+                return category;
+            }
+            
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return null;
+    }
 
 }
