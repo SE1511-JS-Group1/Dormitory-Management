@@ -5,9 +5,9 @@
  */
 package controller.boarder;
 
+import controller.admin.ViewRoomServlet;
 import dao.impl.BoarderDAO;
 import dao.impl.BoardingInformationDAO;
-import dao.impl.RoomDAO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -24,9 +24,9 @@ import model.Room;
 
 /**
  *
- * @author Admin
+ * @author windc
  */
-public class BookingServlet extends HttpServlet {
+public class LoadRenewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,26 +40,29 @@ public class BookingServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-           request.setAttribute("page", "room");
+        request.setAttribute("act", "renew");
         try {
-            int roomID = Integer.parseInt(request.getParameter("roomId"));
-            int bedNo = Integer.parseInt(request.getParameter("bedno"));
             Account act = (Account) request.getSession().getAttribute("account");
             BoarderDAO boarderDAO = new BoarderDAO();
             Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
-            Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
-            Booking.setPath(request.getContextPath());
-            Booking.setMaxAge(60 * 60 * 24 * 30);
-            response.addCookie(Booking);
-            RoomDAO roomDAO = new RoomDAO();
             BoardingInformationDAO boardingInformationDAO = new BoardingInformationDAO();
-            Room room = (Room) roomDAO.getOne(roomID);
-            BoardingInformation boardingInformation = new BoardingInformation(room, boarder, bedNo, null, null);
-            request.setAttribute("infor", boardingInformation);
+            BoardingInformation boardingInformation = boardingInformationDAO.getBoardingInformation(boarder.getBoarderID());
+            if (boardingInformation != null) {
+                request.setAttribute("infor", boardingInformation);
+                Cookie[] cookies = request.getCookies();
+                for (Cookie c : cookies) {
+                    System.out.println(c.getName());
+                    if (c.getName().equals("Renew" + boarder.getBoarderID())) {
+                        String[] reqString = c.getValue().split("\\D");
+                        int month = Integer.parseInt(reqString[1]);
+                        request.setAttribute("month", month);
+                    }
+                }
+                request.getRequestDispatcher("renew_boarder.jsp").forward(request, response);
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.getRequestDispatcher("waiting_book_boarder.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

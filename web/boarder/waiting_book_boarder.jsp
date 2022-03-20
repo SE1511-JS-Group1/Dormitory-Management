@@ -24,7 +24,7 @@
             <c:import url="boarder_header.jsp"></c:import>
             </div>
             <section class="h-100 gradient-form" style="background-color: #eee;">
-                <div style="height: 110px"></div>
+                <div style="height: 130px"></div>
 
                 <div class="container py-5 h-90">
                     <div class="row d-flex justify-content-center align-items-center h-90">
@@ -63,7 +63,7 @@
                                         <button type="submit" class="btn btn-outline-info ${act eq 'renew' ? 'pushin':'btn-map-field-col'}"><h6>Renew</h6></button>    
                                     </form>
                                     <form action="load" method="post">
-                                        <button type="submit" class="btn btn-outline-info ${act eq 'change' ? 'pushin':'btn-map-field-col'}"name="editvalue" value="1"><h6>Change</h6></button>    
+                                        <button type="submit" class="btn btn-outline-info ${act eq 'change' ? 'pushin':'btn-map-field-col'}"value="2"name="editvalue"><h6>Change</h6></button>    
                                     </form>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                     <div class="spinner-grow text-dark"></div>
                                     <div class="spinner-grow text-light"></div>
                                     <div>
-                                        <h5 style="text-align: center" >You are have a room</h5>
+                                        <h5 style="text-align: center" >Your request</h5>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div style="text-align: center">
@@ -121,36 +121,43 @@
                                                                 <input class="room_information" id="chosenName" type="text" value="${infor.getBedNo()}" style="border: none;" disabled>                                                                        
                                                             </div>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-3">
-                                                                Start Date:
-                                                            </div>
-                                                            <div class="col-md-5">
-                                                                <input class="room_information" id="chosenName" type="text" value="${infor.getStartDate()}" style="border: none;" disabled>                                                                        
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-3">
-                                                                End Date:
-                                                            </div>
-                                                            <div class="col-md-5">
-                                                                <input class="room_information" id="chosenName" type="text" value="${infor.getEndDate()}" style="border: none;" disabled>                                                                        
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                 </div>
 
                                             </div>
                                             <div class="col-md-6">
-                                                 <form action="room" method="get">
-                                                    <input type="hidden" name="dom" value=""/>
-                                                    <button type="submit" class="btn btn-outline-info ${1==1 ?'pushin':'btn-map-field-col'}"style="width: 150px;margin-left: auto;margin-right: auto;margin-top: 50px;display: block"><h6>Cancel</h6></button>    
+                                                <form action="load" method="get">
+                                                    <input type="hidden" name="editvalue" value="2"/>
+                                                    <button type="submit" class="btn btn-outline-info "style="width: 150px;margin-left: auto;margin-right: auto;margin-top: 40px;display: block"><h6>Edit</h6></button>    
                                                 </form>
-                                                <form action="room" method="get">
-                                                    <input type="hidden" name="dom" value=""/>
-                                                    <button type="submit" class="btn btn-outline-info ${ 1==1?'pushin':'btn-map-field-col'}"style="width: 150px;margin-left: auto;margin-right: auto;display: block"><h6>Change</h6></button>    
-                                                </form>
-                                                
+
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#delete"style="width: 150px;margin-left: auto;margin-right: auto;margin-top: 20px;display: block">
+                                                    <h6>Delete</h6>
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div style="height: 150px"></div>
+                                                        <form class="modal-content" action="delete" method="get">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Cancel Booking Room</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <input type="hidden" name="boarderId" value="${infor.getBoarder().getBoarderID()}"/>
+                                                                <h5>Do you want to delete your request?</h5>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Delete</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

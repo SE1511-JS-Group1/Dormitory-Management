@@ -118,7 +118,7 @@
                                                                 Bed:
                                                             </div>
                                                             <div class="col-md-5">
-                                                                <input class="room_information" id="chosenName" type="text" value="${infor.getBedNo()}" style="border: none;" disabled>                                                                        
+                                                                <input class="room_information" id="chosenName"  name="Bedno"type="text" value="${infor.getBedNo()}" style="border: none;" disabled>                                                                        
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -142,15 +142,18 @@
 
                                             </div>
                                             <div class="col-md-6">
-                                                 <form action="room" method="get">
-                                                    <input type="hidden" name="dom" value=""/>
-                                                    <button type="submit" class="btn btn-outline-info ${1==1 ?'pushin':'btn-map-field-col'}"style="width: 150px;margin-left: auto;margin-right: auto;margin-top: 50px;display: block"><h6>Cancel</h6></button>    
-                                                </form>
-                                                <form action="room" method="get">
-                                                    <input type="hidden" name="dom" value=""/>
-                                                    <button type="submit" class="btn btn-outline-info ${ 1==1?'pushin':'btn-map-field-col'}"style="width: 150px;margin-left: auto;margin-right: auto;display: block"><h6>Change</h6></button>    
-                                                </form>
-                                                
+                                                <c:choose>
+                                                    <c:when test="${month == null}">
+                                                        <form action="renew" method="get" style="margin-top: 10%;">
+                                                            Number of month need to renew:<input type="number" name="month" value="" min="1" max="12" style="margin-left: auto;margin-right: auto"/>
+                                                            <button type="submit" class="btn btn-outline-info ${ 1==1?'pushin':'btn-map-field-col'}"style="width: 150px;margin-left: auto;margin-right: auto;display: block"><h6>Renew</h6></button>    
+                                                        </form>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <h5 style="margin-top: 15%;margin-left: auto;margin-right: auto">You have extended the ${month} month, waiting for a response. </h5>
+                                                    </c:otherwise>
+                                                </c:choose>
+
                                             </div>
                                         </div>
                                     </div>

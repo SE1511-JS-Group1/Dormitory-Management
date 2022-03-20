@@ -136,6 +136,22 @@
         <servlet-name>EditBoarderServlet</servlet-name>
         <servlet-class>controller.staff.EditBoarderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteBookingServlet</servlet-name>
+        <servlet-class>controller.boarder.DeleteBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditBookingServlet</servlet-name>
+        <servlet-class>controller.boarder.EditBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RenewRoomServlet</servlet-name>
+        <servlet-class>controller.boarder.RenewRoomServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadRenewServlet</servlet-name>
+        <servlet-class>controller.boarder.LoadRenewServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -243,6 +259,22 @@
     <servlet-mapping>
         <servlet-name>EditBoarderServlet</servlet-name>
         <url-pattern>/staff/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteBookingServlet</servlet-name>
+        <url-pattern>/boarder/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBookingServlet</servlet-name>
+        <url-pattern>/boarder/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RenewRoomServlet</servlet-name>
+        <url-pattern>/boarder/renew</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadRenewServlet</servlet-name>
+        <url-pattern>/boarder/loadrenew</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
