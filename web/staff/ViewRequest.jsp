@@ -80,6 +80,7 @@
                                                                 <col width="150" span="1">
                                                             </colgroup>
                                                             <thead>
+                                                                <tr><th colspan="7"><h5 class="text-center">Booking Request</h5></th></tr>
                                                                 <tr style="text-align: center;">
                                                                     <th>Full Name</th>
                                                                     <th>Gender</th>
@@ -93,13 +94,13 @@
                                                             <c:forEach items="${boarding}" var="b">
                                                                 <tr style="text-align: center;">
                                                                     <td>${b.getBoarder().getBoarderName()}</td>
-                                                                    <td>${b.getBoarder().isGender()?"Male":"Female"}</td>
+                                                                    <td style="color: ${b.getBoarder().isGender() == b.getRoom().getCategory().isRoomGender()?'':'red' }">${b.getBoarder().isGender()?"Male":"Female"}</td>
                                                                     <td>${b.getBoarder().getDateOfBirth()}</td>
                                                                     <td>${b.getBoarder().getPhoneNumber()}</td>
-                                                                    <td>${b.getRoom()}</td>
+                                                                    <td style="color: ${b.getBoarder().isGender() == b.getRoom().getCategory().isRoomGender()?'':'red' }">${b.getRoom()}</td>
                                                                     <td>${b.getBedNo()}</td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#acceptRequest" onclick="loadModal('${b.getBoarder().getBoarderID()}', '${b.getRoom().getRoomID()}', '${b.getBedNo()}', 'Accept');">Accept</button>
+                                                                        <button ${b.getBoarder().isGender() == b.getRoom().getCategory().isRoomGender()?"":"disabled" } type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#acceptRequest" onclick="loadModal('${b.getBoarder().getBoarderID()}', '${b.getRoom().getRoomID()}', '${b.getBedNo()}', 'Accept');">Accept</button>
                                                                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#acceptRequest"onclick="loadModal('${b.getBoarder().getBoarderID()}', '${b.getRoom().getRoomID()}', '${b.getBedNo()}', 'Deny');">Deny</button>
                                                                     </td>
                                                                 </tr>
@@ -133,14 +134,14 @@
                                                             <c:forEach items="${editing}" var="b">
                                                                 <c:set var="boarder" value="${bdao.getBoarderById(b.getBoarderID())}" scope="page" />
                                                                 <tr style="text-align: center;">
-                                                                    <td>Old: ${boarder.getBoarderName()}<br>New: ${b.getBoarderName()}</td>
-                                                                    <td>${boarder.isGender()?"Male":"Female"}<br>${b.isGender()?"Male":"Female"}</td>
-                                                                    <td>${boarder.getDateOfBirth()}<br>${b.getDateOfBirth()}</td>
-                                                                    <td>${boarder.getPhoneNumber()}<br>${b.getPhoneNumber()}</td>
-                                                                    <td>${boarder.getEmail()}<br>${b.getEmail()}</td>
-                                                                    <td>${boarder.getJob()}<br>${b.getJob()}</td>
+                                                                    <td><p>Old: ${boarder.getBoarderName()}</p><p style="color: green;">New: ${b.getBoarderName()}</p></td>
+                                                                    <td><p>${boarder.isGender()?"Male":"Female"}</p><p style="color: green;">${b.isGender()?"Male":"Female"}</p></td>
+                                                                    <td><p>${boarder.getDateOfBirth()}</p><p style="color: green;">${b.getDateOfBirth()}</p></td>
+                                                                    <td><p>${boarder.getPhoneNumber()}</p><p style="color: ${ !bdao.checkPhoneBoarder(b.getPhoneNumber())||boarder.getPhoneNumber()eq b.getPhoneNumber()?'green':'red'};">${b.getPhoneNumber()}</p></td>
+                                                                    <td><p>${boarder.getEmail()}</p><p style="color: ${!bdao.checkEmailBoarder(b.getEmail())||boarder.getEmail() eq b.getEmail()?'green':'red'};">${b.getEmail()}</p></td>
+                                                                    <td><p>${boarder.getJob()}</p><p style="color: green;">${b.getJob()}</p></td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#editInfor" onclick="loadInfor('${b.getBoarderID()}', 'Accept')">Accept</button>
+                                                                        <button ${!bdao.checkEmailBoarder(b.getEmail())||boarder.getEmail() eq b.getEmail()?"":"disabled"} type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#editInfor" onclick="loadInfor('${b.getBoarderID()}', 'Accept')">Accept</button>
                                                                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#editInfor"onclick="loadInfor('${b.getBoarderID()}', 'Deny')">Deny</button>
                                                                     </td>
                                                                 </tr>

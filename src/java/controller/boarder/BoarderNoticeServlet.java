@@ -13,7 +13,6 @@ import dao.impl.AccountDAO;
 import dao.impl.BoarderDAO;
 import dao.impl.NoticeDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -32,31 +31,6 @@ import model.Notice;
  */
 public class BoarderNoticeServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        AccountDAO accountDAO = new AccountDAO();
-        BoarderDAO boarderDAO = new BoarderDAO();
-        NoticeDAO noticeDAO = new NoticeDAO();
-        
-        Account account = (Account) request.getSession().getAttribute("account");    
-        String user = account.getUserName();
-        Boarder boarder = boarderDAO.getBoarderByUserName(user);
-        int id = boarder.getBoarderID();
-        ArrayList<Notice> notices = noticeDAO.getNoticesByBoarderId(id);
-        request.setAttribute("ListNotice", notices);
-        request.setAttribute("page", "notice");
-        request.getRequestDispatcher("notices_view_boarder.jsp").forward(request, response);
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -70,7 +44,20 @@ public class BoarderNoticeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            processRequest(request, response);
+            AccountDAO accountDAO = new AccountDAO();
+            BoarderDAO boarderDAO = new BoarderDAO();
+            NoticeDAO noticeDAO = new NoticeDAO();
+
+            Account account = (Account) request.getSession().getAttribute("account");
+            String user = account.getUserName();
+            Boarder boarder = boarderDAO.getBoarderByUserName(user);
+            int id = boarder.getBoarderID();
+            ArrayList<Notice> notices = noticeDAO.getNoticesByBoarderId(id, 1);
+            request.setAttribute("ListNotice", notices);
+            request.setAttribute("curpage", 1);
+            request.setAttribute("numberofpage", noticeDAO.getTotalPage(id));
+            request.setAttribute("page", "notice");
+            request.getRequestDispatcher("notices_view_boarder.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(BoarderNoticeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,8 +74,22 @@ public class BoarderNoticeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int curpage = Integer.parseInt(request.getParameter("page"));
         try {
-            processRequest(request, response);
+            AccountDAO accountDAO = new AccountDAO();
+            BoarderDAO boarderDAO = new BoarderDAO();
+            NoticeDAO noticeDAO = new NoticeDAO();
+
+            Account account = (Account) request.getSession().getAttribute("account");
+            String user = account.getUserName();
+            Boarder boarder = boarderDAO.getBoarderByUserName(user);
+            int id = boarder.getBoarderID();
+            ArrayList<Notice> notices = noticeDAO.getNoticesByBoarderId(id, curpage);
+            request.setAttribute("ListNotice", notices);
+            request.setAttribute("curpage", curpage);
+            request.setAttribute("numberofpage", noticeDAO.getTotalPage(id));
+            request.setAttribute("page", "notice");
+            request.getRequestDispatcher("notices_view_boarder.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(BoarderNoticeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

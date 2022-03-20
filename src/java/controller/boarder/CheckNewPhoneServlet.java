@@ -1,26 +1,30 @@
 /*
- * Copyright(C) 2022, FPT University.
- * Dormitory Management System:
- * Controller Admin
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 2022-03-08      1.0                 DinhLX           First Implement
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package controller.admin;
+package controller.boarder;
 
+import dao.impl.BoarderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Account;
+import model.Boarder;
 
 /**
  *
- * @author XuanDinh
+ * @author Dell
  */
-public class ViewFeedback extends HttpServlet {
+@WebServlet(name = "CheckNewPhoneServlet", urlPatterns = {"/boarder/checkphone"})
+public class CheckNewPhoneServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,17 +38,19 @@ public class ViewFeedback extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewFeedback</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewFeedback at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        request.setCharacterEncoding("UTF-8");
+        try {
+            String phone = request.getParameter("phone");
+            String user = ((Account) request.getSession().getAttribute("account")).getUserName();
+            BoarderDAO bdao = new BoarderDAO();
+            Boarder b = bdao.getBoarderByUserName(user);
+            if (!phone.equals("0" + Integer.parseInt(phone.substring(1))) || phone.length() != 10) {
+                response.getWriter().print("Số điện thoại không hợp lệ!");
+            } else if (bdao.checkPhoneBoarder(phone) && !b.getPhoneNumber().equals(phone)) {
+                response.getWriter().print("Số điện thoại đã được đăng ký!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckNewPhoneServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -60,8 +66,7 @@ public class ViewFeedback extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("page", "feedback");
-        request.getRequestDispatcher("feedback_view_admin.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

@@ -187,7 +187,7 @@ public class ViewRequestServlet extends HttpServlet {
             ArrayList<BoardingInformation> boardingInformations = new ArrayList<>();
             if (cookies.length >= 2) {
                 for (Cookie c : cookies) {
-                    if (c.getName().startsWith("Book") && c.getMaxAge() > 0) {
+                    if (c.getName().startsWith("Book") && c.getMaxAge() != 0) {
                         System.out.println("Max Age: " + c.getMaxAge());
                         String[] reqString = c.getValue().split("\\D");
                         System.out.printf("%s     %s        %s", reqString[0], reqString[1], reqString[2]);

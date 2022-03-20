@@ -64,18 +64,47 @@ public class NoticeDAO extends Connection implements IBaseDAO {
     public Object getOne(Object key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    public ArrayList<Notice> getNoticesByBoarderId(int id) throws SQLException {
-        ArrayList<Notice> notices = new ArrayList<>();
+
+    public int getNumberNoticesByBoarderId(int id) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "select * from Notices where BoarderID=? Order by [Date] desc,[Time] desc";
+        String sql = "select count(*) as 'total' from Notices where BoarderID=? ";
         try {
             connection = getConnection();
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt("total");
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return 0;
+    }
+
+    public int getTotalPage(int id) throws SQLException {
+        return getNumberNoticesByBoarderId(id) / 4 + (getNumberNoticesByBoarderId(id) % 4 == 0 ? 0 : 1);
+    }
+
+    public ArrayList<Notice> getNoticesByBoarderId(int id, int page) throws SQLException {
+        ArrayList<Notice> notices = new ArrayList<>();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "select * from Notices where BoarderID=? Order by [Date] desc,[Time] desc OFFSET     ? ROWS "
+                + "FETCH NEXT ? ROWS ONLY;";
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, (page - 1) * 4);
+            preparedStatement.setInt(3, 4);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int boarderID = resultSet.getInt("BoarderID"); // lấy id của boarder từ database             
@@ -94,7 +123,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
                         resultSet.getBoolean("Direction"));
                 notices.add(notice);
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw e;
         } finally {
             closeResultSet(resultSet);
@@ -103,8 +132,7 @@ public class NoticeDAO extends Connection implements IBaseDAO {
         }
         return notices;
     }
-    
-    
+
     @Override
     public void insert(Object object) throws SQLException {
         Notice inserted = (Notice) object;

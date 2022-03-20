@@ -17,74 +17,118 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-        <link rel='icon' href='https://by.com.vn/xQTXSg'>   
-        <link href="../css/changepassword.css" rel="stylesheet">
-        <link href="../css/feedback.css" rel="stylesheet">
-        <script src="../js/feedback.js"></script>
+        <link href="../css/background.css" rel="stylesheet">
+        <link rel='icon' href='../images/logo.png'>   
+        <link href="../css/overview.css" rel="stylesheet">  
     </head>
     <body>
         <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
             <c:import url="boarder_header.jsp"></c:import>
             </div>
-            <section class="vh-100" style="background-color: #eee;">
-                <div id="form">
-                    <div class="fish" id="fish"></div>
-                    <div class="fish" id="fish2"></div>
-                    <form method="post" action="changepassword" style="margin-top: 150px">
-                        <input type="test" class="text" name="user" id="old" hidden="" oninput="CheckAccount('message_username',this);" required="import old passworf" value="${sessionScope.account.getUserName()}">
-                    <label for="old"> Old Password </label>
-                    <input type="password" class="text email" name="old" id="old" oninput="CheckPassword(this);" required="import old passworf" value="${sessionScope.account.getPassWord()}">
-                    <label for="new"> New Password: </label>
-                    <input type="password" name="new" class="text" id="new" onkeyup="CheckNewPassword(this);" required="import new passworf" oninput="CheckNewPassword(this);" placeholder="New Password">
-                    <div id="message1" style="color:red"> </div>${message1}
-                    <br>
-                    <label for="retype"> Confirm New Password: </label>
-                    <input type="password" name="retype" id="retype" onkeyup="matchPassword(this);" class="text w3lpass" required="import confirm new passworf" placeholder="Confirm Password">
-                    <div id="message2" style="color:red"> </div>${message2}
-                    <div class="wthree-text">
-                        <div class="clear"> </div>
+            <section class="stars-container vh-100">
+                <div class="container">
+                    <div id="stars"></div>
+                    <div id="stars2"></div>
+                    <div id="stars3"></div>
+                    <div class="row">
+                        <section class="vh-100" style="position: fixed; left: 0;top: 0;">
+                            <div class="container py-5 h-100">
+                                <div class="row d-flex justify-content-center align-items-center h-100">
+                                    <div class="col col-xl-8">
+                                        <div class="row">
+                                            <h3 class="text-center" style="font-family: cursive; color: #ffffff;">Change password</h3>
+                                        </div>
+                                        <div class="card" style="border-radius: 1rem;">
+                                            <div class="row g-0">
+                                                <div class="col-md-12 col-lg-12 d-flex align-items-center">
+                                                    <form method="post" action="changepassword" class="card-body p-4 p-lg-5 text-black">
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text" id="inputGroup-sizing-default">Old password</span>
+                                                            <input required maxlength="32" id="oldpass" name="oldpass" type="password" style="background-color: #ffffff;" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                                        </div>
+                                                        <p id="oldpass-txt" class="text-danger" style="display: none;"></p>
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text" id="inputGroup-sizing-default">New password</span>
+                                                            <input required maxlength="32" id="newpass" name="newpass" type="password" style="background-color: #ffffff;" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                                        </div>
+                                                        <p id="newpass-txt" class="text-danger" style="display: none;"></p>
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text" id="inputGroup-sizing-default">Confirm password</span>
+                                                            <input required maxlength="32" id="confirmpass" name="confirmpass" type="password" style="background-color: #ffffff;" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                                        </div>
+                                                        <p id="confirmpass-txt" class="text-danger" style="display: none;"></p>
+                                                        <button type="submit" class="btn btn-outline-info" id="btnChange">Change</button>                                   
+                                                        <button type="button" class="btn btn-outline-danger" id="btnChange" onclick="location.reload()">Cancel</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                    <input type="submit" onclick="return CheckChangePassword()" value="Change Password">
-                </form>
+                </div>
+                <div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
+                <c:import url="boarder_footer.jsp"></c:import>
             </div>
         </section>
-        <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
-            <c:import url="boarder_footer.jsp"></c:import>
-        </div>
-
-
     </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        function CheckNewPassword(param) {
-            document.getElementById('message1').style.display = 'none';
-            document.getElementById('message2').style.display = 'none';
-            var password1 = param.value;
-            param.value = password1.trim();
-            if (password1.length < 6 || password1.length > 32) {
-                document.getElementById('message1').innerHTML = 'Mật khẩu phải chứa 6-32 ký tự không bao gồm khoảng trắng';
+        document.getElementById('btnChange').onclick = function () {
+            document.getElementById('newpass-txt').style.display = 'block';
+            document.getElementById('confirmpass-txt').style.display = 'block';
+            document.getElementById('oldpass-txt').style.display = 'block';
+            var txt = document.getElementById('newpass-txt').innerHTML.trim() +
+                    document.getElementById('confirmpass-txt').innerHTML.trim() +
+                    document.getElementById('oldpass-txt').innerHTML.trim();
+            return txt.length === 0;
+
+        };
+    </script>
+    <script>
+        document.getElementById('newpass').oninput = function () {
+            document.getElementById('newpass-txt').style.display = 'none';
+            this.value = this.value.trim();
+            var lengthPass = this.value.length;
+            if (lengthPass < 6 || lengthPass > 32) {
+                document.getElementById('newpass-txt').innerHTML = 'Mật khẩu phải chứa 6-32 ký tự không bao gồm khoảng trắng';
             } else {
-                document.getElementById('message1').innerHTML = '';
+                document.getElementById('newpass-txt').innerHTML = '';
             }
-        }
-        function matchPassword(param) {
-            document.getElementById('message1').style.display = 'none';
-            document.getElementById('message2').style.display = 'none';
-            var confirmpass = param.value;
-            param.value = confirmpass.trim();
-            var password = document.getElementById('new').value;
-            if (password !== confirmpass) {
-                document.getElementById('message2').innerHTML = 'Mật khẩu không khớp';
+        };
+    </script>
+    <script>
+        document.getElementById('confirmpass').oninput = function () {
+            document.getElementById('confirmpass-txt').style.display = 'none';
+            this.value = this.value.trim();
+            var newpass = document.getElementById('newpass').value;
+            if (this.value !== newpass) {
+                document.getElementById('confirmpass-txt').innerHTML = 'Mật khẩu không khớp';
             } else {
-                document.getElementById('message2').innerHTML = '';
+                document.getElementById('confirmpass-txt').innerHTML = '';
             }
-        }
-        function CheckChangePassword() {
-            var txt = document.getElementById('message1').innerHTML.trim().length
-                    + document.getElementById('message2').innerHTML.trim().length;
-            document.getElementById('message1').style.display = 'block';
-            document.getElementById('message2').style.display = 'block';
-            return txt === 0;
-            alert("Change password successful");
-        }
+        };
+    </script>
+    <script>
+        document.getElementById('oldpass').oninput = function () {
+            this.value = this.value.trim();
+            document.getElementById('oldpass-txt').style.display = 'none';
+            $.ajax({
+                url: "checkpass",
+                type: "get", //send it through get method
+                data: {
+                    pass: document.getElementById('oldpass').value
+                },
+                success: function (data) {
+                    var row = document.getElementById('oldpass-txt');
+                    row.innerHTML = data;
+                },
+                error: function (xhr) {
+                    //Do Something to handle error
+                }
+            });
+        };
     </script> 
 </html>

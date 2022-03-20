@@ -176,7 +176,7 @@ public class AdminFilter implements Filter {
         if (filterConfig == null) {
             return ("AdminFilter()");
         }
-        StringBuffer sb = new StringBuffer("AdminFilter(");
+        StringBuilder sb = new StringBuilder("AdminFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
