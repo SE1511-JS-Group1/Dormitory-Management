@@ -38,7 +38,7 @@
                         <label for="message">Your message</label>
                         <textarea id="message" name="massage" onkeyup="CheckMessage(this)" placeholder="Massage" required></textarea>
                     </div>
-                    <input type="submit" value="Send your message!" />
+                    <input type="submit" onclick="showMess()" value="Send your message!" />
                 </form>
             </div>
             <div style=" position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;border-top: 1px dotted black;">
@@ -48,12 +48,14 @@
     <script>
         function CheckMessage(param) {
             var massege = param.value;
-            param.value = massege.trim();
-            if (massege.length == 0) {
+            if (massege.trim().length === 0) {
                 document.getElementById('message1').innerHTML = 'Trống';
             } else {
                 document.getElementById('message1').innerHTML = '';
             }
+        }
+        function showMess() {
+            alert("Feedback successfuly");
         }
     </script>
 </html>

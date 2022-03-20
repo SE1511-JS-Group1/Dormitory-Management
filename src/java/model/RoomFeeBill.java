@@ -17,7 +17,7 @@ public class RoomFeeBill {
     private Boarder boarder;
     private String month;
     private Date deadline;
-    private String status;
+    private boolean status;
 
     /**
      * Initializes a newly created <code>RoomFeeBill</code> object so that it
@@ -26,7 +26,7 @@ public class RoomFeeBill {
     public RoomFeeBill() {
     }
 
-    public RoomFeeBill(int billID, Boarder boarder, String month, Date deadline, String status) {
+    public RoomFeeBill(int billID, Boarder boarder, String month, Date deadline, boolean status) {
         this.billID = billID;
         this.boarder = boarder;
         this.month = month;
@@ -66,11 +66,11 @@ public class RoomFeeBill {
         this.deadline = deadline;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

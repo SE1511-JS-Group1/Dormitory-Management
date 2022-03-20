@@ -5,8 +5,11 @@
  */
 package controller.admin;
 
+import dao.impl.FeedbackDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author XuanDinh
  */
-public class ViewFeedback extends HttpServlet {
+public class AdminDeleteFeedbackServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +38,10 @@ public class ViewFeedback extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewFeedback</title>");
+            out.println("<title>Servlet AdminDeleteFeedbackServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewFeedback at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AdminDeleteFeedbackServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,8 +59,7 @@ public class ViewFeedback extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute("page", "feedback");
-        request.getRequestDispatcher("feedback_view_admin.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -71,7 +73,16 @@ public class ViewFeedback extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int id = Integer.parseInt(request.getParameter("id"));
+        System.out.println(id);
+        FeedbackDAO feedback = new FeedbackDAO();
+        try {
+            feedback.delete(id);
+            response.sendRedirect("feedback");
+        } catch (Exception e) {
+            Logger.getLogger(AdminDeleteFeedbackServlet.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
     }
 
     /**

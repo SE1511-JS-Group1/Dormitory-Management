@@ -3,30 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.boarder;
+package controller.admin;
 
-import dao.impl.BoarderDAO;
 import dao.impl.FeedbackDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
-import model.Boarder;
 import model.Feedback;
 
 /**
  *
  * @author XuanDinh
  */
-public class BoarderFeedback extends HttpServlet {
+public class ViewFeedbackServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,20 +35,9 @@ public class BoarderFeedback extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BoarderFeedback</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BoarderFeedback at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -66,8 +52,17 @@ public class BoarderFeedback extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       request.setAttribute("page", "Feedback");
-       request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
+        request.setAttribute("page", "Feedback");
+        try (PrintWriter out = response.getWriter()) {
+            FeedbackDAO feedback = new FeedbackDAO();
+            ArrayList<Feedback> listFeedback = feedback.getpagefeedback(1);
+            request.setAttribute("feedback", listFeedback);
+            request.setAttribute("curpage", 1);
+            request.setAttribute("numberofpage", feedback.getTotalPage() );
+            request.getRequestDispatcher("feedback_view_admin.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -81,28 +76,29 @@ public class BoarderFeedback extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("page", "Feedback");
+        
         try {
-            String title = request.getParameter("title");
-            String massage = request.getParameter("massage");
-            Date date= new Date(System.currentTimeMillis());
-            Time time = new Time(System.currentTimeMillis());
-            Account account = (Account) request.getSession().getAttribute("account");
-            String user = account.getUserName();
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder)boarderDAO.getOne(user);
-            Feedback feedback= new Feedback(0,
-                    date,
-                    time,
-                    title + ": " + massage,
-                    boarder);
-            FeedbackDAO feedbackDAO = new FeedbackDAO();
-            feedbackDAO.insert(feedback);
-            request.getRequestDispatcher("boarder_feedback.jsp").forward(request, response);
-           
+            FeedbackDAO feedback = new FeedbackDAO();
+            int curpage = Integer.parseInt(request.getParameter("page"));
+            if (request.getParameter("date1").trim().isEmpty() || request.getParameter("date2").trim().isEmpty()) {
+                ArrayList<Feedback> listFeedback = feedback.getpagefeedback(curpage);
+                request.setAttribute("feedback", listFeedback);
+                request.setAttribute("numberofpage", feedback.getTotalPage());
+            } else {
+                Date date1 = Date.valueOf(request.getParameter("date1"));
+                Date date2 = Date.valueOf(request.getParameter("date2"));
+                ArrayList<Feedback> listFeedback = feedback.getpagefeedback(curpage, date1, date2);
+                request.setAttribute("feedback", listFeedback);
+                request.setAttribute("date1", date1);
+                request.setAttribute("date2", date2);
+                request.setAttribute("numberofpage", feedback.getTotalPage(date1, date2));
+            }
+            request.setAttribute("curpage", Integer.parseInt(request.getParameter("page")));
+            request.getRequestDispatcher("feedback_view_admin.jsp").forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(BoarderFeedback.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewRoomServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
     }
 
     /**

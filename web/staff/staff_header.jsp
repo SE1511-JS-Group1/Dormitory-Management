@@ -16,7 +16,7 @@
                 <li><a href="boarder" class="nav-link px-2 ${page eq 'boarder' ? 'text-white':'text-secondary'}">Boarder</a></li>
                 <li><a href="#" class="nav-link px-2 ${page eq 'notice' ? 'text-white':'text-secondary'}">Notice</a></li>
                 <li><a href="violation" class="nav-link px-2 ${page eq 'violation' ? 'text-white':'text-secondary'}">Violation</a></li>
-                <li><a href="#" class="nav-link px-2 ${page eq 'financial' ? 'text-white':'text-secondary'}">Financial</a></li>
+                <li><a href="#" class="nav-link px-2 ${page eq 'feebill' ? 'text-white':'text-secondary'}">Finacical</a></li>
             </ul>
             <div class="text-end">
                 <a type="button" class="btn btn-outline-light me-2" href="#">${sessionScope.account.getUserName()}</a>
