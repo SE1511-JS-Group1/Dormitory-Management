@@ -14,6 +14,7 @@ import dao.impl.AccountDAO;
 import dao.impl.BoarderDAO;
 import dao.impl.BoardingInformationDAO;
 import dao.impl.DomDAO;
+import dao.impl.RoomDAO;
 import dao.impl.RoomStatusDAO;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,6 +30,7 @@ import model.Account;
 import model.Boarder;
 import model.BoardingInformation;
 import model.Dom;
+import model.Room;
 import model.RoomStatus;
 
 /**
@@ -56,16 +58,25 @@ public class BoarderRoomServlet extends HttpServlet {
             Account act = (Account) request.getSession().getAttribute("account");
             BoarderDAO boarderDAO = new BoarderDAO();
             Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
+            RoomDAO roomDAO = new RoomDAO();
+            BoardingInformationDAO boardingInformationDAO = new BoardingInformationDAO();
+            BoardingInformation boardingInformation = boardingInformationDAO.getBoardingInformation(boarder.getBoarderID());
             Cookie[] cookies = request.getCookies();
             for (Cookie c : cookies) {
-                if (c.getName().equals("Book" + boarder.getBoarderID())) {
-                    request.getRequestDispatcher("waiting_boarder.jsp").forward(request, response);
+                System.out.println(c.getName());
+                if (c.getName().equals("Book" + boarder.getBoarderID()) && c.getMaxAge() != 0) {
+                    String[] reqString = c.getValue().split("\\D");
+                    System.out.println("hihi vao day");
+                    Room r = (Room) roomDAO.getOne(Integer.parseInt(reqString[1]));
+                    Boarder b = (Boarder) boarderDAO.getBoarderById(Integer.parseInt(reqString[0]));
+                    BoardingInformation bi = new BoardingInformation(r, b, Integer.parseInt(reqString[2]), null, null);
+                    request.setAttribute("infor", bi);
+                    request.getRequestDispatcher("waiting_book_boarder.jsp").forward(request, response);
                     return;
                 }
             }
-            BoardingInformationDAO boardingInformationDAO = new BoardingInformationDAO();
-            BoardingInformation boardingInformation = boardingInformationDAO.getBoardingInformation(boarder.getBoarderID());
-            if (boardingInformation != null && boardingInformation.getEndDate() == null) {
+
+            if (boardingInformation != null ) {
                 request.setAttribute("infor", boardingInformation);
                 request.getRequestDispatcher("boarder_room_view.jsp").forward(request, response);
                 return;

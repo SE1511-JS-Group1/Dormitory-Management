@@ -63,9 +63,4 @@
             <c:import url="staff_footer.jsp"></c:import>
         </div>
     </body>
-    <script>
-        function showMess() {
-            alert("Added successfuly");
-        }
-    </script>
 </html>

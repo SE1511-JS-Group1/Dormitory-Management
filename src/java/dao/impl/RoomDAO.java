@@ -314,4 +314,37 @@ public class RoomDAO extends Connection implements IBaseDAO {
             closeConnection(connection);
         }
     }
+    
+     public Room getRoomById(int id) throws SQLException {
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "select * from Room where RoomID = ?";
+        
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int ID = resultSet.getInt("RoomID");
+                String name = resultSet.getString("RoomName");
+                int IDFloor = resultSet.getInt("Floor");
+                DomDAO dom = new DomDAO();
+                Dom a = (Dom) dom.getOne(resultSet.getInt("DomID"));
+                RoomCategoryDAO categorydao = new RoomCategoryDAO();
+                RoomCategory category = (RoomCategory) categorydao.getOne(resultSet.getInt("CategoryID"));
+                Room room = new Room(ID, a, name, IDFloor, category);
+                return room;
+            }
+            
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return null;
+    }
 }

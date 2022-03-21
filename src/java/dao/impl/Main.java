@@ -11,6 +11,7 @@ package dao.impl;
 
 import java.sql.Array;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.*;
 import model.*;
 
@@ -21,14 +22,13 @@ import model.*;
 public class Main {
     
     public static void main(String[] args) throws SQLException{
-        ViolationDAO dao = new ViolationDAO();
-        String id = "1";
-        Violation a = dao.getViolationByID(1);
-        System.out.println(a.getPenalization());
+        FeedbackDAO dao = new FeedbackDAO();
+        BoarderDAO boarder = new BoarderDAO();
+        Boarder boar = boarder.getBoarderById(1);
+        for(int i=0;i<20;i++){
+            dao.insert(new Feedback(0, new java.sql.Date(System.currentTimeMillis()), new Time(System.currentTimeMillis()), "send feedback ddeer test feeback", boar));
+        }
         
-//        list.toArray(a);
-//        for(int i=0; i<a.length; i++) {
-//            System.out.println(a[i].getBedNo());
-//        }
+
     }
 }

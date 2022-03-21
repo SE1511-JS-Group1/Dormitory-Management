@@ -1,11 +1,7 @@
 /*
- * Copyright(C) 2022, FPT University.
- * Dormitory Management System:
- * Controller Boarder
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 2022-03-10      2.0                 AnhNNV           Update code
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package controller.boarder;
 
@@ -13,6 +9,7 @@ import dao.impl.BoarderDAO;
 import dao.impl.BoardingInformationDAO;
 import dao.impl.RoomDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,9 +25,9 @@ import model.Room;
 
 /**
  *
- * @author Admin
+ * @author windc
  */
-public class BookingServlet extends HttpServlet {
+public class EditBookingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,26 +41,41 @@ public class BookingServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-           request.setAttribute("page", "room");
-        try {
-            int roomID = Integer.parseInt(request.getParameter("roomId"));
-            int bedNo = Integer.parseInt(request.getParameter("bedno"));
-            Account act = (Account) request.getSession().getAttribute("account");
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
-            Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
-            Booking.setPath(request.getContextPath());
-            Booking.setMaxAge(60 * 60 * 24 * 30);
-            response.addCookie(Booking);
-            RoomDAO roomDAO = new RoomDAO();
-            BoardingInformationDAO boardingInformationDAO = new BoardingInformationDAO();
-            Room room = (Room) roomDAO.getOne(roomID);
-            BoardingInformation boardingInformation = new BoardingInformation(room, boarder, bedNo, null, null);
-            request.setAttribute("infor", boardingInformation);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        request.setAttribute("page", "room");
+        request.setAttribute("act", "book");
+        try (PrintWriter out = response.getWriter()) {
+            try {
+                request.setAttribute("page", "room");
+                request.setAttribute("act", "book");
+                BoarderDAO boarderDAO = new BoarderDAO();
+                Account act = (Account) request.getSession().getAttribute("account");
+                Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
+                Cookie[] cookies = request.getCookies();
+                for (Cookie c : cookies) {
+                    if (c.getName().equals("Book" + boarder.getBoarderID())) {
+                        c.setPath(request.getContextPath());
+                        c.setMaxAge(0);
+                        response.addCookie(c);
+                        break;
+                    }
+                }
+
+                int roomID = Integer.parseInt(request.getParameter("roomId"));
+                int bedNo = Integer.parseInt(request.getParameter("bedno"));
+
+                Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
+                Booking.setPath(request.getContextPath());
+                Booking.setMaxAge(60 * 60 * 24 * 30);
+                response.addCookie(Booking);
+                RoomDAO roomDAO = new RoomDAO();
+                Room room = (Room) roomDAO.getOne(roomID);
+                BoardingInformation boardingInformation = new BoardingInformation(room, boarder, bedNo, null, null);
+                request.setAttribute("infor", boardingInformation);
+            } catch (SQLException ex) {
+                Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.getRequestDispatcher("waiting_book_boarder.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("waiting_book_boarder.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

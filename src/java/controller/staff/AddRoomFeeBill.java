@@ -1,36 +1,37 @@
 /*
- * Copyright(C) 2022, FPT University.
- * Dormitory Management System:
- * Controller Boarder
- *
- * Record of change:
- * DATE            Version             AUTHOR           DESCRIPTION
- * 2022-03-10      2.0                 AnhNNV           Update code
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package controller.boarder;
+package controller.staff;
 
 import dao.impl.BoarderDAO;
 import dao.impl.BoardingInformationDAO;
-import dao.impl.RoomDAO;
+import dao.impl.RoomCategoryDAO;
+import dao.impl.RoomFeeBillDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Array;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormatSymbols;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Account;
 import model.Boarder;
 import model.BoardingInformation;
-import model.Room;
+import model.RoomFeeBill;
 
 /**
  *
- * @author Admin
+ * @author XuanDinh
  */
-public class BookingServlet extends HttpServlet {
+public class AddRoomFeeBill extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,26 +45,18 @@ public class BookingServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-           request.setAttribute("page", "room");
-        try {
-            int roomID = Integer.parseInt(request.getParameter("roomId"));
-            int bedNo = Integer.parseInt(request.getParameter("bedno"));
-            Account act = (Account) request.getSession().getAttribute("account");
-            BoarderDAO boarderDAO = new BoarderDAO();
-            Boarder boarder = (Boarder) boarderDAO.getOne(act.getUserName());
-            Cookie Booking = new Cookie("Book" + boarder.getBoarderID(), boarder.getBoarderID() + "|" + roomID + "|" + bedNo);
-            Booking.setPath(request.getContextPath());
-            Booking.setMaxAge(60 * 60 * 24 * 30);
-            response.addCookie(Booking);
-            RoomDAO roomDAO = new RoomDAO();
-            BoardingInformationDAO boardingInformationDAO = new BoardingInformationDAO();
-            Room room = (Room) roomDAO.getOne(roomID);
-            BoardingInformation boardingInformation = new BoardingInformation(room, boarder, bedNo, null, null);
-            request.setAttribute("infor", boardingInformation);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet AddRoomFeeBill</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet AddRoomFeeBill at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        request.getRequestDispatcher("waiting_book_boarder.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -92,7 +85,27 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        try {
+            BoardingInformationDAO infors = new BoardingInformationDAO();
+            ArrayList<BoardingInformation> allBoarder = new ArrayList<>();
+            for (BoardingInformation boardingInformation : allBoarder) {
+                Boarder boarder = boardingInformation.getBoarder();
+                Date date = new Date(System.currentTimeMillis());
+                int month = (date.getMonth() + 1) % 12;
+                String monthString;
+                monthString = new DateFormatSymbols().getMonths()[month - 1];
+                Date date1 = new Date((date.getMonth() == 11 ? date.getYear() + 1 : date.getYear()) - 1900,
+                        (date.getMonth() + 1) % 12,
+                        10);
+                RoomFeeBill feebill = new RoomFeeBill(0, boarder, monthString, date1, false);
+                RoomFeeBillDAO feebilldao = new RoomFeeBillDAO();
+                feebilldao. insert(feebill);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AddRoomFeeBill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**

@@ -18,7 +18,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
         <link href="../css/background.css" rel="stylesheet">
         <link rel='icon' href='../images/logo.png'>   
-        <link href="../css/overview.css" rel="stylesheet">  
+        <link href="../css/overview.css" rel="stylesheet"> 
     </head>
     <body>
         <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
@@ -33,7 +33,7 @@
                         <section class="vh-100" style="position: fixed; left: 0;top: 0;">
                             <div class="container py-5 h-100">
                                 <div class="row d-flex justify-content-center align-items-center h-100">
-                                    <div class="col-xl-10">
+                                    <div class="col col-xl-10">
                                         <div class="row">
                                             <h3 class="text-center" style="font-family: cursive; color: #ffffff;">Your Room</h3>
                                         </div>
@@ -94,15 +94,15 @@
                                                                     <div class="modal-body">
                                                                         <div class="container">
                                                                             <div class="row">
-                                                                                <div class="col-md-4">
-                                                                                    Name:
+                                                                                <div class="col-md-5">
+                                                                                    Dom
                                                                                 </div>
                                                                                 <div class="col-md-5">
                                                                                     <input class="room_information" id="chosenName" type="text" value="${infor.getRoom().getDom().getDomName()}" style="border: none;" disabled>                                                                        
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row">
-                                                                                <div class="col-md-4">
+                                                                                <div class="col-md-5">
                                                                                     Floor:
                                                                                 </div>
                                                                                 <div class="col-md-5">
@@ -110,7 +110,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row">
-                                                                                <div class="col-md-4">
+                                                                                <div class="col-md-5">
                                                                                     Room:
                                                                                 </div>
                                                                                 <div class="col-md-5">
@@ -118,15 +118,15 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row">
-                                                                                <div class="col-md-4">
+                                                                                <div class="col-md-5">
                                                                                     Bed:
                                                                                 </div>
                                                                                 <div class="col-md-5">
-                                                                                    <input class="room_information" id="chosenName" type="text" value="${infor.getBedNo()}" style="border: none;" disabled>                                                                        
+                                                                                    <input class="room_information" id="chosenName"  name="Bedno"type="text" value="${infor.getBedNo()}" style="border: none;" disabled>                                                                        
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row">
-                                                                                <div class="col-md-4">
+                                                                                <div class="col-md-5">
                                                                                     Start Date:
                                                                                 </div>
                                                                                 <div class="col-md-5">
@@ -134,7 +134,7 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div class="row">
-                                                                                <div class="col-md-4">
+                                                                                <div class="col-md-5">
                                                                                     End Date:
                                                                                 </div>
                                                                                 <div class="col-md-5">
@@ -146,12 +146,27 @@
 
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <form action="room" method="get">
-                                                                        <button type="submit" class="btn btn-outline-info ${1==1 ?'pushin':'btn-map-field-col'}"style="width: 150px;margin-left: auto;margin-right: auto;margin-top: 50px;display: block"><h6>Cancel</h6></button>    
-                                                                    </form>
-                                                                    <form action="load" method="post">
-                                                                        <button type="submit" class="btn btn-outline-info ${1==1 ? 'pushin':'btn-map-field-col'}"name="editvalue" value="1" style="width: 150px;margin-left: auto;margin-right: auto;display: block"><h6>Change</h6></button>    
-                                                                    </form>
+                                                                    <c:choose>
+                                                                        <c:when test="${month == null}">
+                                                                            <div style="text-align: center">
+                                                                                <h7>Number of month need to renew:</h7>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div class="container">
+                                                                                    <div class="row" style="height: 10px;">
+                                                                                    </div>
+                                                                                    <form action="renew" method="get" style="text-align: center;">
+                                                                                        <input type="number" name="month" value="" min="1" max="12" style="margin-left: auto;margin-right: auto"/>
+                                                                                        <button type="submit" class="btn btn-outline-info ${ 1==1?'pushin':'btn-map-field-col'}"style="width: 150px;margin-left: auto;margin-right: auto;display: block"><h6>Renew</h6></button>    
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <h5 style="margin-top: 15%;margin-left: auto;margin-right: auto">You have extended the ${month} month, waiting for a response. </h5>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -163,13 +178,13 @@
                                 </div>
                             </div>
                         </div>
+                    </section>
                 </div>
+                <div style="position: absolute;left: 0;bottom: 0;width: 100%;z-index: 2;border-top: 1px dotted black;">
+                    <c:import url="boarder_footer.jsp"></c:import>
+                </div>
+            </div>
         </section>
-    </div>
-</div>
-<div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
-    <c:import url="boarder_footer.jsp"></c:import>
-</div>
-<script src="../js/checkJS.js"></script>
-</body>
+        <script src="../js/checkJS.js"></script>
+    </body>
 </html>

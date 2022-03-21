@@ -18,6 +18,7 @@ import java.util.*;
 import model.Boarder;
 import model.BoardingInformation;
 import model.Room;
+import java.sql.Date;
 
 /**
  *
@@ -125,8 +126,8 @@ public class BoardingInformationDAO extends Connection implements IBaseDAO {
 
     @Override
     public Object getOne(Object key) throws SQLException {
-        throw new UnsupportedOperationException("This method not created yet!");
-    }
+        return null;
+       }
 
     @Override
     public void insert(Object object) throws SQLException {
@@ -201,4 +202,39 @@ public class BoardingInformationDAO extends Connection implements IBaseDAO {
         }
     }
 
+     public ArrayList<BoardingInformation> getAllBoarder() throws SQLException {
+        ArrayList<BoardingInformation> boadingInformations = new ArrayList<>();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM BoardingInformation where EndDate > ?";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            Date date = new Date(System.currentTimeMillis());
+            Date date1 = new Date((date.getMonth() == 11?date.getYear()+1:date.getYear())-1900 , 
+                    (date.getMonth()+1)%12,
+                    1);
+            preparedStatement.setDate(1, date1);
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            RoomDAO roomDAO = new RoomDAO();
+            BoarderDAO boarderDAO = new BoarderDAO();
+            while (resultSet.next()) {
+                BoardingInformation boardingInformation = new BoardingInformation((Room) roomDAO.getOne(resultSet.getInt("RoomID")), // tạo mợi object của mình và bắt add vào list
+                        (Boarder) boarderDAO.getBoarderById(resultSet.getInt("BoarderID")),
+                        resultSet.getInt("BedNo"),
+                        resultSet.getDate("StartDate"),
+                        resultSet.getDate("EndDate"));
+                boadingInformations.add(boardingInformation); // add vào list
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return boadingInformations;
+    }
 }

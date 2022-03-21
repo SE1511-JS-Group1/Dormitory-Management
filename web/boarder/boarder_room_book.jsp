@@ -56,10 +56,10 @@
                                                     <input type="hidden" name="dom" value="A"/>
                                                     <button type="submit" class="btn btn-outline-info ${act eq 'book' ? 'pushin':'btn-map-field-col'}"><h6>Book</h6></button>    
                                             </form>
-                                            <form action="#" method="post">
+                                            <form action="loadrenew" method="post">
                                                 <button type="submit" class="btn btn-outline-info ${act eq 'renew' ? 'pushin':'btn-map-field-col'}"><h6>Renew</h6></button>    
                                             </form>
-                                            <form action="#" method="post">
+                                            <form action="load" method="post">
                                                 <button type="submit" class="btn btn-outline-info ${act eq 'change' ? 'pushin':'btn-map-field-col'}"><h6>Change</h6></button>    
                                             </form>
                                         </div>
@@ -77,6 +77,7 @@
                                                 </c:forEach>
                                             </select>
                                         </form>
+                                        
                                         <div class="container map">
                                             <table style="margin: 50px auto;border: 2px solid black;" >
                                                 <c:set var="j" value="6" scope="page" />

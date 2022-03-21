@@ -126,7 +126,11 @@
     </servlet>
     <servlet>
         <servlet-name>ViewFeedback</servlet-name>
-        <servlet-class>controller.admin.ViewFeedback</servlet-class>
+        <servlet-class>controller.admin.ViewFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminDeleteFeedbackServlet</servlet-name>
+        <servlet-class>controller.admin.AdminDeleteFeedbackServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewInformationServlet</servlet-name>
@@ -135,6 +139,27 @@
     <servlet>
         <servlet-name>EditBoarderServlet</servlet-name>
         <servlet-class>controller.staff.EditBoarderServlet</servlet-class>
+    </servlet>
+    <servlet>
+
+        <servlet-name>DeleteBookingServlet</servlet-name>
+        <servlet-class>controller.boarder.DeleteBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditBookingServlet</servlet-name>
+        <servlet-class>controller.boarder.EditBookingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RenewRoomServlet</servlet-name>
+        <servlet-class>controller.boarder.RenewRoomServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadRenewServlet</servlet-name>
+        <servlet-class>controller.boarder.LoadRenewServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddRoomFeeBill</servlet-name>
+        <servlet-class>controller.staff.AddRoomFeeBill</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -237,12 +262,37 @@
         <url-pattern>/boarder/changepassword</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>AdminDeleteFeedbackServlet</servlet-name>
+        <url-pattern>/admin/deletefeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ViewInformationServlet</servlet-name>
         <url-pattern>/boarder/infor</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EditBoarderServlet</servlet-name>
         <url-pattern>/staff/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+
+        <servlet-name>DeleteBookingServlet</servlet-name>
+        <url-pattern>/boarder/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBookingServlet</servlet-name>
+        <url-pattern>/boarder/edit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RenewRoomServlet</servlet-name>
+        <url-pattern>/boarder/renew</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadRenewServlet</servlet-name>
+        <url-pattern>/boarder/loadrenew</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddRoomFeeBill</servlet-name>
+        <url-pattern>/staff/addroomfeebill</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

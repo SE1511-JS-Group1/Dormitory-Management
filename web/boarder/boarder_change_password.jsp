@@ -72,7 +72,7 @@
                 <div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
                 <c:import url="boarder_footer.jsp"></c:import>
             </div>
-        </section>
+        </section> 
     </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -109,6 +109,7 @@
             } else {
                 document.getElementById('confirmpass-txt').innerHTML = '';
             }
+<<<<<<< HEAD
         };
     </script>
     <script>
@@ -130,5 +131,21 @@
                 }
             });
         };
+=======
+        }
+        function CheckChangePassword() {
+            var txt = document.getElementById('message1').innerHTML.trim().length
+                    + document.getElementById('message2').innerHTML.trim().length;
+            document.getElementById('message1').style.display = 'block';
+            document.getElementById('message2').style.display = 'block';
+            return txt === 0;
+            alert("Change password successful");
+        }
+         
+        function showMess() {
+            alert("Change password successfuly");
+        }
+    
+>>>>>>> 9d9a20844172eeec37f10996cc579fb7a8fae6aa
     </script> 
 </html>
