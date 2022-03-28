@@ -32,11 +32,12 @@ public class BoardingInformationDAO extends Connection implements IBaseDAO {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM BoardingInformation WHERE BoarderID = ?";
+        String sql = "SELECT * FROM BoardingInformation WHERE BoarderID = ? and EndDate > ?";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
             preparedStatement.setInt(1, BoarderID);
+            preparedStatement.setDate(2, new Date(System.currentTimeMillis()));
             resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             RoomDAO roomDAO = new RoomDAO();

@@ -12,11 +12,11 @@ package model;
 import java.sql.Date;
 
 /**
-  * The class define <code>DomManager</code> object: manager of <code>Dom</code>
-  * Its properties base on DomManagerentity properties in database.
-  *
-  * @author DinhLX
-  */
+ * The class define <code>DomManager</code> object: manager of <code>Dom</code>
+ * Its properties base on DomManagerentity properties in database.
+ *
+ * @author DinhLX
+ */
 public class DomManager {
 
     private int managerID;
@@ -27,6 +27,7 @@ public class DomManager {
     private String phoneNumber;
     private ManagerRegency regency;
     private Account account;
+    private boolean authorized;
 
     /**
      * Initializes a newly created <code>DomManager</code> object so that it
@@ -38,13 +39,16 @@ public class DomManager {
     /**
      * Initializes a newly created <code>DomManager</code> object with all
      * information of each <code>DomManager</code>.
-     * <br> The <code>DomManager</code> information include 7 attributes: 
-     * managerID, name, gender, dateOfBirth , email, phone number, regency,account.
-     * 
+     * <br> The <code>DomManager</code> information include 7 attributes:
+     * managerID, name, gender, dateOfBirth , email, phone number,
+     * regency,account.
+     *
      * <br>
-     * @param managerID<code>int</code> object. manager ID provided by the school.
-     * @param name<code>java.lang.String</code> object.
-     * <code>manager </code>'s name
+     *
+     * @param managerID<code>int</code> object. manager ID provided by the
+     * school.
+     * @param name<code>java.lang.String</code> object. <code>manager </code>'s
+     * name
      * @param dateOfBirth <code>java.sql.Date</code> object.
      * <code>manager </code>'s date of birth
      * @param gender <code>manager </code> object. manager gender. If
@@ -53,12 +57,12 @@ public class DomManager {
      * email manager.
      * @param phoneNumber <code>java.lang.String</code> object. A string of
      * numbers express the manager phone number.
-     * @param regency<code>java.lang.Enum</code> object. It includes: 
+     * @param regency<code>java.lang.Enum</code> object. It includes:
      * Accountant, Management_Staff, Guardian;
      * @param account <code>Account</code> object. The account of each
      * <code>manager </code>
      */
-    public DomManager(int managerID, String name, boolean gender, Date dateOfBirth, String email, String phoneNumber, ManagerRegency regency, Account account) {
+    public DomManager(int managerID, String name, boolean gender, Date dateOfBirth, String email, String phoneNumber, ManagerRegency regency, Account account, boolean authorized) {
         this.managerID = managerID;
         this.name = name;
         this.gender = gender;
@@ -67,6 +71,7 @@ public class DomManager {
         this.phoneNumber = phoneNumber;
         this.regency = regency;
         this.account = account;
+        this.authorized = authorized;
     }
 
     public String getEmail() {
@@ -131,6 +136,14 @@ public class DomManager {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public void setAuthorized(boolean authorized) {
+        this.authorized = authorized;
     }
 
 }

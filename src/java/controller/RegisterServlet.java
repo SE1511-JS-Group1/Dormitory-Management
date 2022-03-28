@@ -75,7 +75,6 @@ public class RegisterServlet extends HttpServlet {
         String position = request.getParameter("position");
         if (position.equalsIgnoreCase("teacher") || position.equalsIgnoreCase("student")) {
             try {
-                System.out.println("boarder");
                 Jobs job = Jobs.valueOf(position);
                 account = new Account(userName, password, 3);
                 Boarder boarder = new Boarder(0, fullName, dateofbirth, gender, email, phone, job, account);
@@ -90,7 +89,7 @@ public class RegisterServlet extends HttpServlet {
             try {
                 ManagerRegency regency = ManagerRegency.valueOf(position);
                 account = new Account(userName, password, 2);
-                DomManager domManager = new DomManager(0, fullName, gender, dateofbirth, email, phone, regency, account);
+                DomManager domManager = new DomManager(0, fullName, gender, dateofbirth, email, phone, regency, account,false);
                 accountDAO.insert(account);
                 domManagerDAO.insert(domManager);
                 request.getRequestDispatcher("waiting.jsp").forward(request, response);

@@ -55,7 +55,6 @@ public class ViewAuthorizeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            AccountDAO accountDAO = new AccountDAO();
             DomManagerDAO domManagerDAO = new DomManagerDAO();
             DomDAO domDAO = new DomDAO();
             ArrayList<DomManager> notAuthorized = domManagerDAO.getNotAuthorizedStaff();
@@ -83,7 +82,6 @@ public class ViewAuthorizeServlet extends HttpServlet {
         try {
             String username = request.getParameter("user");
             String domId = request.getParameter("dom");
-            response.getWriter().print(username + "," + domId);
             AccountDAO accountDAO = new AccountDAO();
             DomManagerDAO domManagerDAO = new DomManagerDAO();
             ManagementDAO managementDAO = new ManagementDAO();
@@ -131,8 +129,14 @@ public class ViewAuthorizeServlet extends HttpServlet {
             } catch (MessagingException e) {
                 Logger.getLogger(ForgotPasswordSevrvlet.class.getName()).log(Level.SEVERE, null, e);
             }
-
-            doGet(request, response);
+            domManagerDAO = new DomManagerDAO();
+            domDAO = new DomDAO();
+            ArrayList<DomManager> notAuthorized = domManagerDAO.getNotAuthorizedStaff();
+            request.setAttribute("doms", domDAO.getAll());
+            request.setAttribute("page", "user");
+            request.setAttribute("notAuthorized", notAuthorized);
+            request.setAttribute("domManagerDAO", domManagerDAO);
+            request.getRequestDispatcher("authorize_view_admin.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(ViewAuthorizeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

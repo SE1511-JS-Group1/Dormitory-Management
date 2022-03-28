@@ -231,6 +231,8 @@ public class BoarderDAO extends Connection implements IBaseDAO {
             preparedStatement.setString(6, boarder.getEmail());
             preparedStatement.setString(7, boarder.getAccount().getUserName());
             preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
+            WalletDAO walletDAO = new WalletDAO();
+            walletDAO.insert(boarder);
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -238,7 +240,6 @@ public class BoarderDAO extends Connection implements IBaseDAO {
             closeConnection(connection);
         }
     }
-    
     @Override
     public void delete(Object object) throws SQLException {
         java.sql.Connection connection = null;

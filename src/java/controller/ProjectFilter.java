@@ -10,11 +10,12 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -60,7 +61,7 @@ public class ProjectFilter implements Filter {
         Account account = (Account) req.getSession().getAttribute("account");
         try {
             System.out.println(req.getServletPath());
-            String[] commonpages = {"/index.jsp", "/viewdom", "/home", "/login", "/register", "/checkaccount","/forgotpassword","waiting.jsp"};
+            String[] commonpages = {"/index.jsp", "/viewdom", "/home", "/login", "/register", "/checkaccount", "/forgotpassword", "waiting.jsp"};
             ArrayList<String> commonpage = new ArrayList<>();
             Collections.addAll(commonpage, commonpages);
             if (req.getServletPath().contains(".js") || req.getServletPath().contains(".css") || req.getServletPath().contains("images/") || req.getServletPath().equals("/logout")) {
@@ -152,26 +153,36 @@ public class ProjectFilter implements Filter {
     }
 
     private void sendProcessingError(Throwable t, ServletResponse response) {
-        String stackTrace = getStackTrace(t);
-
-        if (stackTrace != null && !stackTrace.equals("")) {
-            try {
-                response.setContentType("text/html");
-                PrintStream ps = new PrintStream(response.getOutputStream());
-                PrintWriter pw = new PrintWriter(ps);
-                pw.close();
-                ps.close();
-                response.getOutputStream().close();
-            } catch (Exception ex) {
-            }
-        } else {
-            try {
-                PrintStream ps = new PrintStream(response.getOutputStream());
-                t.printStackTrace(ps);
-                ps.close();
-                response.getOutputStream().close();
-            } catch (Exception ex) {
-            }
+        try {
+            response.getWriter().print("<html>\n"
+                    + "    <head>\n"
+                    + "        <title>Dormitory Management System</title>\n"
+                    + "        <meta charset=\"UTF-8\">\n"
+                    + "        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+                    + "        <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3\" crossorigin=\"anonymous\">\n"
+                    + "        <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p\" crossorigin=\"anonymous\"></script>\n"
+                    + "        <script src=\"https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js\" integrity=\"sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB\" crossorigin=\"anonymous\"></script>\n"
+                    + "        <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js\" integrity=\"sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13\" crossorigin=\"anonymous\"></script>\n"
+                    + "        <link rel='icon' href='../images/logo.png'>   \n"
+                    + "        <link href=\"../css/overview.css\" rel=\"stylesheet\">\n"
+                    + "    </head>\n"
+                    + "    <body>\n"
+                    + "        <section class=\"h-100 gradient-form\" style=\"background-color: #eee;\">\n"
+                    + "            <div class=\"container py-5 h-90\">\n"
+                    + "                <div class=\"row d-flex justify-content-center align-items-center h-90\">\n"
+                    + "                    <div class=\"col-xl-8\">\n"
+                    + "                        <div class=\"card rounded-3 text-black\">\n"
+                    + "                            <img style=\"z-index: 3;\" src=\"../images/ErrorPage404-05.jpg\">\n"
+                    + "                            <button style=\"z-index: 9; position: fixed;margin-left: 25%; margin-top: 30%;\" class=\"btn btn-outline-info\" onclick=\"history.back();\"> << Back </button>\n"
+                    + "                        </div>\n"
+                    + "                    </div>\n"
+                    + "                </div>\n"
+                    + "            </div>\n"
+                    + "        </section>\n"
+                    + "    </body>\n"
+                    + "</html>");
+        } catch (IOException ex) {
+            Logger.getLogger(ProjectFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -55,7 +55,7 @@ public class BoarderChangePasswordServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             String username = ((Account) request.getSession().getAttribute("account")).getUserName();
-            String newpassword = request.getParameter("new");
+            String newpassword = request.getParameter("newpass");
             AccountDAO accountDAO = new AccountDAO();
             accountDAO.update(newpassword, username);
             request.getRequestDispatcher("boarder_change_password.jsp").forward(request, response);

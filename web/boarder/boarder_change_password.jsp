@@ -58,7 +58,7 @@
                                                         </div>
                                                         <p id="confirmpass-txt" class="text-danger" style="display: none;"></p>
                                                         <button type="submit" class="btn btn-outline-info" id="btnChange">Change</button>                                   
-                                                        <button type="button" class="btn btn-outline-danger" id="btnChange" onclick="location.reload()">Cancel</button>
+                                                        <button type="button" class="btn btn-outline-danger" onclick="location.reload()">Cancel</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -109,7 +109,6 @@
             } else {
                 document.getElementById('confirmpass-txt').innerHTML = '';
             }
-<<<<<<< HEAD
         };
     </script>
     <script>
@@ -130,22 +129,6 @@
                     //Do Something to handle error
                 }
             });
-        };
-=======
-        }
-        function CheckChangePassword() {
-            var txt = document.getElementById('message1').innerHTML.trim().length
-                    + document.getElementById('message2').innerHTML.trim().length;
-            document.getElementById('message1').style.display = 'block';
-            document.getElementById('message2').style.display = 'block';
-            return txt === 0;
-            alert("Change password successful");
-        }
-         
-        function showMess() {
-            alert("Change password successfuly");
-        }
-    
->>>>>>> 9d9a20844172eeec37f10996cc579fb7a8fae6aa
+        };    
     </script> 
 </html>

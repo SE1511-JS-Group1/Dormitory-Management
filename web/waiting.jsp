@@ -21,26 +21,48 @@
     </head>
     <body>
         <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
-            <c:import url="header.jsp"></c:import>
-            </div>
-            <section class="vh-100" style="background-color: #FFFFFF;">
-                <div class="container py-5 h-100">
-                    <div class="row d-flex justify-content-center align-items-center h-100">
-                        <div class="col col-xl-4">
-                            <div class="card" style="border-radius: 1rem;">
-                                <div class="row g-0">
-                                    <div class="col-md-12 col-lg-12 d-flex align-items-center">
-                                        <div class="card-body p-4 p-lg-5 text-black">
-                                            <h6 class="mb-0 me-4 text-center">Your request has been recorded, the system will send you an email when there is a result, please keep an eye on your registered email!</h6>
-                                        </div>
+            <header class="p-3 bg-dark text-white">
+                <div class="container">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                        <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                            <div class="logo" style="width: 70px;">                            
+                                <img src="images/logo.png" class="img-thumbnail" alt="logo">
+                            </div>
+                            <div style="width: 20px;"></div>
+                        </a>
+                        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                            <li><a href="home" class="nav-link px-2 ${page eq 'home' ? 'text-white':'text-secondary'}">Home</a></li>
+                            <li><a href="#" class="nav-link px-2 ${page eq 'dom' ? 'text-white':'text-secondary'}">Dom</a></li>
+                            <li><a href="#" class="nav-link px-2 ${page eq 'room' ? 'text-white':'text-secondary'}">Room</a></li>
+                            <li><a href="#" class="nav-link px-2 ${page eq 'contact' ? 'text-white':'text-secondary'}">Contact</a></li>
+                            <li><a href="#" class="nav-link px-2 ${page eq 'about' ? 'text-white':'text-secondary'}">About</a></li>
+                        </ul>
+                        <div class="text-end">
+                            <!--<a type="button" class="btn btn-outline-light me-2" href="login">Login</a>-->
+                            <a type="button" class="btn btn-warning" href="logout">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <section class="vh-100" style="background-color: #FFFFFF;">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col col-xl-4">
+                        <div class="card" style="border-radius: 1rem;">
+                            <div class="row g-0">
+                                <div class="col-md-12 col-lg-12 d-flex align-items-center">
+                                    <div class="card-body p-4 p-lg-5 text-black">
+                                        <h6 class="mb-0 me-4 text-center">Your request has been recorded, the system will send you an email when there is a result, please keep an eye on your registered email!</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            <div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
+            </div>
+        </section>
+        <div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
             <c:import url="footer.jsp"></c:import>
         </div>
     </body>

@@ -12,7 +12,6 @@ package controller.boarder;
 import dao.impl.BoarderDAO;
 import dao.impl.FeedbackDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;

@@ -22,7 +22,7 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="room" class="nav-link px-2 ${page eq 'room' ? 'text-white':'text-secondary'}">Room</a></li>
                 <li><a href="notice" class="nav-link px-2 ${page eq 'notice' ? 'text-white':'text-secondary'}">Notice</a></li>
-                <li><a href="#" class="nav-link px-2 ${page eq 'report' ? 'text-white':'text-secondary'}">Wallet</a></li>
+                <li><a href="wallet" class="nav-link px-2 ${page eq 'wallet' ? 'text-white':'text-secondary'}">Wallet</a></li>
                 <li><a href="feedback" class="nav-link px-2 ${page eq 'Feedback' ? 'text-white':'text-secondary'}">Feedback</a></li>
             </ul>
             <div class="text-end">

@@ -20,6 +20,24 @@
         <link rel='icon' href='../images/logo.png'>   
         <link href="../css/overview.css" rel="stylesheet">  
     </head>
+    <style>
+        .pushin{
+            margin-left: 7%;
+            margin-top: 20px;
+            width: 85%;
+            padding: 10px;
+            background-color: #879091;
+            border: none;
+        }
+        .btn-map-field-col{
+            margin-left: 7%;
+            margin-top: 20px;
+            width: 85%;
+            padding: 10px;
+            background-color: #FFFFFF;
+            border: none;
+        }
+    </style>
     <body>
         <div style="position: fixed;left: 0;top:  0;height: 100px;width: 100%;z-index: 2;">
             <c:import url="boarder_header.jsp"></c:import>
@@ -42,24 +60,7 @@
                                                 <div class="col-lg-2 d-flex align-items-center" style="background-color: #c9d8c9;">
                                                     <div class="container">
                                                         <div class="row">
-                                                            <style>
-                                                                .pushin{
-                                                                    margin-left: 7%;
-                                                                    margin-top: 20px;
-                                                                    width: 85%;
-                                                                    padding: 10px;
-                                                                    background-color: #879091;
-                                                                    border: none;
-                                                                }
-                                                                .btn-map-field-col{
-                                                                    margin-left: 7%;
-                                                                    margin-top: 20px;
-                                                                    width: 85%;
-                                                                    padding: 10px;
-                                                                    background-color: #FFFFFF;
-                                                                    border: none;
-                                                                }
-                                                            </style>
+
                                                             <form action="room" method="post">
                                                                 <input type="hidden" name="dom" value="A"/>
                                                                 <button type="submit" class="btn btn-outline-info ${act eq 'book' ? 'pushin':'btn-map-field-col'}"><h6>Book</h6></button>    
@@ -163,13 +164,12 @@
                                 </div>
                             </div>
                         </div>
+                    </section>
                 </div>
         </section>
-    </div>
-</div>
-<div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
-    <c:import url="boarder_footer.jsp"></c:import>
-</div>
-<script src="../js/checkJS.js"></script>
-</body>
+        <div style="position: fixed;left: 0;bottom: 0;height: 100px;width: 100%;z-index: 2;border-top: 1px dotted black;">
+            <c:import url="boarder_footer.jsp"></c:import>
+        </div>
+        <script src="../js/checkJS.js"></script>
+    </body>
 </html>

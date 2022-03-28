@@ -24,7 +24,7 @@ import model.ManagerRegency;
  * @author lenovo_thinkpad
  */
 public class DomManagerDAO extends Connection implements IBaseDAO {
-
+    
     @Override
     public ArrayList<Object> getAll() throws SQLException {
         ArrayList<Object> domManagers = new ArrayList<>();
@@ -46,7 +46,8 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
                         resultSet.getString("Email"),
                         resultSet.getString("PhoneNumber"),
                         ManagerRegency.valueOf(resultSet.getString("Regency")),
-                        (Account) accountDAO.getOne(resultSet.getString("UserName")));
+                        (Account) accountDAO.getOne(resultSet.getString("UserName")),
+                        resultSet.getBoolean("Authorize"));
                 domManagers.add(domManager); // add vào list
             }
         } catch (SQLException e) {
@@ -58,6 +59,7 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
         }
         return domManagers;
     }
+    
     public DomManager getOnee(int id) throws SQLException {
         DomManager domManager = new DomManager();
         java.sql.Connection connection = null;
@@ -79,7 +81,8 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
                         resultSet.getString("Email"),
                         resultSet.getString("PhoneNumber"),
                         ManagerRegency.valueOf(resultSet.getString("Regency")),
-                        (Account) accountDAO.getOne(resultSet.getString("UserName")));
+                        (Account) accountDAO.getOne(resultSet.getString("UserName")),
+                        resultSet.getBoolean("Authorize"));
             }
         } catch (SQLException e) {
             throw e;
@@ -113,7 +116,8 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
                         resultSet.getString("Email"),
                         resultSet.getString("PhoneNumber"),
                         ManagerRegency.valueOf(resultSet.getString("Regency")),
-                        (Account) accountDAO.getOne(resultSet.getString("UserName")));
+                        (Account) accountDAO.getOne(resultSet.getString("UserName")),
+                        resultSet.getBoolean("Authorize"));
             }
         } catch (SQLException e) {
             throw e;
@@ -124,15 +128,15 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
         }
         return domManager;
     }
-
+    
     @Override
     public void insert(Object object) throws SQLException {
         DomManager inserted = (DomManager) object;
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "Insert into DomManager(PhoneNumber, ManagerName, Email, Gender, DOB, Regency, UserName)\n"
-                + "values(?,?,?,?,?,?,?)";
+        String sql = "Insert into DomManager(PhoneNumber, ManagerName, Email, Gender, DOB, Regency, UserName,[Authorize])\n"
+                + "values(?,?,?,?,?,?,?,?)";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
@@ -144,6 +148,7 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
             preparedStatement.setDate(5, inserted.getDateOfBirth());
             preparedStatement.setString(6, inserted.getRegency().toString());
             preparedStatement.setString(7, inserted.getAccount().getUserName());
+            preparedStatement.setBoolean(8, inserted.isAuthorized());
             preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
@@ -153,34 +158,30 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
             closeConnection(connection);
         }
     }
-
+    
     @Override
     public void delete(Object key) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        DomManager domManager = (DomManager) getOne(key);
         String sql = "Delete DomManager where UserName = ?";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
             preparedStatement.setString(1, (String) key);
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
     }
-
+    
     @Override
     public void update(Object object, Object key) throws SQLException {
         DomManager updated = (DomManager) object;
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "Update DomManager set \n"
                 + "PhoneNumber=?, \n"
                 + "ManagerName=?, \n"
@@ -202,16 +203,15 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
             preparedStatement.setString(6, updated.getRegency().toString());
             preparedStatement.setString(7, updated.getName());
             preparedStatement.setInt(8, updated.getManagerID());
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
     }
-
+    
     public boolean checkEmailDomManager(String email) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -226,7 +226,7 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
             while (resultSet.next()) {
                 count = resultSet.getInt(1);
             }
-
+            
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -236,7 +236,7 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
         }
         return count > 0;
     }
-
+    
     public boolean checkPhoneDomManager(String phone) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -251,7 +251,7 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
             while (resultSet.next()) {
                 count = resultSet.getInt(1);
             }
-
+            
         } catch (SQLException e) {
             throw e;
         } finally {
@@ -261,16 +261,17 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
         }
         return count > 0;
     }
-
+    
     public ArrayList<DomManager> getNotAuthorizedStaff() throws SQLException {
         ArrayList<DomManager> notAuthorized = new ArrayList<>();
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String sql = "SELECT * FROM DomManager where Authorize = 0";
+        String sql = "SELECT * FROM DomManager where Authorize = ?";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setBoolean(1, false);
             resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
             // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
             AccountDAO accountDAO = new AccountDAO();
@@ -282,7 +283,8 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
                         resultSet.getString("Email"),
                         resultSet.getString("PhoneNumber"),
                         ManagerRegency.valueOf(resultSet.getString("Regency")),
-                        (Account) accountDAO.getOne(resultSet.getString("UserName")));
+                        (Account) accountDAO.getOne(resultSet.getString("UserName")),
+                        resultSet.getBoolean("Authorize"));
                 notAuthorized.add(domManager); // add vào list
             }
         } catch (SQLException e) {
@@ -294,29 +296,27 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
         }
         return notAuthorized;
     }
-
+    
     public void makeAuthorize(String username) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
         String sql = "Update DomManager set \n"
-                + "Authorize=1 \n"
+                + "Authorize=? \n"
                 + "where UserName = ?";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
-
-            preparedStatement.setString(1, username);
-            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            preparedStatement.setBoolean(1, true);
+            preparedStatement.setString(2, username);
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
         } catch (SQLException e) {
             throw e;
         } finally {
-            closeResultSet(resultSet);
             closePreparedStatement(preparedStatement);
             closeConnection(connection);
         }
     }
-
+    
     public DomManager getDomManagerById(int id) throws SQLException { //get về 1 object dom manager thông qua dommanager username
         DomManager domManager = new DomManager();
         java.sql.Connection connection = null;
@@ -338,7 +338,8 @@ public class DomManagerDAO extends Connection implements IBaseDAO {
                         resultSet.getString("Email"),
                         resultSet.getString("PhoneNumber"),
                         ManagerRegency.valueOf(resultSet.getString("Regency")),
-                        (Account) accountDAO.getOne(resultSet.getString("UserName")));
+                        (Account) accountDAO.getOne(resultSet.getString("UserName")),
+                        resultSet.getBoolean("Authorize"));
             }
         } catch (SQLException e) {
             throw e;

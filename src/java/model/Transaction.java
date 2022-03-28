@@ -9,14 +9,16 @@
  */
 package model;
 
+import java.sql.Date;
 import java.sql.Time;
 
 public class Transaction {
 
     private int transactionId;
     private String type;
-    private double amout;
+    private double amount;
     private String message;
+    private Date date;
     private Time time;
     private Wallet owner;
 
@@ -27,11 +29,12 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int transactionId, String type, double amout, String message, Time time, Wallet owner) {
+    public Transaction(int transactionId, String type, double amout, String message, Date date, Time time, Wallet owner) {
         this.transactionId = transactionId;
         this.type = type;
-        this.amout = amout;
+        this.amount = amout;
         this.message = message;
+        this.date = date;
         this.time = time;
         this.owner = owner;
     }
@@ -44,7 +47,7 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public String isType() {
+    public String getType() {
         return type;
     }
 
@@ -52,12 +55,12 @@ public class Transaction {
         this.type = type;
     }
 
-    public double getAmout() {
-        return amout;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setAmout(double amout) {
-        this.amout = amout;
+    public void setAmount(double amout) {
+        this.amount = amout;
     }
 
     public String getMessage() {
@@ -66,6 +69,14 @@ public class Transaction {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Time getTime() {

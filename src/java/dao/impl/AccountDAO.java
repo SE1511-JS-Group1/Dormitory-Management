@@ -145,7 +145,7 @@ public class AccountDAO extends Connection implements IBaseDAO {
     public void update(Object object, Object key) throws SQLException {
         java.sql.Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String sql = "Update Account set PassWord = ? where UserName like ? ";
+        String sql = "Update Account set PassWord = ? where UserName = ? ";
         try {
             connection = getConnection(); // Open 1 connect với Database của mình
             preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên

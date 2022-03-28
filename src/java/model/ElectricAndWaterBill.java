@@ -26,7 +26,7 @@ public class ElectricAndWaterBill {
     private Date deadline;
     private double waterAmount;
     private double eletricAmount;
-    private String status;
+    private boolean status;
 
     /**
      * Initializes a newly created <code>ElectricAndWaterBill</code> object so
@@ -59,7 +59,7 @@ public class ElectricAndWaterBill {
      * <code>false</code> unpaid
      *
      */
-    public ElectricAndWaterBill(int billID, Room room, String month, Date deadline, double waterAmount, double eletricAmount, String status) {
+    public ElectricAndWaterBill(int billID, Room room, String month, Date deadline, double waterAmount, double eletricAmount, boolean status) {
         this.billID = billID;
         this.room = room;
         this.month = month;
@@ -117,11 +117,11 @@ public class ElectricAndWaterBill {
         this.eletricAmount = eletricAmount;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

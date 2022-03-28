@@ -69,9 +69,9 @@
                                                                 </tbody>
                                                             </table>
                                                             <c:if test="${numberofpage > 1}">
-                                                                <c:choose>
-                                                                    <c:when test="${numberofpage ==2 }">
-                                                                        <form action="notice" method="post">
+                                                                <form action="notice" method="post">
+                                                                    <c:choose>
+                                                                        <c:when test="${numberofpage ==2 }">
                                                                             <input type="hidden" value="${curpage}" name="page" id="page" >
                                                                             <nav aria-label="Page navigation example">
                                                                                 <ul class="pagination">
@@ -89,31 +89,30 @@
                                                                                     </li>
                                                                                 </ul>
                                                                             </nav>
-                                                                        </form>
-                                                                    </c:when>
+                                                                        </c:when>
 
-                                                                    <c:otherwise>
-                                                                        <input type="hidden" value="${curpage}" name="page" id="page" >
-                                                                        <nav aria-label="Page navigation example">
-                                                                            <ul class="pagination">
-                                                                                <li class="page-item">
-                                                                                    <button type="submit" class="btn-light" onclick="document.getElementById('page').value = '${curpage-1}'" aria-label="Previous" ${curpage == 1?"disabled":""}>
-                                                                                        <span aria-hidden="true">&laquo;</span>
-                                                                                    </button>
-                                                                                </li>
-                                                                                <li class="page-item"><button type="submit" class=" ${curpage == 1?'btn-primary':'btn-light'}" onclick ="document.getElementById('page').value = '${curpage == 1?1:curpage == numberofpage?curpage-2:curpage-1}'">${curpage == 1?1:curpage == numberofpage?curpage-2:curpage-1}</button></li>
-                                                                                <li class="page-item"><button type="submit" class=" ${curpage >1  && curpage < numberofpage?'btn-primary':'btn-light'}" onclick ="document.getElementById('page').value = '${curpage == 1?2:curpage == numberofpage?curpage-1:curpage}'">${curpage == 1?2:curpage == numberofpage?curpage-1:curpage}</button></li>
-                                                                                <li class="page-item"><button type="submit"class=" ${curpage == numberofpage?'btn-primary':'btn-light'}" onclick ="document.getElementById('page').value = '${curpage == 1?3:curpage == numberofpage?curpage:curpage+1}'">${curpage == 1?3:curpage == numberofpage?curpage:curpage+1}</button></li>
-                                                                                <li class="page-item">
-                                                                                    <button type="submit" class="btn-light" onclick="document.getElementById('page').value = '${curpage+1}'" aria-label="Next" ${curpage == numberofpage?"disabled":""}>
-                                                                                        <span aria-hidden="true">&raquo;</span>
-                                                                                    </button>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </nav>
-                                                                    </c:otherwise>
-
-                                                                </c:choose>
+                                                                        <c:otherwise>
+                                                                            <input type="hidden" value="${curpage}" name="page" id="page" >
+                                                                            <nav aria-label="Page navigation example">
+                                                                                <ul class="pagination">
+                                                                                    <li class="page-item">
+                                                                                        <button type="submit" class="btn-light" onclick="document.getElementById('page').value = '${curpage-1}'" aria-label="Previous" ${curpage == 1?"disabled":""}>
+                                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                                        </button>
+                                                                                    </li>
+                                                                                    <li class="page-item"><button type="submit" class=" ${curpage == 1?'btn-primary':'btn-light'}" onclick ="document.getElementById('page').value = '${curpage == 1?1:curpage == numberofpage?curpage-2:curpage-1}'">${curpage == 1?1:curpage == numberofpage?curpage-2:curpage-1}</button></li>
+                                                                                    <li class="page-item"><button type="submit" class=" ${curpage >1  && curpage < numberofpage?'btn-primary':'btn-light'}" onclick ="document.getElementById('page').value = '${curpage == 1?2:curpage == numberofpage?curpage-1:curpage}'">${curpage == 1?2:curpage == numberofpage?curpage-1:curpage}</button></li>
+                                                                                    <li class="page-item"><button type="submit"class=" ${curpage == numberofpage?'btn-primary':'btn-light'}" onclick ="document.getElementById('page').value = '${curpage == 1?3:curpage == numberofpage?curpage:curpage+1}'">${curpage == 1?3:curpage == numberofpage?curpage:curpage+1}</button></li>
+                                                                                    <li class="page-item">
+                                                                                        <button type="submit" class="btn-light" onclick="document.getElementById('page').value = '${curpage+1}'" aria-label="Next" ${curpage == numberofpage?"disabled":""}>
+                                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                                        </button>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </nav>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </form>
                                                             </c:if>
                                                         </c:when>
                                                         <c:otherwise>

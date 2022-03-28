@@ -3,30 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.boarder;
+package controller.staff;
 
-import dao.impl.BoarderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Account;
-import model.Boarder;
 
 /**
  *
  * @author Dell
  */
-@WebServlet(name = "CheckPasswordServlet", urlPatterns = {"/boarder/checkpass"})
-public class CheckPasswordServlet extends HttpServlet {
+@WebServlet(name = "WaitingServlet", urlPatterns = {"/staff/wating"})
+public class WaitingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,14 +31,7 @@ public class CheckPasswordServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        String pass = request.getParameter("pass");
-        String oldpass = ((Account) request.getSession().getAttribute("account")).getPassWord();
-        System.out.println(oldpass+"--"+pass);
-        if (!oldpass.equals(pass)) {
-            response.getWriter().print("Mật khẩu chưa chính xác!");
-        }
+        request.getRequestDispatcher("staffwaiting.jsp").forward(request, response);
 
     }
 

@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import model.Boarder;
 import model.RoomFeeBill;
 
 /**
@@ -52,10 +53,66 @@ public class RoomFeeBillDAO extends Connection implements IBaseDAO{
         }
         return roomfeebill;
     }
-
+    public ArrayList<RoomFeeBill> getBills(Boarder boarder) throws SQLException{
+        ArrayList<RoomFeeBill> feeBills = new ArrayList<>();
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM RoomFeeBill where BoarderID = ? and [Status] = ?";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setInt(1, boarder.getBoarderID());
+            preparedStatement.setBoolean(2, false);
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            BoarderDAO boarderDAO = new BoarderDAO();
+            while (resultSet.next()) {
+                RoomFeeBill roomlbill = new RoomFeeBill(resultSet.getInt("BillID"), 
+                        boarderDAO.getBoarderById(resultSet.getInt("BoarderID")), 
+                        resultSet.getString("Month"), 
+                        resultSet.getDate("Deadline"), 
+                        resultSet.getBoolean("Status"));
+                feeBills.add(roomlbill);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return feeBills;
+    }
     @Override
     public Object getOne(Object key) throws SQLException{
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String sql = "SELECT * FROM RoomFeeBill WHERE billID = ?";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setInt(1, (int) key);
+            resultSet = preparedStatement.executeQuery(); // Chạy và thực thi câu SQL
+            BoarderDAO boarderDAO = new BoarderDAO();
+            // next từng phần tử khi tìm thấy cho đến khi đến row cuối cùng thì sẽ dừng vòng lặp while
+            while (resultSet.next()) {
+                RoomFeeBill account = new RoomFeeBill(resultSet.getInt("BillID"), 
+                        boarderDAO.getBoarderById(resultSet.getInt("BoarderID")), 
+                        resultSet.getString("Month"), 
+                        resultSet.getDate("Deadline"), 
+                        resultSet.getBoolean("Status"));
+                return account; 
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closeResultSet(resultSet);
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+        return null;
     }
 
     @Override
@@ -91,5 +148,21 @@ public class RoomFeeBillDAO extends Connection implements IBaseDAO{
     public void update(Object object, Object key) throws SQLException{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+    public void payBill(int billId) throws SQLException {
+        java.sql.Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String sql = "Update RoomFeeBill set [Status] = ? where BillId = ? ";
+        try {
+            connection = getConnection(); // Open 1 connect với Database của mình
+            preparedStatement = connection.prepareStatement(sql); // Biên dịch câu SQL ở trên
+            preparedStatement.setInt(1, billId);
+            preparedStatement.setBoolean(2, true);
+            preparedStatement.executeUpdate(); // Chạy và thực thi câu SQL
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            closePreparedStatement(preparedStatement);
+            closeConnection(connection);
+        }
+    }
 }
